@@ -1,3 +1,3 @@
 RewriteEngine On # Turn on the rewriting engine
 
-RewriteRule ^/?$ controller/MediaController.php [NC,L]
+RewriteRule ^video/?$ controller/VideoController.php [NC,L]
