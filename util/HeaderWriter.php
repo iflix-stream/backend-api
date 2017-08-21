@@ -6,6 +6,7 @@
  * Time: 15:06
  */
 
+namespace util;
 class HeaderWriter
 {
 
@@ -17,7 +18,7 @@ class HeaderWriter
     public function __construct($params = "")
     {
         $headers = "Content-type: application/json; charset=utf-8";
-        if($params != ""){
+        if ($params != "") {
             $headers .= "; " . $params;
         }
 
