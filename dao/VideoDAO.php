@@ -9,9 +9,20 @@
 namespace dao;
 
 
+use phiber\Phiber;
+
 class VideoDAO
 {
-    public function retreave() {
+    public static function create($obj)
+    {
+        $criteria = new Phiber();
+        $phiber = $criteria->openPersist($obj);
+        $phiber->create();
+        echo $phiber->show();
+    }
+
+    public function retreave()
+    {
 
     }
 }

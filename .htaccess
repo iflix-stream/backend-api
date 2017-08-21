@@ -1,3 +1,3 @@
 RewriteEngine On # Turn on the rewriting engine
 
-RewriteRule ^video/?$ controller/VideoController.php [NC,L]
+RewriteRule ^api/video/?$ api.php?classe=VideoController [NC,L]

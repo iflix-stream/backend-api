@@ -7,6 +7,8 @@
  */
 
 namespace model;
+include '../vendor/autoload.php';
+use dao\VideoDAO;
 
 class Video extends MediaFactory
 {
@@ -18,7 +20,7 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-        // TODO: Implement cadastrar() method.
+       VideoDAO::create($this);
     }
 
     public function deletar()
@@ -32,3 +34,9 @@ class Video extends MediaFactory
     }
 
 }
+
+$v = new Video();
+$v->setCaminho("dasdas");
+$v->setDescricao("dsadasasddas");
+
+$v->cadastrar();
