@@ -27,5 +27,7 @@
     }
   },
   "minimum-stability": "dev",
-  "require": {}
+  "require": {
+    "marciioluucas/phiber": "dev-master"
+  }
 }
