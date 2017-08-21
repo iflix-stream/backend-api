@@ -1,0 +1,3 @@
+RewriteEngine On # Turn on the rewriting engine
+
+RewriteRule ^/?$ controller/MediaController.php [NC,L]
