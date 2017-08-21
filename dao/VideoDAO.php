@@ -3,10 +3,13 @@
  * Created by PhpStorm.
  * User: marci
  * Date: 21/08/2017
- * Time: 15:57
+ * Time: 16:25
  */
-namespace controller;
-class MediaController
+
+namespace dao;
+
+
+class VideoDAO
 {
 
 }

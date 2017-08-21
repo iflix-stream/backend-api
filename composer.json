@@ -22,7 +22,8 @@
       "controller\\": "controller/",
       "model\\": "model/",
       "util\\": "util/",
-      "view\\": "view/"
+      "view\\": "view/",
+      "dao\\": "dao/"
     }
   },
   "minimum-stability": "dev",
