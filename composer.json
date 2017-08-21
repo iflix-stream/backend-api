@@ -1,0 +1,24 @@
+{
+    "name": "marci/i-flix",
+    "description": "Trabalho de sistemas distribuidos",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcio Lucas",
+            "email": "marciioluucas@gmail.com"
+        },
+        {
+            "name": "Lucas Gonçalves",
+            "email": "lucaslucasfabio@gmail.com"
+        },
+        {
+            "name": "Juanes Adriano",
+            "email": "juaneshtk50@gmail.com"
+        }
+
+
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
