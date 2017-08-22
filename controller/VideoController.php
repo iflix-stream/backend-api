@@ -8,7 +8,6 @@
 
 namespace controller;
 
-include '../vendor/autoload.php';
 
 use view\View;
 
@@ -26,11 +25,9 @@ class VideoController
         }
     }
 
-    public function listar()
+    public static final function listar()
     {
         $data = array("mensagem" => "Tabaco bem massa");
         return View::render($data);
     }
 }
-
-new VideoController();
