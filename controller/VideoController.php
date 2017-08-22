@@ -20,8 +20,9 @@ class VideoController
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             if (isset($campo)) {
                 $this->listar($campo, $valor);
+            }else{
+                $this->listar();
             }
-            $this->listar();
         }
     }
 
