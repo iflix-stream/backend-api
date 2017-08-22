@@ -7,5 +7,5 @@ RewriteRule ^api/([A-Z]+)?$ util/Api.php?classe=$1 [NC,L]
 
 
 #Rewrite rule dinamica para arquivos compostos
-RewriteRule ^api/([A-Z]+)/([A-Z]+)/([0-9]+)/?$ util/Api.php?classe=$1&campo=$2&valorCampo=$3 [NC,L]
-RewriteRule ^api/([A-Z]+)/([A-Z]+)/([0-9]+)?$ util/Api.php?classe=$1&campo=$2&valorCampo=$3 [NC,L]
+RewriteRule ^api/([A-Z])/([A-Z]+)/([0-9]+)/?$ util/Api.php?classe=$1&campo=$2&valorCampo=$3 [NC,L]
+RewriteRule ^api/([A-Z])/([A-Z]+)/([0-9]+)?$ util/Api.php?classe=$1&campo=$2&valorCampo=$3 [NC,L]
