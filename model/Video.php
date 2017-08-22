@@ -9,7 +9,7 @@
 namespace model;
 include '../vendor/autoload.php';
 use dao\VideoDAO;
-
+use util\SalvarArquivo;
 class Video extends MediaFactory
 {
 
@@ -20,7 +20,7 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-        $json = file_get_contents('php://input');// recebe tudo que vim da requisição
+     /*   $json = file_get_contents('php://input');// recebe tudo que vim da requisição
         $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
         $this->setNome($obj['nome']);
@@ -29,7 +29,9 @@ class Video extends MediaFactory
         $this->setFormato($obj['formato']);
         $this->setIdadeRecomendada($obj['idade_recomendada']);
 
-        VideoDAO::create($this);
+        VideoDAO::create($this);*/
+        $salvar = new SalvarArquivo();
+        $salvar->salvaArquivo("Video","arquivo");
     }
 
     public function deletar()
