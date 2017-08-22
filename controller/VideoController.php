@@ -8,14 +8,10 @@
 
 namespace controller;
 
-include '../vendor/autoload.php';
-
 use view\View;
 
 class VideoController
 {
-
-
     /**
      * VideoController constructor.
      */
@@ -32,5 +28,3 @@ class VideoController
         return View::render($data);
     }
 }
-
-new VideoController();
