@@ -17,7 +17,7 @@ class View extends HeaderWriter
      * @param array $data
      * @param string $params
      */
-    public static final function render($data = [], $params = "")
+    public static final function render(array $data = [], $params = "")
     {
         $headers = "Content-type: application/json; charset=utf-8";
         if ($params != "") {

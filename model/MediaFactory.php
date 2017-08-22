@@ -11,12 +11,29 @@ namespace model;
 
 abstract class MediaFactory
 {
+    public $id;
     public $nome;
     public $descricao;
     public $genero;
     public $idadeRecomendada;
     public $formato;
     public $caminho;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return mixed

@@ -13,25 +13,10 @@ use util\SalvarArquivo;
 class Video extends MediaFactory
 {
 
-    public function listar()
-    {
-        // TODO: Implement listar() method.
-    }
 
     public function cadastrar()
     {
-     /*   $json = file_get_contents('php://input');// recebe tudo que vim da requisição
-        $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
-        $this->setNome($obj['nome']);
-        $this->setDescricao($obj['descricao']);
-        $this->setGenero($obj['genero']);
-        $this->setFormato($obj['formato']);
-        $this->setIdadeRecomendada($obj['idade_recomendada']);
-
-        VideoDAO::create($this);*/
-        $salvar = new SalvarArquivo();
-        $salvar->salvaArquivo("Video","arquivo");
     }
 
     public function deletar()
@@ -44,4 +29,13 @@ class Video extends MediaFactory
         // TODO: Implement alterar() method.
     }
 
+    public function listar()
+    {
+       return VideoDAO::retreave($this);
+    }
+
+    public function fazerUpload(){
+        $salvar = new SalvarArquivo();
+        $salvar->salvaArquivo("Video","arquivo");
+    }
 }

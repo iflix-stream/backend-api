@@ -8,16 +8,20 @@
 
 namespace controller;
 
-use view\View;
 use model\Video;
+use view\View;
 
-class VideoController extends Video
+class VideoController
 {
+
+    public $video;
     /**
      * VideoController constructor.
      */
     public function __construct($campo = "", $valor = "")
     {
+        $this->video = new Video();
+
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "GET") {
             if (isset($campo)) {
@@ -26,11 +30,11 @@ class VideoController extends Video
                 $this->listar();
             }
         } else if ($method == "POST") {
-            $this->cadastrar();
+            $this->video->cadastrar();
         } else if ($method == "PUT") {
-            $this->alterar();
+            $this->video->alterar();
         } else if ($method == "DELETE") {
-            $this->deletar();
+            $this->video->deletar();
         } else {
             View::render("Mensagem : Metodo Não implementado");
         }
@@ -38,11 +42,13 @@ class VideoController extends Video
 
     public function listar($campo = "", $valor = "")
     {
-        $data = array("mensagem" => "Tabaco bem massa");
-        if ($campo != "" and $valor != "") {
-            $data = array(
-                "Mensagem" => "tabaco bem massa", $campo => $valor);
-        }
+//        $data = array("mensagem" => "Tabaco bem massa");
+//        if ($campo != "" and $valor != "") {
+//            $data = array(
+//                "Mensagem" => "tabaco bem massa", $campo => $valor);
+//        }
+        $this->video->setId($valor);
+        $data= ["SQL"=>$this->video->listar()];
         return View::render($data);
     }
 }
