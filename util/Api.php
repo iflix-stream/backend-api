@@ -23,7 +23,7 @@ class Api
                 ]);
             return false;
         }
-        return new $class();
+        return new $class($this->retornaCampoURL(), $this->retornaValorCampoURL());
     }
 
     public function retornaURL()
