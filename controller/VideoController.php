@@ -8,10 +8,6 @@
 
 namespace controller;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8c7a8061207092ec4c79496d271ae89429ca1fa7
 use view\View;
 
 class VideoController
