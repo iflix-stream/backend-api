@@ -1,5 +1,6 @@
 RewriteEngine On # Turn on the rewriting engine
 
+RewriteRule ^(.*)/?$ api.php [NC,L]
 
 
 #Rewrite rule dinamica simples
