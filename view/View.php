@@ -13,7 +13,11 @@ use util\HeaderWriter;
 class View extends HeaderWriter
 {
 
-    public static final function render($data, $params = "")
+    /**
+     * @param array $data
+     * @param string $params
+     */
+    public static final function render($data = [], $params = "")
     {
         $headers = "Content-type: application/json; charset=utf-8";
         if ($params != "") {
