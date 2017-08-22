@@ -20,7 +20,16 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-       VideoDAO::create($this);
+        $json = file_get_contents('php://input');// recebe tudo que vim da requisição
+        $obj = (array)json_decode($json); // recebe em JSON e coloca no array
+
+        $this->setNome($obj['nome']);
+        $this->setDescricao($obj['descricao']);
+        $this->setGenero($obj['genero']);
+        $this->setFormato($obj['formato']);
+        $this->setIdadeRecomendada($obj['idade_recomendada']);
+
+        VideoDAO::create($this);
     }
 
     public function deletar()
@@ -34,9 +43,3 @@ class Video extends MediaFactory
     }
 
 }
-
-$v = new Video();
-$v->setCaminho("dasdas");
-$v->setDescricao("dsadasasddas");
-
-$v->cadastrar();

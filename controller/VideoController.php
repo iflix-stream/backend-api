@@ -9,26 +9,35 @@
 namespace controller;
 
 use view\View;
+use model\Video;
 
-class VideoController
+class VideoController extends Video
 {
     /**
      * VideoController constructor.
      */
     public function __construct($campo = "", $valor = "")
     {
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "GET") {
             if (isset($campo)) {
                 $this->listar($campo, $valor);
-            }else{
+            } else {
                 $this->listar();
             }
+        } else if ($method == "POST") {
+            $this->cadastrar();
+        } else if ($method == "PUT") {
+            $this->alterar();
+        } else if ($method == "DELETE") {
+            $this->deletar();
+        } else {
+            View::render("Mensagem : Metodo Não implementado");
         }
     }
 
     public function listar($campo = "", $valor = "")
     {
-
         $data = array("mensagem" => "Tabaco bem massa");
         if ($campo != "" and $valor != "") {
             $data = array(
