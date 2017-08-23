@@ -15,34 +15,44 @@ use phiber\Phiber;
 class VideoDAO
 {
 
-    public static function create($obj)
+    /**
+     * @var Video
+     */
+    private $video;
+
+    function __construct($video)
+    {
+        $this->video = $video;
+    }
+
+    public static function create($video)
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($obj);
+        $criteria = $phiber->openPersist($video);
         $criteria->create();
         echo $criteria->show();
     }
 
     /**
-     * @param Video $obj
+     * @param Video $video
      * @return array
      */
-    public static function retreave($obj)
+    public static function retreave($video)
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($obj);
+        $criteria = $phiber->openPersist($video);
         $criteria->returnArray(true);
 
         $restrictions[0] = $criteria->restrictions()
             ->equals("ativado", '1');
 
-        if ($obj->getNome() != null) {
+        if ($video->getNome() != null) {
             $restrictions[1] = $criteria->restrictions()
-                ->like("nome", $obj->getNome());
+                ->like("nome", $video->getNome());
         }
-        if ($obj->getGenero() != null) {
+        if ($video->getGenero() != null) {
             $restrictions[2] = $criteria->restrictions()
-                ->equals("genero", $obj->getGenero());
+                ->equals("genero", $video->getGenero());
         }
 
         $restrictions = array_values($restrictions);
@@ -58,5 +68,16 @@ class VideoDAO
         }
 
         return $criteria->select();
+    }
+
+    function update($video){
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        $restrictionID = $criteria->restrictions()->equals("id", $this->video->getId());
+        $criteria->add($restrictionID);
+        if ($criteria->update()){
+            return true;
+        }
+        return false;
     }
 }
