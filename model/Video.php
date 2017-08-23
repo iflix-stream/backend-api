@@ -16,7 +16,6 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-<<<<<<< HEAD
        /*  if(is_string($this->fazerUpload())){  funcao para ir para outra classe para salvar a img
              $campos = file_get_contents('php://input');
              var_dump($campos);
@@ -31,8 +30,6 @@ class Video extends MediaFactory
          $this->setIdadeRecomendada($obj['idade_recomendada']);
 
          VideoDAO::create($this);
-=======
->>>>>>> 39fee9c02113b349fd53054ba4bcd523a166f95a
 
     }
 
@@ -46,19 +43,14 @@ class Video extends MediaFactory
         // TODO: Implement alterar() method.
     }
 
-<<<<<<< HEAD
-    public function fazerUpload() {
+    public function fazerUpload()
+    {
         $salvar = new SalvarArquivo();
-        return $salvar->salvaArquivo("Video","arquivo");;
-=======
+        return $salvar->salvaArquivo("Video", "arquivo");
+    }
     public function listar()
     {
        return VideoDAO::retreave($this);
     }
 
-    public function fazerUpload(){
-        $salvar = new SalvarArquivo();
-        $salvar->salvaArquivo("Video","arquivo");
->>>>>>> 39fee9c02113b349fd53054ba4bcd523a166f95a
-    }
 }

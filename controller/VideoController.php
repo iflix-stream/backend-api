@@ -18,15 +18,10 @@ class VideoController
     /**
      * VideoController constructor.
      */
-    public $video;
-
     public function __construct($campo = "", $valor = "")
     {
         $this->video = new Video();
-<<<<<<< HEAD
-=======
 
->>>>>>> 39fee9c02113b349fd53054ba4bcd523a166f95a
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "GET") {
             if (isset($campo)) {
