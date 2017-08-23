@@ -8,11 +8,13 @@
 
 namespace controller;
 
-use view\View;
 use model\Video;
+use view\View;
 
 class VideoController
 {
+
+    public $video;
     /**
      * VideoController constructor.
      */
@@ -21,6 +23,10 @@ class VideoController
     public function __construct($campo = "", $valor = "")
     {
         $this->video = new Video();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 39fee9c02113b349fd53054ba4bcd523a166f95a
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "GET") {
             if (isset($campo)) {
@@ -41,11 +47,13 @@ class VideoController
 
     public function listar($campo = "", $valor = "")
     {
-        $data = array("mensagem" => "Tabaco bem massa");
-        if ($campo != "" and $valor != "") {
-            $data = array(
-                "Mensagem" => "tabaco bem massa", $campo => $valor);
-        }
+//        $data = array("mensagem" => "Tabaco bem massa");
+//        if ($campo != "" and $valor != "") {
+//            $data = array(
+//                "Mensagem" => "tabaco bem massa", $campo => $valor);
+//        }
+        $this->video->setId($valor);
+        $data= ["SQL"=>$this->video->listar()];
         return View::render($data);
     }
 }
