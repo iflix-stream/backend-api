@@ -48,7 +48,7 @@ class VideoController
 //                "Mensagem" => "tabaco bem massa", $campo => $valor);
 //        }
         $this->video->setId($valor);
-        $data= ["SQL"=>$this->video->listar()];
-        return View::render($data);
+        $data= ["SQL"=>$this->video->listar($campo, $valor)];
+        View::render($data);
     }
 }

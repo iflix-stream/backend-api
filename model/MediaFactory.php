@@ -14,8 +14,6 @@ abstract class MediaFactory
     public $id;
     public $nome;
     public $descricao;
-    public $genero;
-    public $idadeRecomendada;
     public $formato;
     public $caminho;
 
@@ -67,37 +65,6 @@ abstract class MediaFactory
         $this->descricao = $descricao;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGenero()
-    {
-        return $this->genero;
-    }
-
-    /**
-     * @param mixed $genero
-     */
-    public function setGenero($genero)
-    {
-        $this->genero = $genero;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdadeRecomendada()
-    {
-        return $this->idadeRecomendada;
-    }
-
-    /**
-     * @param mixed $idadeRecomendada
-     */
-    public function setIdadeRecomendada($idadeRecomendada)
-    {
-        $this->idadeRecomendada = $idadeRecomendada;
-    }
 
     /**
      * @return mixed

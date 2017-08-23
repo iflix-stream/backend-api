@@ -19,7 +19,7 @@ class Api
         if (!class_exists($class)) {
             View::render(
                 ["mensagem" =>
-                    "Classe nao encontrada, favor passar uma classe valida pelo parametro"
+                    "Classe nao encontrada, favor passar uma classe valida pela URL"
                 ]);
             return false;
         }

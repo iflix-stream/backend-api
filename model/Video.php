@@ -10,8 +10,78 @@ namespace model;
 include '../vendor/autoload.php';
 use dao\VideoDAO;
 use util\SalvarArquivo;
+
 class Video extends MediaFactory
 {
+
+    private $idadeRecomendada;
+    private $idiomas;
+    private $genero;
+    private $idiomasLegendas;
+
+    /**
+     * @return mixed
+     */
+    public function getIdadeRecomendada()
+    {
+        return $this->idadeRecomendada;
+    }
+
+    /**
+     * @param mixed $idadeRecomendada
+     */
+    public function setIdadeRecomendada($idadeRecomendada)
+    {
+        $this->idadeRecomendada = $idadeRecomendada;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdiomas()
+    {
+        return $this->idiomas;
+    }
+
+    /**
+     * @param mixed $idiomas
+     */
+    public function setIdiomas($idiomas)
+    {
+        $this->idiomas = $idiomas;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGenero()
+    {
+        return $this->genero;
+    }
+
+    /**
+     * @param mixed $genero
+     */
+    public function setGenero($genero)
+    {
+        $this->genero = $genero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdiomasLegendas()
+    {
+        return $this->idiomasLegendas;
+    }
+
+    /**
+     * @param mixed $idiomasLegendas
+     */
+    public function setIdiomasLegendas($idiomasLegendas)
+    {
+        $this->idiomasLegendas = $idiomasLegendas;
+    }
 
 
     public function cadastrar()
