@@ -9,9 +9,10 @@
 namespace util;
 
 use util\GerarData;
+
 class SalvarArquivo
 {
-    public function salvaArquivo($pasta,$nome)
+    public function salvaArquivo($pasta, $nome)
     {
         $data = self::getData();
         $dataEx = explode("/", $data);
@@ -22,14 +23,14 @@ class SalvarArquivo
             mkdir($diretorio, 0777, true);
         }
         $arquivo = $_FILES[$nome];
-        $arquivo['name'] =  $filename_path;
-        $destino = $diretorio."/".$arquivo['name'];
-        if (move_uploaded_file($arquivo['tmp_name'], $destino)) {
-            echo "MOVEUUUUUU<br>";
-        } else {
-            echo "NAOOOO MOVEU";
+        $arquivo['name'] = $filename_path;
+        $destino = $diretorio . "/" . $arquivo['name'];
+        if (!move_uploaded_file($arquivo['tmp_name'], $destino)) {
+            return $url;
         }
+        return false;
     }
+
     public function getData()
     {
         $getData = new GerarData();

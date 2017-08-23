@@ -20,18 +20,21 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-     /*   $json = file_get_contents('php://input');// recebe tudo que vim da requisição
-        $obj = (array)json_decode($json); // recebe em JSON e coloca no array
+       /*  if(is_string($this->fazerUpload())){  funcao para ir para outra classe para salvar a img
+             $campos = file_get_contents('php://input');
+             var_dump($campos);
+         }*/
+         $json = file_get_contents('php://input');// recebe tudo que vim da requisição
+         $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
-        $this->setNome($obj['nome']);
-        $this->setDescricao($obj['descricao']);
-        $this->setGenero($obj['genero']);
-        $this->setFormato($obj['formato']);
-        $this->setIdadeRecomendada($obj['idade_recomendada']);
+         $this->setNome($obj['nome']);
+         $this->setDescricao($obj['descricao']);
+         $this->setGenero($obj['genero']);
+         $this->setFormato($obj['formato']);
+         $this->setIdadeRecomendada($obj['idade_recomendada']);
 
-        VideoDAO::create($this);*/
-        $salvar = new SalvarArquivo();
-        $salvar->salvaArquivo("Video","arquivo");
+         VideoDAO::create($this);
+
     }
 
     public function deletar()
@@ -44,4 +47,8 @@ class Video extends MediaFactory
         // TODO: Implement alterar() method.
     }
 
+    public function fazerUpload() {
+        $salvar = new SalvarArquivo();
+        return $salvar->salvaArquivo("Video","arquivo");;
+    }
 }
