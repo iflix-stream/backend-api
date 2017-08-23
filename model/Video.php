@@ -9,7 +9,6 @@
 namespace model;
 include '../vendor/autoload.php';
 use dao\VideoDAO;
-use util\SalvarArquivo;
 
 class Video extends MediaFactory
 {
@@ -86,10 +85,7 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-       /*  if(is_string($this->fazerUpload())){  funcao para ir para outra classe para salvar a img
-             $campos = file_get_contents('php://input');
-             var_dump($campos);
-         }*/
+
          $json = file_get_contents('php://input');// recebe tudo que vim da requisição
          $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
@@ -113,11 +109,6 @@ class Video extends MediaFactory
         // TODO: Implement alterar() method.
     }
 
-    public function fazerUpload()
-    {
-        $salvar = new SalvarArquivo();
-        return $salvar->salvaArquivo("Video", "arquivo");
-    }
     public function listar()
     {
        return VideoDAO::retreave($this);
