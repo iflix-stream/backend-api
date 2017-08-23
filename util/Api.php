@@ -23,7 +23,7 @@ class Api
                 ]);
             return false;
         }
-        return new $class($this->retornaCampoURL(), $this->retornaValorCampoURL());
+        return new $class($this->retornaCamposeValoresFormatados());
     }
 
     public function retornaURL()
@@ -37,22 +37,23 @@ class Api
         return $arrayUrl[3];
     }
 
-    private function retornaCampoURL()
+    public function retornaCamposeValoresFormatados()
     {
         $arrayUrl = explode("/", $this->retornaURL());
-        if (!isset($arrayUrl[4])) {
-            return false;
+        $arrCamposEValoresSemFiltro = [];
+        for ($i = 4; $i < count($arrayUrl); $i++) {
+            $arrCamposEValoresSemFiltro[$i] = $arrayUrl[$i];
         }
-        return $arrayUrl[4];
-    }
+        $arrCamposEValoresReindexado = array_values($arrCamposEValoresSemFiltro);
 
-    private function retornaValorCampoURL()
-    {
-        $arrayUrl = explode("/", $this->retornaURL());
-        if (!isset($arrayUrl[5])) {
-            return false;
+        $arrReturn = [];
+        for ($j = 0; $j < count($arrCamposEValoresReindexado) - 1; $j++) {
+            if($arrCamposEValoresReindexado[$j+1] != ""){
+                $arrReturn[$arrCamposEValoresReindexado[$j]] = $arrCamposEValoresReindexado[$j+1];
+            }
         }
-        return $arrayUrl[5];
+
+        return $arrReturn;
     }
 }
 
