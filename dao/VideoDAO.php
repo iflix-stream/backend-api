@@ -41,11 +41,9 @@ class VideoDAO
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
-        $criteria->returnArray(true);
 
         $restrictions[0] = $criteria->restrictions()
             ->equals("ativado", '1');
-
         if ($video->getId() != null) {
             $restrictions[1] = $criteria->restrictions()
                 ->equals("id", $video->getId());
@@ -55,11 +53,12 @@ class VideoDAO
                 ->like("nome", $video->getNome());
         }
         if ($video->getGenero() != null) {
-            $restrictions[2] = $criteria->restrictions()
+            $restrictions[3] = $criteria->restrictions()
                 ->equals("genero", $video->getGenero());
         }
 
         $restrictions = array_values($restrictions);
+        print_r($restrictions);
         if (count($restrictions) > 1) {
             for ($i = 0; $i < count($restrictions) - 1; $i++) {
                 $criteria->add($criteria->restrictions()
@@ -70,17 +69,17 @@ class VideoDAO
                 $criteria->add($restrictions[0]);
             }
         }
-
         $criteria->select();
         return $criteria->show();
     }
 
-    function update($video){
+    function update($video)
+    {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
         $restrictionID = $criteria->restrictions()->equals("id", $this->video->getId());
         $criteria->add($restrictionID);
-        if ($criteria->update()){
+        if ($criteria->update()) {
             return true;
         }
         return false;
