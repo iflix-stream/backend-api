@@ -35,7 +35,7 @@ class VideoDAO
 
     /**
      * @param Video $video
-     * @return array
+     * @return string
      */
     public static function retreave($video)
     {
@@ -46,8 +46,12 @@ class VideoDAO
         $restrictions[0] = $criteria->restrictions()
             ->equals("ativado", '1');
 
-        if ($video->getNome() != null) {
+        if ($video->getId() != null) {
             $restrictions[1] = $criteria->restrictions()
+                ->equals("id", $video->getId());
+        }
+        if ($video->getNome() != null) {
+            $restrictions[2] = $criteria->restrictions()
                 ->like("nome", $video->getNome());
         }
         if ($video->getGenero() != null) {
@@ -67,7 +71,8 @@ class VideoDAO
             }
         }
 
-        return $criteria->select();
+        $criteria->select();
+        return $criteria->show();
     }
 
     function update($video){

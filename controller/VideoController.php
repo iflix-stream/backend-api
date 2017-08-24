@@ -15,8 +15,10 @@ class VideoController
 {
 
     public $video;
+
     /**
      * VideoController constructor.
+     * @param array $parametrosHttp
      */
     public function __construct($parametrosHttp = [])
     {
@@ -25,8 +27,9 @@ class VideoController
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "GET") {
             if(isset($parametrosHttp['id'])) $this->video->setId($parametrosHttp['id']);
-            if(isset($parametrosHttp['nome'])) $this->video->setId($parametrosHttp['nome']);
-            if(isset($parametrosHttp['genero'])) $this->video->setId($parametrosHttp['genero']);
+            if(isset($parametrosHttp['nome'])) $this->video->setNome($parametrosHttp['nome']);
+            if(isset($parametrosHttp['genero'])) $this->video->setGenero($parametrosHttp['genero']);
+            $this->listar();
         } else if ($method == "POST") {
             $this->video->cadastrar();
         } else if ($method == "PUT") {
@@ -34,19 +37,14 @@ class VideoController
         } else if ($method == "DELETE") {
             $this->video->deletar();
         } else {
-            View::render("Mensagem : Metodo Não implementado");
+            View::render(["mensagem"=>"Método não implementado."]);
         }
     }
 
-    public function listar($campo = "", $valor = "")
+    public function listar()
     {
-//        $data = array("mensagem" => "Tabaco bem massa");
-//        if ($campo != "" and $valor != "") {
-//            $data = array(
-//                "Mensagem" => "tabaco bem massa", $campo => $valor);
-//        }
-        $this->video->setId($valor);
-        $data= ["SQL"=>$this->video->listar($campo, $valor)];
+
+        $data= ["SQL"=>"".$this->video->listar().""];
         View::render($data);
     }
 }
