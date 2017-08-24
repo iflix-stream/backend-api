@@ -18,17 +18,15 @@ class VideoController
     /**
      * VideoController constructor.
      */
-    public function __construct($campo = "", $valor = "")
+    public function __construct($parametrosHttp = [])
     {
         $this->video = new Video();
 
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "GET") {
-            if (isset($campo)) {
-                $this->video->listar($campo, $valor);
-            } else {
-                $this->video->listar();
-            }
+            if(isset($parametrosHttp['id'])) $this->video->setId($parametrosHttp['id']);
+            if(isset($parametrosHttp['nome'])) $this->video->setId($parametrosHttp['nome']);
+            if(isset($parametrosHttp['genero'])) $this->video->setId($parametrosHttp['genero']);
         } else if ($method == "POST") {
             $this->video->cadastrar();
         } else if ($method == "PUT") {
