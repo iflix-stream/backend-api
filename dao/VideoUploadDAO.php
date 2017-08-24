@@ -17,7 +17,7 @@ class VideoUploadDAO
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($obj);
-        $criteria->update();
+        $criteria->create();
         echo $criteria->show();
     }
 }

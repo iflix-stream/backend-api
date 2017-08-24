@@ -10,6 +10,7 @@ namespace model;
 
 use util\SalvarArquivo;
 use dao\VideoUploadDAO;
+use view\View;
 
 class VideoUpload extends MediaFactory
 {
@@ -26,7 +27,7 @@ class VideoUpload extends MediaFactory
             $this->setCaminho($caminho);
             VideoUploadDAO::create($this);
         } else {
-
+            View::render(array("Mesagem"=>"Não foi possivel mover"));
         }
     }
 

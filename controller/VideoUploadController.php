@@ -23,7 +23,7 @@ class VideoUploadController
         if ($method == "POST") {
             $this->videoUpload->cadastrar();
         } else {
-            View::render("Mensagem : Metodo Não implementado");
+            View::render(array("Mensagem"=>"Metodo Nao implementado"));
         }
     }
 }
