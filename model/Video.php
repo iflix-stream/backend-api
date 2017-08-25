@@ -9,7 +9,8 @@
 namespace model;
 include '../vendor/autoload.php';
 use dao\VideoDAO;
-
+use util\SalvarArquivo;
+use view\View;
 class Video extends MediaFactory
 {
 
@@ -89,12 +90,21 @@ class Video extends MediaFactory
          $json = file_get_contents('php://input');// recebe tudo que vim da requisição
          $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
-         $this->setNome($obj['nome']);
-         $this->setDescricao($obj['descricao']);
-         $this->setGenero($obj['genero']);
-         $this->setFormato($obj['formato']);
-         $this->setIdadeRecomendada($obj['idade_recomendada']);
-
+         if(isset($obj['nome'])){
+             $this->setNome($obj['nome']);
+             $this->setDescricao($obj['descricao']);
+             $this->setGenero($obj['genero']);
+             $this->setFormato($obj['formato']);
+             $this->setIdadeRecomendada($obj['idade_recomendada']);
+         }
+        else{
+            $caminho = $this->fazerUpload();
+            if (is_string($caminho)) {
+                $this->setCaminho($caminho);
+            } else {
+                View::render(array("Mesagem"=>"Não foi possivel fazer o upload"));
+            }
+        }
          VideoDAO::create($this);
 
     }
@@ -114,4 +124,9 @@ class Video extends MediaFactory
        return VideoDAO::retreave($this);
     }
 
+    public function fazerUpload()
+    {
+        $salvar = new SalvarArquivo();
+        return $salvar->salvaArquivo("Video", "arquivo");
+    }
 }

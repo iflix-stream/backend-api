@@ -59,10 +59,12 @@ class VideoDAO
 
         $restrictions = array_values($restrictions);
         print_r($restrictions);
+        $interador = 1;
         if (count($restrictions) > 1) {
             for ($i = 0; $i < count($restrictions) - 1; $i++) {
                 $criteria->add($criteria->restrictions()
-                    ->and($restrictions[$i], $restrictions[$i + 1]));
+                    ->and($restrictions[$i], $restrictions[$interador]));
+                $interador++;
             }
         } else {
             if (!empty($restrictions)) {
