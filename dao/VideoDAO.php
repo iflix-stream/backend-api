@@ -73,11 +73,15 @@ class VideoDAO
         return $criteria->show();
     }
 
+    /**
+     * @param Video $video
+     * @return bool
+     */
     function update($video)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
-        $restrictionID = $criteria->restrictions()->equals("id", $this->video->getId());
+        $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
         $criteria->add($restrictionID);
         if ($criteria->update()) {
             return true;
