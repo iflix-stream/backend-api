@@ -9,7 +9,7 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="PHPUNIT_PHAR" custom_loader_path="" phpunit_phar_path="C:/xampp/htdocs/iFlix/phpunit.phar" />
+      <PhpUnitSettings load_method="PHPUNIT_PHAR" custom_loader_path="" phpunit_phar_path="C:/Users/marci/Dev/phpunit.phar" />
     </phpunit_settings>
   </component>
 </project>

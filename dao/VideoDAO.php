@@ -39,45 +39,22 @@ class VideoDAO
      */
     public static function retreave($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
-
-        $restrictions[0] = $criteria->restrictions()
-            ->equals("ativado", '1');
-        if ($video->getId() != null) {
-            $restrictions[1] = $criteria->restrictions()
-                ->equals("id", $video->getId());
-        }
-        if ($video->getNome() != null) {
-            $restrictions[2] = $criteria->restrictions()
-                ->like("nome", $video->getNome());
-        }
-        if ($video->getGenero() != null) {
-            $restrictions[3] = $criteria->restrictions()
-                ->equals("genero", $video->getGenero());
+        if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null){
+           return self::retreaveById($video);
         }
 
-        $restrictions = array_values($restrictions);
-        if (count($restrictions) > 1) {
-            $i = 0;
-            $array =[];
-            $string = "";
-            while ($i < count($restrictions) - 1) {
-                $array = $criteria->restrictions()
-                    ->and($restrictions[$i], $restrictions[$i + 1]);
-                $string .= $array['where'];
-                $i = $i + 2;
-            }
-            $string = str_replace(')(',' AND ',$string);
-            $array['where']= $string;
-            $criteria->add($array);
-        } else {
-            if (!empty($restrictions)) {
-                $criteria->add($restrictions[0]);
-            }
+        if($video->getNome() != null and $video->getId() == null and $video->getGenero() == null) {
+            return self::retreaveByNome($video);
         }
-        $criteria->select();
-        return $criteria->show();
+
+        if($video->getGenero() != null and $video->getId() == null and $video->getNome() == null) {
+            return self::retreaveByGenero($video);
+        }
+
+        if($video->getGenero() != null and $video->getNome() != null and $video->getId() == null) {
+            return self::retreaveByNomeEGenero($video);
+        }
+        return "Parametros invalidos";
     }
 
     /**
@@ -94,5 +71,88 @@ class VideoDAO
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param Video $video
+     * @return string
+     */
+    private static function retreaveById($video)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        if ($video->getId() != null) {
+
+            $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+            $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
+            $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+            $criteria->add($restrictionAtivadoID);
+            $criteria->select();
+            return $criteria->show();
+        }
+        return "Parametro ID nulo.";
+    }
+
+    /**
+     * @param Video $video
+     * @return string
+     */
+    private static function retreaveByNome($video)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        if ($video->getNome() != null) {
+            $restrictionNome = $criteria->restrictions()->like("nome", $video->getNome());
+            $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
+            $restrictionAtivadoNome = $criteria->restrictions()->and($restrictionAtivado, $restrictionNome);
+            $criteria->add($restrictionAtivadoNome);
+            $criteria->select();
+            return $criteria->show();
+        }
+        return "Parametro nome nulo.";
+    }
+
+    /**
+     * @param Video $video
+     * @return string
+     */
+    private static function retreaveByGenero($video)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        if ($video->getGenero() != null) {
+            $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
+            $restrictionGenero = $criteria->restrictions()->equals("genero", $video->getGenero());
+            $restrictionAtivadoGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionGenero);
+            $criteria->add($restrictionAtivadoGenero);
+            $criteria->select();
+            return $criteria->show();
+        }
+        return "Parametro nome nulo.";
+    }
+
+    /**
+     * @param Video $video
+     * @return string
+     */
+    private static function retreaveByNomeEGenero($video)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+
+        if ($video->getNome() == null) return "Parametro nome nulo.";
+        if ($video->getGenero() == null) return "Parametro genero nulo.";
+        if ($video->getGenero() == null && $video->getNome() == null) return "Parametros nome e genero nulos.";
+
+
+        $restrictionNome = $criteria->restrictions()->like("nome", $video->getNome());
+        $restrictionGenero = $criteria->restrictions()->equals("genero", $video->getGenero());
+        $restrictionNomeEGenero = $criteria->restrictions()->and($restrictionNome, $restrictionGenero);
+        $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
+        $restrictionAtivadoNomeGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionNomeEGenero);
+        $criteria->add($restrictionAtivadoNomeGenero);
+        $criteria->select();
+        return $criteria->show();
+
     }
 }
