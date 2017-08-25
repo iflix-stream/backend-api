@@ -60,11 +60,23 @@ class VideoDAO
         $restrictions = array_values($restrictions);
         print_r($restrictions);
         $interador = 1;
+        $verifica = true;
         if (count($restrictions) > 1) {
-            for ($i = 0; $i < count($restrictions) - 1; $i++) {
-                $criteria->add($criteria->restrictions()
-                    ->and($restrictions[$i], $restrictions[$interador]));
+            for ($i = 0; $i < count($restrictions) - 2; $i++) {
+                if ($verifica){
+                    $criteria->add($criteria->restrictions()
+                        ->and($restrictions[$i], $restrictions[$interador]));
+                    var_dump($criteria->restrictions()
+                        ->and($restrictions[$i], $restrictions[$interador]));
+                    $verifica=false;
+                }
+              else{
+                  $criteria->add($criteria->restrictions()
+                      ->and($restrictions[$interador+1], $restrictions[$interador+2]));
+                  var_dump($criteria->restrictions()
+                      ->and($restrictions[$interador+1], $restrictions[$interador+2]));
                 $interador++;
+                }
             }
         } else {
             if (!empty($restrictions)) {
