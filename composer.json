@@ -23,7 +23,8 @@
       "model\\": "model/",
       "util\\": "util/",
       "view\\": "view/",
-      "dao\\": "dao/"
+      "dao\\": "dao/",
+      "tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
