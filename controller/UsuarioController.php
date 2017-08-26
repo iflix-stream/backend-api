@@ -6,6 +6,7 @@
  * Time: 15:31
  */
 namespace controller;
+
 class UsuarioController
 {
 

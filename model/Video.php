@@ -13,7 +13,7 @@ use view\View;
 class Video extends MediaFactory
 {
 
-    private $idadeRecomendada;
+    private $classificacao;
     private $idiomas;
     private $genero;
     private $idiomasLegendas;
@@ -21,17 +21,17 @@ class Video extends MediaFactory
     /**
      * @return mixed
      */
-    public function getIdadeRecomendada()
+    public function getClassificacao()
     {
-        return $this->idadeRecomendada;
+        return $this->classificacao;
     }
 
     /**
-     * @param mixed $idadeRecomendada
+     * @param mixed $classificacao
      */
-    public function setIdadeRecomendada($idadeRecomendada)
+    public function setClassificacao($classificacao)
     {
-        $this->idadeRecomendada = $idadeRecomendada;
+        $this->classificacao = $classificacao;
     }
 
     /**
@@ -94,7 +94,7 @@ class Video extends MediaFactory
              $this->setDescricao($obj['descricao']);
              $this->setGenero($obj['genero']);
              $this->setFormato($obj['formato']);
-             $this->setIdadeRecomendada($obj['idade_recomendada']);
+             $this->setClassificacao($obj['idade_recomendada']);
          }
         else{
             $caminho = $this->fazerUpload();
