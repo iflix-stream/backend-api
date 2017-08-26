@@ -13,6 +13,7 @@ namespace tests;
 use PHPUnit\Framework\TestCase;
 use dao\VideoDAO;
 use model\Video;
+include '../vendor/autoload.php';
 
 final class TesteVideoDao extends TestCase
 {
