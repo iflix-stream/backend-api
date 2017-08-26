@@ -9,7 +9,7 @@
 namespace util;
 
 
-class GerarData
+class Data
 {
     function gerarDataHora(){
         $hr = date("H:i:s", mktime(gmdate("H")-3, gmdate("i"), gmdate("s"), gmdate("m"), gmdate("d"), gmdate("Y")));

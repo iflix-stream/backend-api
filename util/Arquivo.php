@@ -8,11 +8,11 @@
 
 namespace util;
 
-use util\GerarData;
 
-class SalvarArquivo
+
+class Arquivo
 {
-    public function salvaArquivo($pasta, $nome)
+    public function salvar($pasta, $nome)
     {
         $data = self::getData();
         $dataEx = explode("/", $data);

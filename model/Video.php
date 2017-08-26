@@ -8,7 +8,7 @@
 
 namespace model;
 use dao\VideoDAO;
-use util\SalvarArquivo;
+use util\Arquivo;
 use view\View;
 class Video extends MediaFactory
 {
@@ -125,7 +125,7 @@ class Video extends MediaFactory
 
     public function fazerUpload()
     {
-        $salvar = new SalvarArquivo();
-        return $salvar->salvaArquivo("Video", "arquivo");
+        $salvar = new Arquivo();
+        return $salvar->salvar("Video", "arquivo");
     }
 }
