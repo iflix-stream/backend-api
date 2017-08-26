@@ -12,7 +12,7 @@ namespace dao;
 use model\Video;
 use phiber\Phiber;
 
-class VideoDAO
+class VideoDAO implements IDAO
 {
 
     /**
@@ -25,6 +25,9 @@ class VideoDAO
         $this->video = $video;
     }
 
+    /**
+     * @param $video
+     */
     public static function create($video)
     {
         $phiber = new Phiber();
@@ -61,7 +64,7 @@ class VideoDAO
      * @param Video $video
      * @return bool
      */
-    function update($video)
+    static function update($video)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
@@ -154,5 +157,10 @@ class VideoDAO
         $criteria->select();
         return $criteria->show();
 
+    }
+
+    static function delede($video)
+    {
+        // TODO: Implement delede() method.
     }
 }

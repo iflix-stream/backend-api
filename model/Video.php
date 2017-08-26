@@ -7,7 +7,6 @@
  */
 
 namespace model;
-include '../vendor/autoload.php';
 use dao\VideoDAO;
 use util\SalvarArquivo;
 use view\View;
