@@ -9,8 +9,17 @@
 namespace dao;
 
 
+use model\Usuario;
+
 class UsuarioDAO implements IDAO
 {
+    private $usuario;
+
+    public function __construct($usuario)
+    {
+        $this->usuario = $usuario;
+    }
+
     static function create($video)
     {
         // TODO: Implement create() method.
@@ -18,7 +27,18 @@ class UsuarioDAO implements IDAO
 
     static function retreave($video)
     {
-        // TODO: Implement retreave() method.
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        if ($video->getId() != null) {
+
+            $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+            $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
+            $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+            $criteria->add($restrictionAtivadoID);
+            $criteria->select();
+            return $criteria->show();
+        }
+        return "Parametro ID nulo.";
     }
 
     static function update($video)

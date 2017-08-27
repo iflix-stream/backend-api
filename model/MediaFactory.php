@@ -11,11 +11,11 @@ namespace model;
 
 abstract class MediaFactory
 {
-    public $id;
-    public $nome;
-    public $descricao;
-    public $formato;
-    public $caminho;
+    private $id;
+    private $nome;
+    private $descricao;
+    private $formato;
+    private $caminho;
 
     /**
      * @return mixed
