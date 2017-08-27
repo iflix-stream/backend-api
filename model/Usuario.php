@@ -11,6 +11,7 @@ use dao\UsuarioDAO;
 class Usuario
 {
     private $id;
+    private $nome;
     private $login;
     private $senha;
     private $email;
@@ -26,6 +27,25 @@ class Usuario
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+//    tilapia
+
+    /**
+     * @param mixed $nome
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+    }
+
+
 
     /**
      * @param mixed $id
