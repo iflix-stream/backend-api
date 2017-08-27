@@ -14,5 +14,5 @@ interface IDAO
     static function create($video);
     static function retreave($video);
     static function update($video);
-    static function delede($video);
+    static function delete($video);
 }

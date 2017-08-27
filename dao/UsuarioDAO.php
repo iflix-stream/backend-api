@@ -22,9 +22,18 @@ class UsuarioDAO implements IDAO
         $this->usuario = $usuario;
     }
 
+    /**
+     * @param Usuario $usuario
+     * @return string
+     */
     static function create($usuario)
     {
-        // TODO: Implement create() method.
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        if ($criteria->create()){
+            echo $criteria->show();
+        }
+        return "erro ao cadastrar usuário:".$usuario->getId();
     }
 
 
@@ -48,14 +57,35 @@ class UsuarioDAO implements IDAO
         return "Parametro ID nulo.";
     }
 
+    /**
+     * @param Usuario $usuario
+     */
     static function update($usuario)
     {
-        // TODO: Implement update() method.
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
+        $criteria->add($restrictionID);
+        if($criteria->update()){
+            return $criteria->show();
+        }
+        return "erro ao alterar usuário:".$usuario->getId();
     }
 
-    static function delede($usuario)
+
+    /**
+     * @param Usuario $usuario
+     */
+    static function delete($usuario)
     {
-        // TODO: Implement delede() method.
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
+        $criteria->add($restrictionID);
+        if($criteria->delete()){
+            return $criteria->show();
+        }
+        return "Erro ao deletar o usuário:".$usuario->getId();
     }
 
 
