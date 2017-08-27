@@ -12,4 +12,11 @@ namespace model;
 class Filme extends Video
 {
 
+    /**
+     * Filme constructor.
+     */
+    public function __construct()
+    {
+        $this->setTipo('filme');
+    }
 }

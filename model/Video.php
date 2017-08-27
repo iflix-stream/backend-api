@@ -7,9 +7,11 @@
  */
 
 namespace model;
+
 use dao\VideoDAO;
 use util\Arquivo;
 use view\View;
+
 class Video extends MediaFactory
 {
 
@@ -17,6 +19,7 @@ class Video extends MediaFactory
     private $idiomas;
     private $genero;
     private $idiomasLegendas;
+    private $tipo;
 
     /**
      * @return mixed
@@ -82,30 +85,46 @@ class Video extends MediaFactory
         $this->idiomasLegendas = $idiomasLegendas;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
 
     public function cadastrar()
     {
 
-         $json = file_get_contents('php://input');// recebe tudo que vim da requisição
-         $obj = (array)json_decode($json); // recebe em JSON e coloca no array
+        $json = file_get_contents('php://input');// recebe tudo que vim da requisição
+        $obj = (array)json_decode($json); // recebe em JSON e coloca no array
 
-         if(isset($obj['nome'])){
-             $this->setNome($obj['nome']);
-             $this->setDescricao($obj['descricao']);
-             $this->setGenero($obj['genero']);
-             $this->setFormato($obj['formato']);
-             $this->setClassificacao($obj['idade_recomendada']);
-         }
-        else{
+        if (isset($obj['nome'])) {
+            $this->setNome($obj['nome']);
+            $this->setDescricao($obj['descricao']);
+            $this->setGenero($obj['genero']);
+            $this->setFormato($obj['formato']);
+            $this->setClassificacao($obj['idade_recomendada']);
+        } else {
             $caminho = $this->fazerUpload();
             if (is_string($caminho)) {
                 $this->setCaminho($caminho);
-            } else {
-                View::render(array("Mesagem"=>"Não foi possivel fazer o upload"));
+                VideoDAO::create($this);
+                return View::render(array("mensagem" => "Upload feito com sucesso!"));
             }
-        }
-         VideoDAO::create($this);
 
+        }
+
+        return View::render(array("mensagem" => "Não foi possivel fazer o upload"));
     }
 
     public function deletar()
@@ -120,7 +139,7 @@ class Video extends MediaFactory
 
     public function listar()
     {
-       return VideoDAO::retreave($this);
+        return VideoDAO::retreave($this);
     }
 
     public function fazerUpload()

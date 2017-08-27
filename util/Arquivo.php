@@ -34,7 +34,7 @@ class Arquivo
 
     public function getData()
     {
-        $getData = new GerarData();
+        $getData = new Data();
         return $getData->gerarDataHora();
     }
 }
