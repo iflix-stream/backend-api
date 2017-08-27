@@ -13,8 +13,15 @@ use view\View;
 
 class Api
 {
-    function __construct()
+    private $url;
+
+    function __construct($url = "")
     {
+        $this->url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        if ($url != "") {
+            $this->url = $url;
+        }
+
         $class = "\\controller\\" . ucfirst($this->retornaClasseURL()) . "Controller";
         if (!class_exists($class)) {
             View::render(
@@ -26,20 +33,16 @@ class Api
         return new $class($this->retornaCamposeValoresFormatados());
     }
 
-    public function retornaURL()
-    {
-        return "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    }
 
     private function retornaClasseURL()
     {
-        $arrayUrl = explode("/", $this->retornaURL());
+        $arrayUrl = explode("/", $this->url);
         return $arrayUrl[3];
     }
 
     public function retornaCamposeValoresFormatados()
     {
-        $arrayUrl = explode("/", $this->retornaURL());
+        $arrayUrl = explode("/", $this->url);
         $arrCamposEValoresSemFiltro = [];
         for ($i = 4; $i < count($arrayUrl); $i++) {
             $arrCamposEValoresSemFiltro[$i] = $arrayUrl[$i];
@@ -48,8 +51,8 @@ class Api
 
         $arrReturn = [];
         for ($j = 0; $j < count($arrCamposEValoresReindexado) - 1; $j++) {
-            if($arrCamposEValoresReindexado[$j+1] != ""){
-                $arrReturn[$arrCamposEValoresReindexado[$j]] = $arrCamposEValoresReindexado[$j+1];
+            if ($arrCamposEValoresReindexado[$j + 1] != "") {
+                $arrReturn[$arrCamposEValoresReindexado[$j]] = $arrCamposEValoresReindexado[$j + 1];
             }
         }
 
