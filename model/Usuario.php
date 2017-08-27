@@ -149,7 +149,7 @@ class Usuario
 
     public function listar()
     {
-        return UsuarioDAO::retreave();
+        return UsuarioDAO::retreave($this);
     }
 
     public function cadastrar()

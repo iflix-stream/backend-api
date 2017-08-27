@@ -43,7 +43,6 @@ class VideoController
 
     public function listar()
     {
-
         $data= ["SQL"=>"".$this->video->listar().""];
         View::render($data);
     }

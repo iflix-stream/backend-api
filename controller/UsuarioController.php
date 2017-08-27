@@ -12,9 +12,10 @@ class UsuarioController
 {
     public $usuario;
 
-    public function __construct()
+    public function __construct($parametrosHttp = [])
     {
         $this->usuario = new Usuario();
+        if(isset($parametrosHttp['id'])) $this->usuario->setId($parametrosHttp['id']);
         $this->listar();// temporario ate arrumar a api.php
     }
 
