@@ -27,6 +27,11 @@ class UsuarioDAO implements IDAO
         // TODO: Implement create() method.
     }
 
+
+    /**
+     * @param Usuario $usuario
+     * @return string
+     */
     static function retreave($usuario)
     {
         $phiber = new Phiber();

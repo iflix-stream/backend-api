@@ -159,7 +159,7 @@ class VideoDAO implements IDAO
 
     }
 
-    static function delede($video)
+    static function delete($video)
     {
         // TODO: Implement delede() method.
     }
