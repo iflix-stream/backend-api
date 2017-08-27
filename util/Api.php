@@ -30,7 +30,24 @@ class Api
                 ]);
             return false;
         }
-        return new $class($this->retornaCamposeValoresFormatados());
+        $method = $_SERVER['REQUEST_METHOD'];
+        $classe = new $class();
+        switch ($method) {
+            case 'GET':
+                return $classe->get($this->retornaCamposeValoresFormatados());
+                break;
+            case 'POST':
+                return $classe->post();
+                break;
+            case 'PUT':
+                return new $class();
+                break;
+            case 'DELETE':
+                return new $class();
+                break;
+            default:
+                echo "Nao implementado";
+        }
     }
 
 

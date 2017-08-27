@@ -8,19 +8,30 @@
 namespace controller;
 use model\Usuario;
 use view\View;
-class UsuarioController
+class UsuarioController implements Controller
 {
-    public $usuario;
 
-    public function __construct($parametrosHttp = [])
+
+    static function post()
     {
-        $this->usuario = new Usuario();
-        if(isset($parametrosHttp['id'])) $this->usuario->setId($parametrosHttp['id']);
-        $this->listar();// temporario ate arrumar a api.php
+        // TODO: Implement post() method.
     }
 
-    public function listar(){
-        $data =["SQL"=>"".$this->usuario->listar().""];
+    static function get($params = [])
+    {
+        $usuario = new Usuario();
+        if(isset($params['id'])) $usuario->setId($params['id']);
+        $data =["SQL"=>"".$usuario->listar().""];
         View::render($data);
+    }
+
+    static function put()
+    {
+        // TODO: Implement put() method.
+    }
+
+    static function delete()
+    {
+        // TODO: Implement delete() method.
     }
 }

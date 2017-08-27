@@ -11,17 +11,27 @@ namespace controller;
 
 use model\Login;
 use view\View;
-class LoginController
+class LoginController implements Controller
 {
-  public $login;
-    public function __construct($parametrosHttp = [])
+    static function post()
     {
-        $this->login = new Login();
-        $this->login();
-
-    }
-    public function login(){
-        $data =["SQL"=>"".$this->login->login().""];
+        $login = new Login();
+        $data =["SQL"=>"".$login->login().""];
         View::render($data);
+    }
+
+    static function get($params = [])
+    {
+        // TODO: Implement get() method.
+    }
+
+    static function put()
+    {
+        // TODO: Implement put() method.
+    }
+
+    static function delete()
+    {
+        // TODO: Implement delete() method.
     }
 }

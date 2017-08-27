@@ -11,39 +11,32 @@ namespace controller;
 use model\Video;
 use view\View;
 
-class VideoController
+class VideoController implements Controller
 {
 
-    public $video;
-
-    /**
-     * VideoController constructor.
-     * @param array $parametrosHttp
-     */
-    public function __construct($parametrosHttp = [])
+    static function post()
     {
-        $this->video = new Video();
-
-        $method = $_SERVER['REQUEST_METHOD'];
-        if ($method == "GET") {
-            if(isset($parametrosHttp['id'])) $this->video->setId($parametrosHttp['id']);
-            if(isset($parametrosHttp['nome'])) $this->video->setNome($parametrosHttp['nome']);
-            if(isset($parametrosHttp['genero'])) $this->video->setGenero($parametrosHttp['genero']);
-            $this->listar();
-        } else if ($method == "POST") {
-            $this->video->cadastrar();
-        } else if ($method == "PUT") {
-            $this->video->alterar();
-        } else if ($method == "DELETE") {
-            $this->video->deletar();
-        } else {
-            View::render(["mensagem"=>"Método não implementado."]);
-        }
+        // TODO: Implement post() method.
     }
 
-    public function listar()
+    static function get($params = [])
     {
-        $data= ["SQL"=>"".$this->video->listar().""];
+        $video = new Video();
+
+        if (isset($params['id'])) $video->setId($params['id']);
+        if (isset($params['nome'])) $video->setNome($params['nome']);
+        if (isset($params['genero'])) $video->setGenero($params['genero']);
+        $data = ["SQL" => "" . $video->listar() . ""];
         View::render($data);
+    }
+
+    static function put()
+    {
+        // TODO: Implement put() method.
+    }
+
+    static function delete()
+    {
+        // TODO: Implement delede() method.
     }
 }
