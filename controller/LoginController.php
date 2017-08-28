@@ -9,14 +9,14 @@
 namespace controller;
 
 
-use model\Login;
+use model\Usuario;
 use view\View;
 class LoginController implements Controller
 {
     static function post()
     {
-        $login = new Login();
-        $data =["SQL"=>"".$login->login().""];
+        $login = new Usuario();
+        $data =["Mensagem"=>"".$login->login().""];
         View::render($data);
     }
 

@@ -40,10 +40,10 @@ class Api
                 return $classe->post();
                 break;
             case 'PUT':
-                return new $class();
+                return $classe->put();
                 break;
             case 'DELETE':
-                return new $class();
+                return $classe->delete();
                 break;
             default:
                 echo "Nao implementado";

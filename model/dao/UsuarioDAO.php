@@ -30,10 +30,10 @@ class UsuarioDAO implements IDAO
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($usuario);
-        if ($criteria->create()){
+        if ($criteria->create()) {
             echo $criteria->show();
         }
-        return "erro ao cadastrar usuário:".$usuario->getId();
+        return "erro ao cadastrar usuário:" . $usuario->getId();
     }
 
 
@@ -67,10 +67,10 @@ class UsuarioDAO implements IDAO
         $criteria = $phiber->openPersist($usuario);
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $criteria->add($restrictionID);
-        if($criteria->update()){
+        if ($criteria->update()) {
             return $criteria->show();
         }
-        return "erro ao alterar usuário:".$usuario->getId();
+        return "erro ao alterar usuário:" . $usuario->getId();
     }
 
 
@@ -85,11 +85,15 @@ class UsuarioDAO implements IDAO
         $criteria = $phiber->openPersist($usuario);
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $criteria->add($restrictionID);
-        if($criteria->update()){
+        if ($criteria->update()) {
             return $criteria->show();
         }
-        return "Erro ao deletar o usuário:".$usuario->getId();
+        return "Erro ao deletar o usuário:" . $usuario->getId();
     }
 
+    static function login($login)
+    {
+        return $login;
+    }
 
 }

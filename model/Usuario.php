@@ -6,6 +6,7 @@
  * Time: 15:05
  */
 namespace model;
+
 use model\dao\UsuarioDAO;
 
 class Usuario
@@ -153,4 +154,8 @@ class Usuario
         return UsuarioDAO::update($this);
     }
 
+    public function login()
+    {
+        return UsuarioDAO::login("aki fika login e senha");
+    }
 }
