@@ -6,7 +6,7 @@
  * Time: 17:11
  */
 
-namespace dao;
+namespace model\dao;
 
 
 interface IDAO

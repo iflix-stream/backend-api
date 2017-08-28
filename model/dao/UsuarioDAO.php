@@ -6,7 +6,7 @@
  * Time: 17:10
  */
 
-namespace dao;
+namespace model\dao;
 
 
 use model\Usuario;

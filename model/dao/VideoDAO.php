@@ -6,7 +6,7 @@
  * Time: 16:25
  */
 
-namespace dao;
+namespace model\dao;
 
 
 use model\Video;

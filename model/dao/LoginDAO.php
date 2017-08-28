@@ -6,7 +6,7 @@
  * Time: 16:58
  */
 
-namespace dao;
+namespace model\dao;
 
 use phiber\Phiber;
 class LoginDAO
