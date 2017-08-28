@@ -159,8 +159,17 @@ class VideoDAO implements IDAO
 
     }
 
+    /**
+     * @param Video $video
+     */
     static function delete($video)
     {
-        // TODO: Implement delede() method.
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($video);
+        $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+        if($criteria->delete()){
+            return $criteria->show();
+        }
+        return "Erro ao deletar vídeo de ID: ".$video->getId();
     }
 }

@@ -179,12 +179,12 @@ class Video extends MediaFactory
 
     public function deletar()
     {
-        // TODO: Implement deletar() method.
+        return VideoDAO::delete($this);
     }
 
     public function alterar()
     {
-        // TODO: Implement alterar() method.
+        return VideoDAO::update($this);
     }
 
     public function listar()
