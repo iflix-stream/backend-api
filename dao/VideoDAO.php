@@ -64,7 +64,7 @@ class VideoDAO implements IDAO
      * @param Video $video
      * @return bool
      */
-    static function update($video)
+    public static function update($video)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);

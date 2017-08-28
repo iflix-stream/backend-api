@@ -59,6 +59,7 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
+     * @return string
      */
     static function update($usuario)
     {
@@ -75,14 +76,16 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
+     * @return string
      */
     static function delete($usuario)
     {
         $phiber = new Phiber();
+        $usuario->setStatus(0);
         $criteria = $phiber->openPersist($usuario);
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $criteria->add($restrictionID);
-        if($criteria->delete()){
+        if($criteria->update()){
             return $criteria->show();
         }
         return "Erro ao deletar o usuário:".$usuario->getId();
