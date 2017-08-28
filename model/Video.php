@@ -8,7 +8,7 @@
 
 namespace model;
 
-use dao\VideoDAO;
+use model\dao\VideoDAO;
 use util\Arquivo;
 use view\View;
 
@@ -190,6 +190,10 @@ class Video extends MediaFactory
     public function listar()
     {
         return VideoDAO::retreave($this);
+    }
+
+    public function stream() {
+
     }
 
     public function fazerUpload()

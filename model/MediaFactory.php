@@ -80,4 +80,6 @@ abstract class MediaFactory
     public abstract function deletar();
 
     public abstract function alterar();
+
+    public abstract function stream();
 }
