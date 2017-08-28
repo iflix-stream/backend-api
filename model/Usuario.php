@@ -138,17 +138,19 @@ class Usuario
 
     public function cadastrar()
     {
+        return UsuarioDAO::create($this);
 
     }
 
     public function deletar()
     {
+        return UsuarioDAO::delete($this);
 
     }
 
     public function alterar()
     {
-
+        return UsuarioDAO::update($this);
     }
 
 }
