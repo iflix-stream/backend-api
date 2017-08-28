@@ -17,6 +17,9 @@ class LoginDAO
     {
         $this->login = $login;
     }
+
+    //Acho que fica melhor se colocar isso como método de Usuário.
+    //Pois o usuário faz login...
     static function login($login)
     {
         $phiber = new Phiber(); // trocar por um select

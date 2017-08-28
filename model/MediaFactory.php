@@ -11,50 +11,25 @@ namespace model;
 
 abstract class MediaFactory
 {
-    private $id;
-    private $nome;
-    private $descricao;
+
+    private $mimeType;
     private $formato;
     private $caminho;
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getMimeType()
     {
-        return $this->id;
+        return $this->mimeType;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $mimeType
      */
-    public function setId($id)
+    public function setMimeType($mimeType)
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    /**
-     * @param mixed $nome
-     */
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescricao()
-    {
-        return $this->descricao;
+        $this->mimeType = $mimeType;
     }
 
     /**
