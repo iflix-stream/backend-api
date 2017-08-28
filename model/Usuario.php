@@ -6,7 +6,7 @@
  * Time: 15:05
  */
 namespace model;
-use dao\UsuarioDAO;
+use model\dao\UsuarioDAO;
 
 class Usuario
 {
