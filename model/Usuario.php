@@ -156,6 +156,8 @@ class Usuario
 
     public function login()
     {
-        return UsuarioDAO::login(Token::gerarToken('admin','Lucas'));
+
+        Token::gerarToken('admin','Lucas');
+        return UsuarioDAO::login($this);
     }
 }

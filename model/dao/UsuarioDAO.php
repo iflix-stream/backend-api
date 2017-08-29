@@ -48,7 +48,7 @@ class UsuarioDAO implements IDAO
         if ($usuario->getId() != null) {
 
             $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
-            $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
+            $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
             $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
             $criteria->add($restrictionAtivadoID);
             $criteria->select();
@@ -91,9 +91,22 @@ class UsuarioDAO implements IDAO
         return "Erro ao deletar o usuário:" . $usuario->getId();
     }
 
-    static function login($login)
+    /**
+     * @param Usuario $usuario
+     * @return mixed
+     */
+    static function login($usuario)
     {
-        return $login;
+        $criteria = (new Phiber())->openPersist($usuario);
+        $restrictionStatus = $criteria->restrictions()->equals("status", 1);
+        $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
+        $restrictionSenha = $criteria->restrictions()->equals("status", $usuario->getSenha());
+        $restriction = $criteria->restrictions()->and($restrictionStatus,
+            $criteria->restrictions()->and($restrictionEmail, $restrictionSenha));
+        $criteria->add($restriction);
+        $criteria->returnArray(false);
+        $criteria->select();
+        return $criteria->show();
     }
 
 }

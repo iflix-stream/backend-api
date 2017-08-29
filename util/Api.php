@@ -14,13 +14,13 @@ use controller\Controller;
 
 class Api
 {
-    private $url;
+    public static $url;
 
     function __construct($url = "")
     {
-        $this->url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        if ($url != "") {
-            $this->url = $url;
+        self::$url = $url;
+        if (isset($_SERVER['HTTP_HOST']) and isset($_SERVER['REQUEST_URI'])) {
+            self::$url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         }
 
         $class = "\\controller\\" . ucfirst($this->retornaClasseURL()) . "Controller";
@@ -37,13 +37,13 @@ class Api
 
     private function retornaClasseURL()
     {
-        $arrayUrl = explode("/", $this->url);
+        $arrayUrl = explode("/", self::$url);
         return $arrayUrl[3];
     }
 
     public function retornaCamposeValoresFormatados()
     {
-        $arrayUrl = explode("/", $this->url);
+        $arrayUrl = explode("/", self::$url);
         $arrCamposEValoresSemFiltro = [];
         for ($i = 4; $i < count($arrayUrl); $i++) {
             $arrCamposEValoresSemFiltro[$i] = $arrayUrl[$i];
@@ -64,7 +64,8 @@ class Api
      * @param Controller $classe
      * @return mixed
      */
-    public function selecionaMetodo($classe){
+    public function selecionaMetodo($classe)
+    {
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
             case 'GET':
@@ -80,9 +81,8 @@ class Api
                 return $classe->delete();
                 break;
             default:
-                return View::render(["mensagem"=>"Método não implementado."]);
+                return View::render(["mensagem" => "Método não implementado."]);
         }
     }
 }
-
 new Api();

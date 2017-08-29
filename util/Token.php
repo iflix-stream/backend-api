@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 class Token
 {
-    function tokenVazio()
+    static function tokenVazio()
     {
         if (isset(apache_request_headers()["Authorization"])) {// Pega o token do cabeçalho) {//verifica se o cabeçãlho com a authorization esta vazio
             return true;
@@ -22,11 +22,11 @@ class Token
             return false;
         }
     }
-    function recebeToken()
+    static function recebeToken()
     {
         return apache_request_headers()["Authorization"];// Pega o token do cabeçalho
     }
-    function validaToken($token)
+    static function validaToken($token)
     {
         try {
             $parser = new Parser();
@@ -39,11 +39,11 @@ class Token
             } else {
                 return false; // retorna false se o token nao for valido ou a validade estiver expirada
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
-    function verificaPermicao($token)
+    static function verificaPermicao($token)
     {
         $parser = new Parser();
         $oToken = $parser->parse($token);
