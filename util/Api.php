@@ -30,6 +30,7 @@ class Api
                 ]);
             return false;
         }
+
         $method = $_SERVER['REQUEST_METHOD'];
         $classe = new $class();
         switch ($method) {

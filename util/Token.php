@@ -50,13 +50,13 @@ class Token
         $permicao = $oToken->getClaim('Permicao');
         return $permicao;
     }
-    function token()
+    static function token()
     {
-        if (ValidaToken::tokenVazio()) {//verifica se o cabeçãlho com a authorization esta vazio
-            $token = ValidaToken::recebeToken();
-            $tokenValido = ValidaToken::validaToken($token);//Verifica se token e valido
+        if (Token::tokenVazio()) {//verifica se o cabeçãlho com a authorization esta vazio
+            $token = Token::recebeToken();
+            $tokenValido = Token::validaToken($token);//Verifica se token e valido
             if ($tokenValido) {
-                $permicao = ValidaToken::verificaPermicao($token);// recebe um array de permicoes
+                $permicao = Token::verificaPermicao($token);// recebe um array de permicoes
                 return $permicao;
             } else {
                 header('HTTP/1.0 400 Token Invalido');
@@ -68,19 +68,17 @@ class Token
             die();
         }
     }
-    function gerarToken($permicao,$nome)
+     static function gerarToken($permicao,$nome)
     {
         $signer = new Sha256();
-        $token = (new Builder())->setIssuer('api.garage')// Configures the issuer (iss claim)
-        ->setAudience('api.garage')// Configures the audience (aud claim)
-        ->setId('123apigarage456', true)// Configura o id (jti claim), replicating as a header item
+        $token = (new Builder())->setIssuer('api.iflix')// Configures the issuer (iss claim)
+        ->setAudience('iflix.com')// Configures the audience (aud claim)
+        ->setId('123iflix456', true)// Configura o id (jti claim), replicating as a header item
         ->setIssuedAt(time())// Configures the time that the token was issue (iat claim)
         ->setNotBefore(time() + 60)// Configures the time that the token can be used (nbf claim)
         ->setExpiration(time() + 3600)// Configura a data de expiração do token
         ->set('Permicao', $permicao)// Define a permicao para o sistema
-        ->set('Nome', $nome['nome'])//Define o nome do usuario
-        ->set('Email',$nome['email'])//Define o emails
-        ->set('Avatar',$nome['avatar'])//Define o emails
+        ->set('Email',$nome)//Define o emails
         ->sign($signer, 'chave')// cria uma chave de assinatura privada
         ->getToken(); // Recupera o token
         return $token;

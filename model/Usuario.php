@@ -8,7 +8,7 @@
 namespace model;
 
 use model\dao\UsuarioDAO;
-
+use util\Token;
 class Usuario
 {
     private $id;
@@ -156,6 +156,6 @@ class Usuario
 
     public function login()
     {
-        return UsuarioDAO::login("aki fika login e senha");
+        return UsuarioDAO::login(Token::gerarToken('admin','Lucas'));
     }
 }
