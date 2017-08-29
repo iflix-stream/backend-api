@@ -10,6 +10,7 @@ namespace util;
 include '../vendor/autoload.php';
 
 use view\View;
+use controller\Controller;
 
 class Api
 {
@@ -30,25 +31,7 @@ class Api
                 ]);
             return false;
         }
-
-        $method = $_SERVER['REQUEST_METHOD'];
-        $classe = new $class();
-        switch ($method) {
-            case 'GET':
-                return $classe->get($this->retornaCamposeValoresFormatados());
-                break;
-            case 'POST':
-                return $classe->post();
-                break;
-            case 'PUT':
-                return $classe->put();
-                break;
-            case 'DELETE':
-                return $classe->delete();
-                break;
-            default:
-                echo "Nao implementado";
-        }
+        return $this->selecionaMetodo(new $class);
     }
 
 
@@ -75,6 +58,30 @@ class Api
         }
 
         return $arrReturn;
+    }
+
+    /**
+     * @param Controller $classe
+     * @return mixed
+     */
+    public function selecionaMetodo($classe){
+        $method = $_SERVER['REQUEST_METHOD'];
+        switch ($method) {
+            case 'GET':
+                return $classe->get($this->retornaCamposeValoresFormatados());
+                break;
+            case 'POST':
+                return $classe->post();
+                break;
+            case 'PUT':
+                return $classe->put();
+                break;
+            case 'DELETE':
+                return $classe->delete();
+                break;
+            default:
+                return View::render(["mensagem"=>"Método não implementado."]);
+        }
     }
 }
 
