@@ -25,8 +25,7 @@ class Api
 
         $class = "\\controller\\" . ucfirst($this->retornaClasseURL()) . "Controller";
         if (!class_exists($class)) {
-//            View::render(Mensagem::error("welcome",404));
-            View::render(Mensagem::normal("welcome"));
+            View::render(Mensagem::error("class-not-found",404));
             return false;
         }
         return $this->selecionaMetodo(new $class);

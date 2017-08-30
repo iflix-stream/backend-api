@@ -8,7 +8,6 @@
 
 namespace util;
 
-
 class Mensagem
 {
 //TODO: Fazer classe pra retornar os erros via array
@@ -23,7 +22,7 @@ class Mensagem
         return [
             "type" => "error",
             "code" => $codigo,
-            "message" => Tradutor::do($index)
+            "message" => "" . Tradutor::do($index) . ""
         ];
     }
 

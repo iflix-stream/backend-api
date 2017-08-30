@@ -13,17 +13,37 @@ use util\HeaderWriter;
 class View extends HeaderWriter
 {
 
+    private static $headers;
+
+    /**
+     * @return mixed
+     */
+    public function getHeaders()
+    {
+        return self::$headers;
+    }
+
+    /**
+     * @param mixed $headers
+     */
+    public function setHeaders($headers)
+    {
+        self::$headers = $headers;
+    }
+
+
     /**
      * @param array $data
-     * @param string $params
      */
-    public static final function render(array $data = [], $params = "")
+    public static final function render(array $data = [])
     {
         $headers = "Content-type: application/json; charset=utf-8";
-        if ($params != "") {
-            $headers .= "; " . $params;
+        if (self::$headers != "") {
+            $headers .= "; " . self::$headers;
         }
         header($headers);
         echo json_encode($data);
     }
+
+
 }

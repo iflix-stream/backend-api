@@ -6,7 +6,8 @@
  * Time: 20:16
  */
 
-include_once '../util/Tradutor.php';
-include_once '../util/Mensagem.php';
-echo \util\Mensagem::normal("welcome");
+use view\View;
+
+include_once '../vendor/autoload.php';
+View::render(\util\Mensagem::normal("welcome"));
 
