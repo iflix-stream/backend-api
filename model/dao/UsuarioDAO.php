@@ -100,7 +100,7 @@ class UsuarioDAO implements IDAO
         $criteria = (new Phiber())->openPersist($usuario);
         $restrictionStatus = $criteria->restrictions()->equals("status", 1);
         $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
-        $restrictionSenha = $criteria->restrictions()->equals("status", $usuario->getSenha());
+        $restrictionSenha = $criteria->restrictions()->equals("senha", $usuario->getSenha());
         $restriction = $criteria->restrictions()->and($restrictionStatus,
             $criteria->restrictions()->and($restrictionEmail, $restrictionSenha));
         $criteria->add($restriction);

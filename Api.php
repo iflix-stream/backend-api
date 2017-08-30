@@ -6,9 +6,9 @@
  * Time: 17:46
  */
 
-namespace util;
-include '../vendor/autoload.php';
+include 'vendor/autoload.php';
 
+use util\Mensagem;
 use view\View;
 use controller\Controller;
 

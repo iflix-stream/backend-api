@@ -7,7 +7,7 @@ RewriteEngine On # Turn on the rewriting engine
 
 
 #Rewrite rule dinamica para arquivos compostos
-RewriteRule ^(.*)$ util/Api.php
-RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
+RewriteRule ^api/(.*)$ Api.php [NC,L]
+RewriteRule \.(jpg|jpeg|png|gif|mp4)$ - [NC,F,L]
 #RewriteRule ^api/([A-Z]+)/([A-Z]+)/([A-Z]|[0-9]+)/?$ util/Api.php [NC,L]
 #RewriteRule ^api/([A-Z]+)/([A-Z]+)/([0-9]+)?$ util/Api.php [NC,L]
