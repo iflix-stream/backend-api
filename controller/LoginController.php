@@ -10,14 +10,15 @@ namespace controller;
 
 
 use model\Usuario;
+use util\Mensagem;
 use view\View;
 class LoginController implements Controller
 {
     static function post()
     {
         $login = new Usuario();
-        $data =["Mensagem"=>"".$login->login().""];
-        View::render($data);
+
+        View::render(Mensagem::normal("welcome"));
     }
 
     static function get($params = [])

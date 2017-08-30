@@ -14,7 +14,10 @@ class Mensagem
 
     static function normal($index)
     {
-        return ["message" => "" . Tradutor::do($index) . ""];
+        return [
+            "type" => "normal",
+            "message" => "" . Tradutor::do($index) . ""
+        ];
     }
 
     static function error($index, $codigo = 0)
@@ -35,11 +38,10 @@ class Mensagem
         ];
     }
 
-    static function success($index, $codigo = 0)
+    static function success($index)
     {
         return [
             "type" => "success",
-            "code" => $codigo,
             "message" => Tradutor::do($index)
         ];
     }

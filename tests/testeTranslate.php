@@ -9,5 +9,5 @@
 use view\View;
 
 include_once '../vendor/autoload.php';
-View::render(\util\Mensagem::normal("welcome"));
+\controller\LoginController::post();
 
