@@ -172,6 +172,7 @@ class VideoDAO implements IDAO
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
         $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+        $criteria->add($restrictionID);
         if($criteria->delete()){
             return $criteria->show();
         }
