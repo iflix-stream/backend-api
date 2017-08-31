@@ -12,13 +12,14 @@ namespace controller;
 use model\Usuario;
 use util\Mensagem;
 use view\View;
+
 class LoginController implements Controller
 {
     static function post()
     {
         $login = new Usuario();
 
-        View::render(Mensagem::normal("welcome"));
+        View::render(["token" => "".$login->login().""]);
     }
 
     static function get($params = [])

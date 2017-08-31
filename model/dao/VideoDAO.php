@@ -69,6 +69,7 @@ class VideoDAO implements IDAO
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
         $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+
         $criteria->add($restrictionID);
         if ($criteria->update()) {
             return true;
@@ -89,6 +90,9 @@ class VideoDAO implements IDAO
             $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
             $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
             $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+            $criteria->add($criteria->restrictions()->orderBy(["nome asc", "id desc"]));
+            $criteria->add($criteria->restrictions()->limit(3));
+            $criteria->add($criteria->restrictions()->offset(6));
             $criteria->add($restrictionAtivadoID);
             $criteria->select();
             return $criteria->show();

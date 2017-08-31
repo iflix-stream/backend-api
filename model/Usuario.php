@@ -12,6 +12,10 @@ use util\Token;
 class Usuario
 {
     private $id;
+    private $nome;
+    private $avatar;
+    private $isControleDosPais;
+    private $ultimosAssistidos;
     private $senha;
     private $email;
     private $dataNascimento;
@@ -40,6 +44,86 @@ class Usuario
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * @param mixed $nome
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisControleDosPais()
+    {
+        return $this->isControleDosPais;
+    }
+
+    /**
+     * @param mixed $isControleDosPais
+     */
+    public function setIsControleDosPais($isControleDosPais)
+    {
+        $this->isControleDosPais = $isControleDosPais;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUltimosAssistidos()
+    {
+        return $this->ultimosAssistidos;
+    }
+
+    /**
+     * @param mixed $ultimosAssistidos
+     */
+    public function setUltimosAssistidos($ultimosAssistidos)
+    {
+        $this->ultimosAssistidos = $ultimosAssistidos;
+    }
+
+    /**
+     * @return MinhaLista
+     */
+    public function getMinhaLista(): MinhaLista
+    {
+        return $this->minhaLista;
+    }
+
+    /**
+     * @param MinhaLista $minhaLista
+     */
+    public function setMinhaLista(MinhaLista $minhaLista)
+    {
+        $this->minhaLista = $minhaLista;
     }
 
     /**
@@ -163,7 +247,7 @@ class Usuario
     public function login()
     {
 
-        Token::gerarToken('admin','Lucas');
-        return UsuarioDAO::login($this);
+
+        return Token::gerarToken('admin','Lucas');
     }
 }

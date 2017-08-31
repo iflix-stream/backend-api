@@ -29,7 +29,7 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "marciioluucas/phiber": "dev-alpha-v1.0",
+    "marciioluucas/phiber": "dev-alpha-v1.1",
     "lcobucci/jwt": "3.2.1",
     "vlucas/valitron":"1.4.0"
   },
