@@ -168,13 +168,13 @@ class Video extends MediaFactory
             $caminho = $this->fazerUpload();
             if (is_string($caminho)) {
                 $this->setCaminho($caminho);
-                VideoDAO::create($this);
-                return View::render(array("mensagem" => "Upload feito com sucesso!"));
+                if(VideoDAO::create($this))
+                return array("mensagem" => "Upload feito com sucesso!");
             }
 
         }
 
-        return View::render(array("mensagem" => "Não foi possivel fazer o upload"));
+        return array("mensagem" => "Não foi possivel fazer o upload");
     }
 
     public function deletar()

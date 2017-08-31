@@ -26,14 +26,15 @@ class VideoDAO implements IDAO
     }
 
     /**
-     * @param $video
+     * @param Video $video
+     * @return string
      */
     public static function create($video)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
         $criteria->create();
-        echo $criteria->show();
+        return $criteria->show();
     }
 
     /**
