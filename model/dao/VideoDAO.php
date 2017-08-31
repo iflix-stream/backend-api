@@ -159,8 +159,13 @@ class VideoDAO implements IDAO
 
     }
 
+    static function  retreaveRecomendados($video) {
+
+    }
+
     /**
      * @param Video $video
+     * @return string
      */
     static function delete($video)
     {

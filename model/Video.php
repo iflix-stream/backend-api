@@ -196,6 +196,10 @@ class Video extends MediaFactory
 
     }
 
+    public function listarRecomendados($idUsuario) {
+
+    }
+
     public function fazerUpload()
     {
         $salvar = new Arquivo();
