@@ -18,6 +18,12 @@ class Usuario
     private $dataCriacao;
     private $dataAlteracao;
     private $status;
+    private $minhaLista;
+
+    function __construct()
+    {
+        $this->minhaLista = new MinhaLista();
+    }
 
     /**
      * @return mixed
