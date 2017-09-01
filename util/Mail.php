@@ -10,21 +10,78 @@ namespace util;
 
 
 use Exception;
+use Mustache_Engine;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
+    private $assunto;
+    private $para;
+    private $template;
+    private $variaveisTemplate;
+
+
     /**
-     * @param array $para
-     * @param string $assunto
-     * @param string $caminhoTemplate
-     * @param array $variaveisTemplate
+     * @param mixed $assunto
      */
-    final static function enviar(array $para, string $assunto, string $caminhoTemplate, array $variaveisTemplate)
+    public function setAssunto($assunto)
+    {
+        $this->assunto = $assunto;
+    }
+
+    /**
+     * @param mixed $para
+     */
+    public function setPara($para)
+    {
+        $this->para = $para;
+    }
+
+    /**
+     * @param mixed $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * @param mixed $variaveisTemplate
+     */
+    public function setVariaveisTemplate($variaveisTemplate)
+    {
+        $this->variaveisTemplate = $variaveisTemplate;
+    }
+
+
+    /**
+     * @return bool
+     * @internal param array $para
+     * @internal param string $assunto
+     * @internal param string $caminhoTemplate
+     * @internal param array $variaveisTemplate
+     */
+    final function enviar()
     {
         $mail = new PHPMailer(true);
         try {
-            //Server settings
+            if($this->para == ""){
+                throw new Exception("Parâmetro \"para\" não foi passado.");
+            }
+            if(gettype($this->para) != "array"){
+                throw new Exception("Parâmetro \"para\" deve ser um arrai contendo
+                 as indexes \"email\" e \"para\"");
+            }
+            if($this->assunto == "") {
+                throw new Exception("Parâmetro \"assunto\" não foi passado");
+            }
+            if($this->template == "") {
+                throw new Exception("Parâmetro \"template\" não foi passado");
+            }
+            if($this->variaveisTemplate == "") {
+                throw new Exception("Parâmetro \"variáveis do template\" não foi passado");
+            }
+            //Configurações do servidor SMTP
             $mail->SMTPDebug = 1;
             $mail->isSMTP();
             $mail->Host = 'mx1.hostinger.com';
@@ -36,27 +93,18 @@ class Mail
 
             //Recipients
             $mail->setFrom('alfred@ifapps-morrinhos.com', 'Alfred');
-            $mail->addAddress($para['email'], $para['nome']);     // Add a recipient
-//            $mail->addAddress('ellen@example.com');               // Name is optional
-//            $mail->addReplyTo('info@example.com', 'Information');
-//            $mail->addCC('cc@example.com');
-//            $mail->addBCC('bcc@example.com');
-
-            //Attachments
-//            $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//            $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+            $mail->addAddress($this->para['email'], $this->para['nome']);
 
             //Content
-            $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = $assunto;
-            $mail->Body = self::compileLayout($caminhoTemplate, $variaveisTemplate);
+            $mail->isHTML(true);
+            $mail->Subject = $this->assunto;
+            $mail->Body = $this->compileLayout($this->template, $this->variaveisTemplate);
             $mail->AltBody = 'Email automático.';
 
             $mail->send();
-            echo 'Message has been sent';
+            return true;
         } catch (Exception $e) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -65,23 +113,27 @@ class Mail
      * @param array $variables
      * @return string
      */
-    private final static function compileLayout($caminhoTemplate, array $variables)
+    private function compileLayout($caminhoTemplate, array $variables)
     {
-        $mustache = new \Mustache_Engine;
-        return utf8_decode($mustache->render(self::returnStringTemplate($caminhoTemplate), $variables));
+        $mustache = new Mustache_Engine;
+        return utf8_decode($mustache->render($this->returnStringTemplate($caminhoTemplate), $variables));
     }
 
     /**
      * @param $caminhoTemplate
      * @return bool|string
      */
-    private final static function returnStringTemplate($caminhoTemplate)
+    private function returnStringTemplate($caminhoTemplate)
     {
         return file_get_contents($caminhoTemplate);
     }
 }
 
-include_once '../vendor/autoload.php';
-Mail::enviar(["email" => "marciioluucas@gmail.com", "nome" => "Márcio Lucas"],
-    "Bem-vindo", "../templates/novo-usuario/index.html",
-    ["nomepessoa" => "Márcio Lucas"]);
+//include_once '../vendor/autoload.php';
+//
+//$mail = new Mail();
+//$mail->setAssunto("Email de teste");
+//$mail->setPara(["email"=>"lucaslucasfabio@hotmail.com","nome"=>"Lucas Gonçalves"]);
+//$mail->setTemplate("../templates/novo-usuario/index.html");
+//$mail->setVariaveisTemplate(["nomepessoa"=>"Márcio Lucas"]);
+//$mail->enviar();
