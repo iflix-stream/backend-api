@@ -14,23 +14,29 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
-    final static function enviar($assunto, $caminhoTemplate, $variaveisTemplate)
+    /**
+     * @param array $para
+     * @param string $assunto
+     * @param string $caminhoTemplate
+     * @param array $variaveisTemplate
+     */
+    final static function enviar(array $para, string $assunto, string $caminhoTemplate, array $variaveisTemplate)
     {
         $mail = new PHPMailer(true);
         try {
             //Server settings
-            $mail->SMTPDebug = 1;                                 // Enable verbose debug output
+            $mail->SMTPDebug = 1;
             $mail->isSMTP();
-            $mail->Host = 'mx1.hostinger.com';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'alfred@ifapps-morrinhos.com';                 // SMTP username
-            $mail->Password = 'mlro1215';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
+            $mail->Host = 'mx1.hostinger.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'alfred@ifapps-morrinhos.com';
+            $mail->Password = 'mlro1215';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
 
             //Recipients
             $mail->setFrom('alfred@ifapps-morrinhos.com', 'Alfred');
-            $mail->addAddress('marciioluucas@gmail.com', 'Márcio Lucas');     // Add a recipient
+            $mail->addAddress($para['email'], $para['nome']);     // Add a recipient
 //            $mail->addAddress('ellen@example.com');               // Name is optional
 //            $mail->addReplyTo('info@example.com', 'Information');
 //            $mail->addCC('cc@example.com');
@@ -42,7 +48,7 @@ class Mail
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Teste';
+            $mail->Subject = $assunto;
             $mail->Body = self::compileLayout($caminhoTemplate, $variaveisTemplate);
             $mail->AltBody = 'Email automático.';
 
@@ -54,12 +60,21 @@ class Mail
         }
     }
 
-    public final static function compileLayout($caminhoTemplate, array $variables)
+    /**
+     * @param $caminhoTemplate
+     * @param array $variables
+     * @return string
+     */
+    private final static function compileLayout($caminhoTemplate, array $variables)
     {
         $mustache = new \Mustache_Engine;
         return utf8_decode($mustache->render(self::returnStringTemplate($caminhoTemplate), $variables));
     }
 
+    /**
+     * @param $caminhoTemplate
+     * @return bool|string
+     */
     private final static function returnStringTemplate($caminhoTemplate)
     {
         return file_get_contents($caminhoTemplate);
@@ -67,4 +82,6 @@ class Mail
 }
 
 include_once '../vendor/autoload.php';
-Mail::enviar("Bem-vindo","../templates/novo-usuario/index.html",["nomepessoa"=>"Márcio Lucas"]);
+Mail::enviar(["email" => "marciioluucas@gmail.com", "nome" => "Márcio Lucas"],
+    "Bem-vindo", "../templates/novo-usuario/index.html",
+    ["nomepessoa" => "Márcio Lucas"]);
