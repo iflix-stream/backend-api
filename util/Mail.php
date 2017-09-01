@@ -14,13 +14,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
-    final static function enviar()
+    final static function enviar($assunto, $caminhoTemplate, $variaveisTemplate)
     {
         $mail = new PHPMailer(true);
         try {
             //Server settings
             $mail->SMTPDebug = 1;                                 // Enable verbose debug output
-            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->isSMTP();
             $mail->Host = 'mx1.hostinger.com';  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
             $mail->Username = 'alfred@ifapps-morrinhos.com';                 // SMTP username
@@ -43,7 +43,7 @@ class Mail
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Teste';
-            $mail->Body = 'Ola, eu sou o Alfred. Prazer.';
+            $mail->Body = self::compileLayout($caminhoTemplate, $variaveisTemplate);
             $mail->AltBody = 'Email automático.';
 
             $mail->send();
@@ -53,6 +53,18 @@ class Mail
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         }
     }
+
+    public final static function compileLayout($caminhoTemplate, array $variables)
+    {
+        $mustache = new \Mustache_Engine;
+        return utf8_decode($mustache->render(self::returnStringTemplate($caminhoTemplate), $variables));
+    }
+
+    private final static function returnStringTemplate($caminhoTemplate)
+    {
+        return file_get_contents($caminhoTemplate);
+    }
 }
+
 include_once '../vendor/autoload.php';
-Mail::enviar();
+Mail::enviar("Bem-vindo","../templates/novo-usuario/index.html",["nomepessoa"=>"Márcio Lucas"]);
