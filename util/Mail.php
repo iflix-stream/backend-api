@@ -129,11 +129,11 @@ class Mail
     }
 }
 
-//include_once '../vendor/autoload.php';
-//
-//$mail = new Mail();
-//$mail->setAssunto("Email de teste");
-//$mail->setPara(["email"=>"lucaslucasfabio@hotmail.com","nome"=>"Lucas Gonçalves"]);
-//$mail->setTemplate("../templates/novo-usuario/index.html");
-//$mail->setVariaveisTemplate(["nomepessoa"=>"Márcio Lucas"]);
-//$mail->enviar();
+include_once '../vendor/autoload.php';
+
+$mail = new Mail();
+$mail->setAssunto("Email de teste");
+$mail->setPara(["email"=>"marciioluucas@gmail.com   ","nome"=>"Márcio Lucas"]);
+$mail->setTemplate("../templates/novo-usuario/index.html");
+$mail->setVariaveisTemplate(["nomepessoa"=>"Márcio Lucas"]);
+$mail->enviar();
