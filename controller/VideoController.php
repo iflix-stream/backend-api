@@ -14,12 +14,12 @@ use view\View;
 class VideoController implements Controller
 {
 
-    static function post()
+    public function post()
     {
         // TODO: Implement post() method.
     }
 
-    static function get($params = [])
+    public function get($params = [])
     {
         $video = new Video();
 
@@ -30,12 +30,12 @@ class VideoController implements Controller
         View::render($data);
     }
 
-    static function put()
+    public function put()
     {
         // TODO: Implement put() method.
     }
 
-    static function delete()
+    public function delete()
     {
         // TODO: Implement delede() method.
     }

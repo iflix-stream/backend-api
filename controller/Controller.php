@@ -11,8 +11,8 @@ namespace controller;
 
 interface Controller
 {
-    static function post();
-    static function get($params = []);
-    static function put();
-    static function delete();
+    public function post();
+    public function get($params = []);
+    public function put();
+    public function delete();
 }
