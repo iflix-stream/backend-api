@@ -251,7 +251,7 @@ class Usuario
     public function login()
     {
         $t= new UsuarioValidate();
-        $t=$t->validate($_POST);
+        $t=$t->validateLogin($_POST);
         if($t === true){
             Usuario::setEmail($_POST['email']);
             Usuario::setSenha($_POST['senha']);

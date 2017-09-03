@@ -12,7 +12,7 @@ use Valitron\Validator;
 
 class UsuarioValidate
 {
-    public function validate($params)
+    public function validateLogin($params)
     {
         $v = new Validator($params);
         $v->rule('required', ['email', 'senha']);
