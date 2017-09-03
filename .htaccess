@@ -8,6 +8,7 @@ RewriteEngine On # Turn on the rewriting engine
 
 #Rewrite rule dinamica para arquivos compostos
 RewriteRule ^api/(.*)$ Api.php [NC,L]
+RewriteRule ^stream/video/([0-9]+)$ api/video/id/$1/stream/true [NC]
 RewriteRule \.(jpg|jpeg|png|gif|mp4)$ - [NC,F,L]
 #RewriteRule ^api/([A-Z]+)/([A-Z]+)/([A-Z]|[0-9]+)/?$ util/Api.php [NC,L]
 #RewriteRule ^api/([A-Z]+)/([A-Z]+)/([0-9]+)?$ util/Api.php [NC,L]

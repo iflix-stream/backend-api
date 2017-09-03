@@ -27,6 +27,9 @@ class VideoController implements Controller
         if (isset($params['nome'])) $video->setNome($params['nome']);
         if (isset($params['genero'])) $video->setGenero($params['genero']);
         $data = ["SQL" => "" . $video->listar() . ""];
+        if ($params['stream'] == "true") {
+            $data = ["id" => $params['id']];
+        }
         View::render($data);
     }
 

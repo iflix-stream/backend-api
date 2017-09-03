@@ -132,8 +132,8 @@ class Mail
 include_once '../vendor/autoload.php';
 
 $mail = new Mail();
-$mail->setAssunto("Email de teste");
-$mail->setPara(["email"=>"marciioluucas@gmail.com   ","nome"=>"Márcio Lucas"]);
+$mail->setAssunto("Migão bão");
+$mail->setPara(["email"=>"walysongomes.98@hotmail.com.br","nome"=>"Walyson Gomes"]);
 $mail->setTemplate("../templates/novo-usuario/index.html");
-$mail->setVariaveisTemplate(["nomepessoa"=>"Márcio Lucas"]);
+$mail->setVariaveisTemplate(["nomepessoa"=>"Walyson Gomes"]);
 $mail->enviar();
