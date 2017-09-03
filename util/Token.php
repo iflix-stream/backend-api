@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 class Token
 {
-    static function tokenVazio()
+    public function tokenVazio()
     {
         if (isset(apache_request_headers()["Authorization"])) {// Pega o token do cabeçalho) {//verifica se o cabeçãlho com a authorization esta vazio
             return true;
@@ -22,11 +22,13 @@ class Token
             return false;
         }
     }
-    static function recebeToken()
+
+    public function recebeToken()
     {
         return apache_request_headers()["Authorization"];// Pega o token do cabeçalho
     }
-    static function validaToken($token)
+
+    public function validaToken($token)
     {
         try {
             $parser = new Parser();
@@ -39,36 +41,37 @@ class Token
             } else {
                 return false; // retorna false se o token nao for valido ou a validade estiver expirada
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
-    static function verificaPermicao($token)
+
+    public function verificaPermicao($token)
     {
         $parser = new Parser();
         $oToken = $parser->parse($token);
         $permicao = $oToken->getClaim('Permicao');
         return $permicao;
     }
-    static function token()
+
+    public function token()
     {
         if (Token::tokenVazio()) {//verifica se o cabeçãlho com a authorization esta vazio
             $token = Token::recebeToken();
-            $tokenValido = Token::validaToken($token);//Verifica se token e valido
-            if ($tokenValido) {
+            if (Token::validaToken($token)) {
                 $permicao = Token::verificaPermicao($token);// recebe um array de permicoes
                 return $permicao;
             } else {
                 header('HTTP/1.0 400 Token Invalido');
                 die();
             }
-        }
-        else{
+        } else {
             header('HTTP/1.0 401 Não Autorizado');
             die();
         }
     }
-     static function gerarToken($permicao,$nome)
+
+    public function gerarToken($permicao, $nome)
     {
         $signer = new Sha256();
         $token = (new Builder())->setIssuer('api.iflix')// Configures the issuer (iss claim)
@@ -78,7 +81,7 @@ class Token
         ->setNotBefore(time() + 60)// Configures the time that the token can be used (nbf claim)
         ->setExpiration(time() + 3600)// Configura a data de expiração do token
         ->set('Permicao', $permicao)// Define a permicao para o sistema
-        ->set('Email',$nome)//Define o emails
+        ->set('Email', $nome)//Define o emails
         ->sign($signer, 'chave')// cria uma chave de assinatura privada
         ->getToken(); // Recupera o token
         return $token;

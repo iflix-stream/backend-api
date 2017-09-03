@@ -13,20 +13,21 @@ use util\Token;
 
 class UsuarioController implements Controller
 {
-    static private $token;
+    private $token;
 
     public function __construct()
     {
-        self::$token = Token::token();
+        $this->token = new Token();
+        $this->token->token();
     }
 
 
-    static function post()
+    public function post()
     {
-        if (self::$token === 'normal') {
+        if ($this->token === 'normal') {
             $usuario = new Usuario();
             $data = ["SQL" => "" . $usuario->cadastrar() . ""];
-        } else if (self::$token === 'admin') {
+        } else if ($this->token === 'admin') {
             $usuario = new Usuario();
             $data = ["SQL" => "" . $usuario->cadastrar() . ""];
         } else {
@@ -36,13 +37,13 @@ class UsuarioController implements Controller
 
     }
 
-    static function get($params = [])
+    public function get($params = [])
     {
-        if (self::$token === 'normal') {
+        if ($this->token === 'normal') {
             $usuario = new Usuario();
             if (isset($params['id'])) $usuario->setId($params['id']);
             $data = ["SQL" => "" . $usuario->listar() . ""];
-        } else if (self::$token === 'admin') {
+        } else if ($this->token === 'admin') {
             $usuario = new Usuario();
             if (isset($params['id'])) $usuario->setId($params['id']); //coloqei os msm metodos aki para o admin acessar mas talves ele teria uma funcionalidade que o usuario normal nao acessaria
             $data = ["SQL" => "" . $usuario->listar() . ""];
@@ -52,12 +53,12 @@ class UsuarioController implements Controller
         View::render($data);
     }
 
-    static function put()
+    public function put()
     {
         // TODO: Implement put() method.
     }
 
-    static function delete()
+    public function delete()
     {
         // TODO: Implement delete() method.
     }

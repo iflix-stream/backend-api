@@ -15,24 +15,24 @@ use view\View;
 
 class LoginController implements Controller
 {
-    static function post()
+    public function post()
     {
         $login = new Usuario();
 
         View::render(["token" => "".$login->login().""]);
     }
 
-    static function get($params = [])
+    public function get($params = [])
     {
         // TODO: Implement get() method.
     }
 
-    static function put()
+    public function put()
     {
         // TODO: Implement put() method.
     }
 
-    static function delete()
+    public function delete()
     {
         // TODO: Implement delete() method.
     }
