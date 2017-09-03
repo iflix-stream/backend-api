@@ -8,7 +8,10 @@
 namespace model;
 
 use model\dao\UsuarioDAO;
+use model\validator\UsuarioValidate;
 use util\Token;
+use view\View;
+
 class Usuario
 {
     private $id;
@@ -229,6 +232,7 @@ class Usuario
 
     public function cadastrar()
     {
+
         return UsuarioDAO::create($this);
 
     }
@@ -246,8 +250,19 @@ class Usuario
 
     public function login()
     {
+        $t= new UsuarioValidate();
+        $t=$t->validate($_POST);
+        if($t === true){
+            Usuario::setEmail($_POST['email']);
+            Usuario::setSenha($_POST['senha']);
 
-
-        return Token::gerarToken('admin','Lucas');
+            UsuarioDAO::login($this);
+            $token = new Token();
+            $token = $token->gerarToken('admin','Lucas');
+            return ["Token"=> (string)$token] ;
+        }
+        else{
+            return $t;
+        }
     }
 }

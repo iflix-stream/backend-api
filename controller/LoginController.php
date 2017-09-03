@@ -18,8 +18,7 @@ class LoginController implements Controller
     public function post()
     {
         $login = new Usuario();
-
-        View::render(["token" => "".$login->login().""]);
+        View::render($login->login());
     }
 
     public function get($params = [])
