@@ -18,7 +18,7 @@ class UsuarioController implements Controller
     public function __construct()
     {
         $this->token = new Token();
-        $this->token->token();
+        $this->token = $this->token->token();
     }
 
 

@@ -46,12 +46,12 @@ class Token
         }
     }
 
-    public function verificaPermicao($token)
+    public function retornaClaims($token)
     {
         $parser = new Parser();
         $oToken = $parser->parse($token);
-        $permicao = $oToken->getClaim('Permicao');
-        return $permicao;
+        $claims = $oToken->getClaim('Permicao');
+        return $claims;
     }
 
     public function token()
@@ -59,8 +59,8 @@ class Token
         if (Token::tokenVazio()) {//verifica se o cabeçãlho com a authorization esta vazio
             $token = Token::recebeToken();
             if (Token::validaToken($token)) {
-                $permicao = Token::verificaPermicao($token);// recebe um array de permicoes
-                return $permicao;
+                $claims = Token::retornaClaims($token);// recebe um array de permicoes
+                return $claims;
             } else {
                 header('HTTP/1.0 400 Token Invalido');
                 die();
