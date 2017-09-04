@@ -166,17 +166,17 @@ class Video extends MediaFactory
             $this->setGenero($data['genero']);
             $this->setFormato($data['formato']);
             $this->setClassificacao($data['idade_recomendada']);
+            VideoDAO::create($this);
         } else {
             $caminho = $this->fazerUpload();
             if (is_string($caminho)) {
                 $this->setCaminho($caminho); // para setar o caminho tera que retornar o id do video inserido e atualizar com o caminho;
-                if(VideoDAO::create($this))
-                return array("mensagem" => "Upload feito com sucesso!");
+                if (VideoDAO::create($this)) // aki nao e create tem que dar update na tabela;
+                    return array("mensagem" => "Upload feito com sucesso!");
             }
 
         }
 
-        return array("mensagem" => "Não foi possivel fazer o upload");
     }
 
     public function deletar()
@@ -194,7 +194,8 @@ class Video extends MediaFactory
         return VideoDAO::retreave($this);
     }
 
-    public function stream() {
+    public function stream()
+    {
         if (!isset($_GET['ext']) || $_GET['ext'] == 'mp4') {
             $path = dirname(__FILE__) . '/../resource/rain.mp4';
         } else if ($_GET['ext'] == 'webm') {
@@ -239,9 +240,9 @@ class Video extends MediaFactory
             fseek($fp, $from);
 
             // Manda os dados
-            while(true){
+            while (true) {
                 // Verifica se já chegou ao byte final
-                if(ftell($fp) >= $to){
+                if (ftell($fp) >= $to) {
                     break;
                 }
 
@@ -258,7 +259,8 @@ class Video extends MediaFactory
         }
     }
 
-    public function listarRecomendados($idUsuario) {
+    public function listarRecomendados($idUsuario)
+    {
 
     }
 
