@@ -9,6 +9,7 @@ namespace model;
 
 use model\dao\UsuarioDAO;
 use model\validator\UsuarioValidate;
+use util\DataConversor;
 use util\Token;
 use view\View;
 
@@ -250,18 +251,18 @@ class Usuario
 
     public function login()
     {
-        $t= new UsuarioValidate();
-        $t=$t->validateLogin($_POST);
-        if($t === true){
-            Usuario::setEmail($_POST['email']);
-            Usuario::setSenha($_POST['senha']);
-
+        $t = new UsuarioValidate();
+        $data = new DataConversor();
+        $data = $data->converter();
+        $t = $t->validateLogin($data);
+        if ($t === true) {
+            Usuario::setEmail($data['email']);
+            Usuario::setSenha($data['senha']);
             UsuarioDAO::login($this);
             $token = new Token();
-            $token = $token->gerarToken('admin','Lucas');
-            return ["Token"=> (string)$token] ;
-        }
-        else{
+            $token = $token->gerarToken('admin', 'Lucas');
+            return ["Token" => (string)$token];
+        } else {
             return $t;
         }
     }

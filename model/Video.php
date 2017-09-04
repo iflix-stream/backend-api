@@ -11,6 +11,7 @@ namespace model;
 use finfo;
 use model\dao\VideoDAO;
 use util\Arquivo;
+use util\DataConversor;
 use view\View;
 
 class Video extends MediaFactory
@@ -156,19 +157,19 @@ class Video extends MediaFactory
     public function cadastrar()
     {
 
-        $json = file_get_contents('php://input');// recebe tudo que vim da requisição
-        $obj = (array)json_decode($json); // recebe em JSON e coloca no array
+        $data = new DataConversor();
+        $data = $data->converter();
 
-        if (isset($obj['nome'])) {
-            $this->setNome($obj['nome']);
-            $this->setDescricao($obj['descricao']);
-            $this->setGenero($obj['genero']);
-            $this->setFormato($obj['formato']);
-            $this->setClassificacao($obj['idade_recomendada']);
+        if (isset($data['upload'])) { // verifica se tem upload no post se tiver seta e salva se nao e porque ele quer colocar o link;
+            $this->setNome($data['nome']);
+            $this->setDescricao($data['descricao']);
+            $this->setGenero($data['genero']);
+            $this->setFormato($data['formato']);
+            $this->setClassificacao($data['idade_recomendada']);
         } else {
             $caminho = $this->fazerUpload();
             if (is_string($caminho)) {
-                $this->setCaminho($caminho);
+                $this->setCaminho($caminho); // para setar o caminho tera que retornar o id do video inserido e atualizar com o caminho;
                 if(VideoDAO::create($this))
                 return array("mensagem" => "Upload feito com sucesso!");
             }

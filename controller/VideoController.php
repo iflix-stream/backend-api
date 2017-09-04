@@ -16,6 +16,8 @@ class VideoController implements Controller
 
     public function post()
     {
+        $video = new Video();
+        $video->cadastrar();
         // TODO: Implement post() method.
     }
 
