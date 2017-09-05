@@ -7,5 +7,7 @@
   "erro-retreave-usuario": "Algum erro aconteceu ao tentar consultar um usuário",
   "usuario-ja-cadastrado": "Este email já está associado a um usuário.",
   "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login.",
-  "login-somente-post": "Para realizar login, use somente o método POST!"
+  "login-somente-post": "Para realizar login, use somente o método POST!",
+  "email-e-ou-senha-invalidos": "E-mail e/ou senha inválidos!"
+
 }
