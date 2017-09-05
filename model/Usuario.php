@@ -5,11 +5,13 @@
  * Date: 21/08/2017
  * Time: 15:05
  */
+
 namespace model;
 
 use model\dao\UsuarioDAO;
 use model\validator\UsuarioValidate;
 use util\DataConversor;
+use util\Mensagem;
 use util\Token;
 use view\View;
 
@@ -233,8 +235,12 @@ class Usuario
 
     public function cadastrar()
     {
-        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
-        return UsuarioDAO::create($this);
+        UsuarioDAO::retreaveByEmail($this);
+        if (UsuarioDAO::getRows() == 0) {
+            $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+            return UsuarioDAO::create($this);
+        }
+        return Mensagem::error("usuario-ja-cadastrado", 500);
 
     }
 
@@ -251,9 +257,12 @@ class Usuario
 
     public function login()
     {
-        //UsuarioDAO::login($this); // pegar a senha de retorno do usuario e conferir com a senha digitada usando password_verify
-        $token = new Token(); // se senha digitada for igual a true retorna um token
-        $token = $token->gerarToken('admin', $this->email);
-        return $token;
+        $usuario = UsuarioDAO::login($this);
+//        if (UsuarioDAO::getRows() == 1) {
+            $token = new Token(); // se senha digitada for igual a true retorna um token
+            $token = $token->gerarToken('admin', $this->email);
+            return $token;
+//        }
+//        return Mensagem::error("erro-inesperado-login", 500);
     }
 }

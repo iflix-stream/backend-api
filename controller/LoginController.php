@@ -29,11 +29,13 @@ class LoginController implements Controller
             $login->setEmail($data['email']);
             $login->setSenha($data['senha']);
             $login->login();
-            $data = ["Token" => (string)$login->login()];
-        } else {
-            $data = $validate;
+//            if ($login->login() == 1)
+            $data = ["Token" => "".$login->login().""];
+//        } else {
+//            $data = $validate;
+//        }
+            View::render($data);
         }
-        View::render($data);
     }
 
     public function get($params = [])

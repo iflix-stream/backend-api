@@ -4,5 +4,7 @@
   "method-not-found": "Método não encontrado",
   "erro-cadastrar-usuario": "Algum erro aconteceu ao tentar cadastrar um usuário",
   "sucesso-criar-usuario": "Usuário cadastrado com sucesso!",
-  "erro-retreave-usuario": "Algum erro aconteceu ao tentar consultar um usuário"
+  "erro-retreave-usuario": "Algum erro aconteceu ao tentar consultar um usuário",
+  "usuario-ja-cadastrado": "Este email já está associado a um usuário.",
+  "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login."
 }

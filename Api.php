@@ -9,6 +9,7 @@
 include 'vendor/autoload.php';
 
 use util\Mensagem;
+use util\Settings;
 use view\View;
 use controller\Controller;
 
@@ -18,6 +19,11 @@ class Api
 
     function __construct($url = "")
     {
+
+        //-------Responsável pelo load das Settings-------\\
+        Settings::load();
+
+        //--------Responsável pelo REST--------\\
         self::$url = $url;
         if (isset($_SERVER['HTTP_HOST']) and isset($_SERVER['REQUEST_URI'])) {
             self::$url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -28,6 +34,7 @@ class Api
             View::render(Mensagem::error("class-not-found",404));
             return false;
         }
+
         return $this->selecionaMetodo(new $class);
     }
 
@@ -66,13 +73,16 @@ class Api
 
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
+
             case 'GET':
                 return $classe->get($this->retornaCamposeValoresFormatados());
                 break;
             case 'POST':
+
                 return $classe->post();
                 break;
             case 'PUT':
+
                 return $classe->put();
                 break;
             case 'DELETE':
