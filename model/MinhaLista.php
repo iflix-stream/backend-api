@@ -12,24 +12,40 @@ namespace model;
 class MinhaLista
 {
 
-    private $idPerfil;
-    private $itens;
+    private $idUsuario;
+    private $idVideo;
+    /**
+     * @return mixed
+     */
+    public function getIdUsuario()
+    {
+        return $this->idUsuario;
+    }
+
+    /**
+     * @param mixed $idUsuario
+     */
+    public function setIdUsuario($idUsuario)
+    {
+        $this->idUsuario = $idUsuario;
+    }
 
     /**
      * @return mixed
      */
-    public function getIdPerfil()
+    public function getIdVideo()
     {
-        return $this->idPerfil;
+        return $this->idVideo;
     }
 
     /**
-     * @param mixed $idPerfil
+     * @param mixed $idVideo
      */
-    public function setIdPerfil($idPerfil)
+    public function setIdVideo($idVideo)
     {
-        $this->idPerfil = $idPerfil;
+        $this->idVideo = $idVideo;
     }
+
 
     /**
      * @return mixed

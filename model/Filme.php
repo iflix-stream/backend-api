@@ -9,6 +9,8 @@
 namespace model;
 
 
+use model\dao\VideoDAO;
+
 class Filme extends Video
 {
 
@@ -18,5 +20,9 @@ class Filme extends Video
     public function __construct()
     {
         $this->setTipo('filme');
+    }
+
+    function adicionaLista() {
+        VideoDAO::adicionarSerieLista("filme");
     }
 }
