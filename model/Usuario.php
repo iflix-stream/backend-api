@@ -233,7 +233,7 @@ class Usuario
 
     public function cadastrar()
     {
-
+        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
         return UsuarioDAO::create($this);
 
     }
@@ -251,9 +251,9 @@ class Usuario
 
     public function login()
     {
-        //UsuarioDAO::login($this);
-        $token = new Token();
-        $token = $token->gerarToken('admin', 'Lucas');
-         return $token;
+        //UsuarioDAO::login($this); // pegar a senha de retorno do usuario e conferir com a senha digitada usando password_verify
+        $token = new Token(); // se senha digitada for igual a true retorna um token
+        $token = $token->gerarToken('admin', $this->email);
+        return $token;
     }
 }
