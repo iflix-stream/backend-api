@@ -9,6 +9,11 @@
   "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login.",
   "login-somente-post": "Para realizar login, use somente o método POST!",
   "email-e-ou-senha-invalidos": "E-mail e/ou senha inválidos!",
-  "traducao-nao-implementada": "Sem suporte a tradução neste texto."
+  "traducao-nao-implementada": "Sem suporte a tradução neste texto.",
+  "parametro-id-nulo": "Parâmetro ID nulo.",
+  "parametro-nome-nulo": "Parâmetro nome nulo.",
+  "parametro-genero-nulo": "Parâmetro gênero nulo.",
+  "parametro-nome-genero-nulo": "Parâmetro nome e gênero nulos.",
+  "sucesso-deletar-video": "Sucesso ao deletar o vídeo!"
 
 }

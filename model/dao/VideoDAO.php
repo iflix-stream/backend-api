@@ -12,6 +12,7 @@ namespace model\dao;
 use model\MinhaLista;
 use model\Video;
 use phiber\Phiber;
+use util\Mensagem;
 
 class VideoDAO implements IDAO
 {
@@ -81,7 +82,7 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveById($video)
     {
@@ -93,15 +94,15 @@ class VideoDAO implements IDAO
             $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
             $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
             $criteria->add($restrictionAtivadoID);
-            $criteria->select();
-            return $criteria->show();
+
+            return $criteria->select();
         }
-        return "Parametro ID nulo.";
+        return (new Mensagem())->error("parametro-id-nulo",500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByNome($video)
     {
@@ -112,15 +113,14 @@ class VideoDAO implements IDAO
             $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
             $restrictionAtivadoNome = $criteria->restrictions()->and($restrictionAtivado, $restrictionNome);
             $criteria->add($restrictionAtivadoNome);
-            $criteria->select();
-            return $criteria->show();
+            return $criteria->select();
         }
-        return "Parametro nome nulo.";
+        return (new Mensagem())->error("parametro-nome-nulo",500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByGenero($video)
     {
@@ -131,24 +131,23 @@ class VideoDAO implements IDAO
             $restrictionGenero = $criteria->restrictions()->equals("genero", $video->getGenero());
             $restrictionAtivadoGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionGenero);
             $criteria->add($restrictionAtivadoGenero);
-            $criteria->select();
-            return $criteria->show();
+            return $criteria->select();
         }
-        return "Parametro nome nulo.";
+        return (new Mensagem())->error("parametro-genero-nulo", 500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByNomeEGenero($video)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($video);
 
-        if ($video->getNome() == null) return "Parametro nome nulo.";
-        if ($video->getGenero() == null) return "Parametro genero nulo.";
-        if ($video->getGenero() == null && $video->getNome() == null) return "Parametros nome e genero nulos.";
+        if ($video->getNome() == null) return (new Mensagem())->error("parametro-nome-nulo", 500);
+        if ($video->getGenero() == null) return (new Mensagem())->error("parametro-genero-nulo", 500);
+        if ($video->getGenero() == null && $video->getNome() == null) return (new Mensagem())->error("parametro-nome-genero-nulo", 500);
 
 
         $restrictionNome = $criteria->restrictions()->like("nome", $video->getNome());
@@ -157,8 +156,8 @@ class VideoDAO implements IDAO
         $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
         $restrictionAtivadoNomeGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionNomeEGenero);
         $criteria->add($restrictionAtivadoNomeGenero);
-        $criteria->select();
-        return $criteria->show();
+
+        return $criteria->select();
 
     }
 
@@ -168,7 +167,7 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     static function delete($video)
     {
@@ -177,9 +176,9 @@ class VideoDAO implements IDAO
         $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
         $criteria->add($restrictionID);
         if($criteria->delete()){
-            return $criteria->show();
+            return (new Mensagem())->success("sucesso-deletar-video");
         }
-        return "Erro ao deletar vídeo de ID: ".$video->getId();
+        return (new Mensagem())->error("erro-deletar-video", 500);
     }
 
     /**
