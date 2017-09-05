@@ -56,6 +56,7 @@ class Mail
 
     /**
      * @return bool
+     * @throws Exception
      * @internal param array $para
      * @internal param string $assunto
      * @internal param string $caminhoTemplate
@@ -129,11 +130,11 @@ class Mail
     }
 }
 
-include_once '../vendor/autoload.php';
-
-$mail = new Mail();
-$mail->setAssunto("Migão bão");
-$mail->setPara(["email"=>"walysongomes.98@hotmail.com.br","nome"=>"Walyson Gomes"]);
-$mail->setTemplate("../templates/novo-usuario/index.html");
-$mail->setVariaveisTemplate(["nomepessoa"=>"Walyson Gomes"]);
-$mail->enviar();
+//include_once '../vendor/autoload.php';
+//
+//$mail = new Mail();
+//$mail->setAssunto("Migão bão");
+//$mail->setPara(["email"=>"walysongomes.98@hotmail.com.br","nome"=>"Walyson Gomes"]);
+//$mail->setTemplate("../templates/novo-usuario/index.html");
+//$mail->setVariaveisTemplate(["nomepessoa"=>"Walyson Gomes"]);
+//$mail->enviar();

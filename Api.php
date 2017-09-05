@@ -63,6 +63,7 @@ class Api
      */
     public function selecionaMetodo($classe)
     {
+
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
             case 'GET':

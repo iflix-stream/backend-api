@@ -1,5 +1,7 @@
 {
   "welcome": "Bem-vindo",
   "class-not-found": "Classe não encontrada",
-  "method-not-found": "Método não encontrado"
+  "method-not-found": "Método não encontrado",
+  "erro-cadastrar-usuario": "Algum erro aconteceu ao tentar cadastrar um usuário",
+  "sucesso-criar-usuario": "Usuário cadastrado com sucesso!"
 }

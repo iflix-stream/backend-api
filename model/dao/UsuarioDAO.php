@@ -11,6 +11,7 @@ namespace model\dao;
 
 use model\Usuario;
 use phiber\Phiber;
+use util\Mensagem;
 
 
 class UsuarioDAO implements IDAO
@@ -24,16 +25,16 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return string
+     * @return array
      */
     static function create($usuario)
     {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($usuario);
         if ($criteria->create()) {
-            echo $criteria->show();
+            return Mensagem::success("sucesso-criar-usuario");
         }
-        return "erro ao cadastrar usuário:" . $usuario->getId();
+        return Mensagem::error("erro-criar-usuario", 500);
     }
 
 

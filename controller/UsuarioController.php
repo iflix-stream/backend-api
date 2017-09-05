@@ -17,23 +17,27 @@ class UsuarioController implements Controller
 
     public function __construct()
     {
+
         $this->token = new Token();
         $this->token = $this->token->token();
+
     }
 
 
     public function post()
     {
-        if ($this->token === 'normal') {
-            $usuario = new Usuario();
-            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
-        } else if ($this->token === 'admin') {
-            $usuario = new Usuario();
-            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
-        } else {
-            $data = ["Mensagem" => "Nao tem permição"];
-        }
-        View::render($data);
+
+        $usuario = new Usuario();
+//        if ($this->token === 'normal') {
+//
+//            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
+//        } else if ($this->token === 'admin') {
+//            $usuario = new Usuario();
+//            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
+//        } else {
+//            $data = ["Mensagem" => "Nao tem permição"];
+//        }
+        View::render($usuario->cadastrar());
 
     }
 
@@ -62,4 +66,6 @@ class UsuarioController implements Controller
     {
         // TODO: Implement delete() method.
     }
+
+
 }

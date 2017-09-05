@@ -3,14 +3,13 @@
     "language": "pt_br",
     "link": {
       "database_technology": "mysql",
-      "database_name": "builder_bd",
-      "url": "mysql:host=localhost;dbname=builder_bd",
+      "database_name": "bd_iflix",
+      "url": "mysql:host=localhost;dbname=bd_iflix",
       "user": "root",
       "password": "",
       "connection_cache": true
     },
     "log": true,
-    "execute_querys": false,
-    "code_sync": false
+    "execute_querys": true
   }
 }

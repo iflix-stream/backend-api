@@ -30,7 +30,7 @@ class Usuario
 
     function __construct()
     {
-        $this->minhaLista = new MinhaLista();
+//        $this->minhaLista = new MinhaLista();
     }
 
     /**
@@ -233,6 +233,13 @@ class Usuario
 
     public function cadastrar()
     {
+        $data = new DataConversor();
+        $data = $data->converter();
+
+        $this->nome = $data['nome'];
+        $this->email = $data['email'];
+        $this->avatar = $data['avatar'];
+        $this->senha = $data['senha'];
 
         return UsuarioDAO::create($this);
 
