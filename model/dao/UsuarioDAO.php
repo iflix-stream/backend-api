@@ -65,7 +65,7 @@ class UsuarioDAO implements IDAO
             return self::retreaveByName($usuario);
         }
 
-        if($usuario->getId() == null and $usuario->getNome() == null) {
+        if ($usuario->getId() == null and $usuario->getNome() == null) {
             return self::retreaveLimit15($usuario);
         }
 
@@ -115,11 +115,9 @@ class UsuarioDAO implements IDAO
         $criteria = (new Phiber())->openPersist($usuario);
         $restrictionStatus = $criteria->restrictions()->equals("status", 1);
         $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
-        $restrictionSenha = $criteria->restrictions()->equals("senha", $usuario->getSenha());
-        $restriction = $criteria->restrictions()->and($restrictionStatus,
-            $criteria->restrictions()->and($restrictionEmail, $restrictionSenha));
+        $restriction = $criteria->restrictions()->and($restrictionStatus, $restrictionEmail);
         $criteria->add($restriction);
-        $criteria->returnArray(false);
+
         $r = $criteria->select();
         self::$rows = $criteria->rowCount();
         return $r;
@@ -149,15 +147,21 @@ class UsuarioDAO implements IDAO
      */
     public static function retreaveByEmail($usuario)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
-        $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
-        $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
-        $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
-        $criteria->add($restrictionAtivadoEmail);
-        $r = $criteria->select();
-        self::$rows = $criteria->rowCount();
-        return $r;
+        if ($u = self::retreaveByEmail($usuario)) {
+            if (password_verify($usuario->getSenha(), $u['senha'])) {
+
+                $phiber = new Phiber();
+                $criteria = $phiber->openPersist($usuario);
+                $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
+                $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
+                $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
+                $criteria->add($restrictionAtivadoEmail);
+                $r = $criteria->select();
+                self::$rows = $criteria->rowCount();
+                return $r;
+            }
+        }
+
     }
 
     /**
@@ -178,7 +182,8 @@ class UsuarioDAO implements IDAO
         return $criteria->select();
     }
 
-    private static function retreaveLimit15($usuario) {
+    private static function retreaveLimit15($usuario)
+    {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($usuario);
 //        $criteria->add($criteria->restrictions()->limit(15));

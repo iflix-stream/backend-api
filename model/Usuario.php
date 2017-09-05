@@ -257,12 +257,19 @@ class Usuario
 
     public function login()
     {
-        $usuario = UsuarioDAO::login($this);
-        if (UsuarioDAO::getRows() == 1) {
-            $token = new Token(); // se senha digitada for igual a true retorna um token
-            $token = $token->gerarToken('admin', $usuario['nome'], $usuario['email']);
-            return $token;
-        }
-        return Mensagem::error("erro-inesperado-login", 500);
+
+
+
+
+
+            $usuario = UsuarioDAO::login($this);
+
+            if (UsuarioDAO::getRows() == 1) {
+                $token = new Token(); // se senha digitada for igual a true retorna um token
+                $token = $token->gerarToken('admin', $usuario['nome'], $usuario['email']);
+                return $token;
+            }
+
+        return Mensagem::error("email-e-ou-senha-invalidos", 500);
     }
 }
