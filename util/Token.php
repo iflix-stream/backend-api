@@ -72,7 +72,7 @@ class Token
         }
     }
 
-    public function gerarToken($permicao, $nome)
+    public function gerarToken($permicao, $nome, $email)
     {
         $signer = new Sha256();
         $token = (new Builder())->setIssuer('api.iflix')// Configures the issuer (iss claim)
@@ -81,8 +81,9 @@ class Token
         ->setIssuedAt(time())// Configures the time that the token was issue (iat claim)
         ->setNotBefore(time() + 60)// Configures the time that the token can be used (nbf claim)
         ->setExpiration(time() + 3600)// Configura a data de expiração do token
-        ->set('Permicao', $permicao)// Define a permicao para o sistema
-        ->set('Email', $nome)//Define o emails
+        ->set('permicao', $permicao)// Define a permicao para o sistema
+        ->set('email', $email)//Define o emails
+        ->set('nome', $nome)//Define o emails
         ->sign($signer, 'chave')// cria uma chave de assinatura privada
         ->getToken(); // Recupera o token
         return $token;

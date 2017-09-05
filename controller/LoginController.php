@@ -29,27 +29,27 @@ class LoginController implements Controller
             $login->setEmail($data['email']);
             $login->setSenha($data['senha']);
             $login->login();
-//            if ($login->login() == 1)
-            $data = ["Token" => "".$login->login().""];
-//        } else {
-//            $data = $validate;
-//        }
-            View::render($data);
+            if ($login->login() == 1)
+                $data = ["token" => "" . $login->login() . ""];
+        } else {
+            $data = $validate;
         }
+        View::render($data);
     }
+
 
     public function get($params = [])
     {
-        View::render(["Mesagem" => "Para realizar login somente post"]);
+        View::render(Mensagem::error('login-somente-post',500));
     }
 
     public function put()
     {
-        View::render(["Mesagem" => "Para realizar login somente post"]);
+        View::render(Mensagem::error('login-somente-post',500));
     }
 
     public function delete()
     {
-        View::render(["Mesagem" => "Para realizar login somente post"]);
+        View::render(Mensagem::error('login-somente-post', 500));
     }
 }

@@ -258,11 +258,11 @@ class Usuario
     public function login()
     {
         $usuario = UsuarioDAO::login($this);
-//        if (UsuarioDAO::getRows() == 1) {
+        if (UsuarioDAO::getRows() == 1) {
             $token = new Token(); // se senha digitada for igual a true retorna um token
-            $token = $token->gerarToken('admin', $this->email);
+            $token = $token->gerarToken('admin', $usuario['nome'], $usuario['email']);
             return $token;
-//        }
-//        return Mensagem::error("erro-inesperado-login", 500);
+        }
+        return Mensagem::error("erro-inesperado-login", 500);
     }
 }

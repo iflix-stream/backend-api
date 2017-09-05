@@ -6,5 +6,6 @@
   "sucesso-criar-usuario": "Usuário cadastrado com sucesso!",
   "erro-retreave-usuario": "Algum erro aconteceu ao tentar consultar um usuário",
   "usuario-ja-cadastrado": "Este email já está associado a um usuário.",
-  "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login."
+  "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login.",
+  "login-somente-post": "Para realizar login somente por POST"
 }

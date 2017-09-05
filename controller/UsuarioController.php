@@ -77,6 +77,7 @@ class UsuarioController implements Controller
         if(isset($params['nome'])) {
             $usuario->setNome($params['nome']);
         }
+
         View::render($usuario->listar());
     }
 

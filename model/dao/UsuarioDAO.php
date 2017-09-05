@@ -181,10 +181,11 @@ class UsuarioDAO implements IDAO
     private static function retreaveLimit15($usuario) {
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($usuario);
-        $criteria->add($criteria->restrictions()->limit(15));
-        $criteria->select();
+//        $criteria->add($criteria->restrictions()->limit(15));
+        $criteria->returnArray(true);
+        $r = $criteria->select();
         echo $criteria->show();
-        return ;
+        return $r;
     }
 
 }
