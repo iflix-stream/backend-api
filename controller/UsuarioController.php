@@ -5,9 +5,11 @@
  * Date: 21/08/2017
  * Time: 15:31
  */
+
 namespace controller;
 
 use model\Usuario;
+use util\DataConversor;
 use view\View;
 use util\Token;
 
@@ -24,10 +26,23 @@ class UsuarioController implements Controller
     }
 
 
+    /**
+     *
+     */
     public function post()
     {
 
         $usuario = new Usuario();
+        $data = new DataConversor();
+        $data = $data->converter();
+
+        $usuario->setNome($data['nome']);
+        $usuario->setEmail($data['email']);
+        $usuario->setAvatar('avatares/default.png');
+        $usuario->setSenha($data['senha']);
+        $usuario->setDataNascimento($data['data-nascimento']);
+
+
 //        if ($this->token === 'normal') {
 //
 //            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
@@ -43,18 +58,20 @@ class UsuarioController implements Controller
 
     public function get($params = [])
     {
-        if ($this->token === 'normal') {
-            $usuario = new Usuario();
-            if (isset($params['id'])) $usuario->setId($params['id']);
-            $data = ["SQL" => "" . $usuario->listar() . ""];
-        } else if ($this->token === 'admin') {
-            $usuario = new Usuario();
-            if (isset($params['id'])) $usuario->setId($params['id']); //coloqei os msm metodos aki para o admin acessar mas talves ele teria uma funcionalidade que o usuario normal nao acessaria
-            $data = ["SQL" => "" . $usuario->listar() . ""];
-        } else {
-            $data = ["Mensagem" => "Nao tem permição"];
-        }
-        View::render($data);
+//        if ($this->token === 'normal') {
+//            $usuario = new Usuario();
+//            if (isset($params['id'])) $usuario->setId($params['id']);
+//            $data = ["SQL" => "" . $usuario->listar() . ""];
+//        } else if ($this->token === 'admin') {
+//            $usuario = new Usuario();
+//            if (isset($params['id'])) $usuario->setId($params['id']); //coloqei os msm metodos aki para o admin acessar mas talves ele teria uma funcionalidade que o usuario normal nao acessaria
+//            View::render($usuario->listar());
+//        } else {
+//            $data = ["Mensagem" => "Nao tem permição"];
+//        }
+        $usuario = new Usuario();
+        $usuario->setId($params['id']);
+        View::render($usuario->listar());
     }
 
     public function put()

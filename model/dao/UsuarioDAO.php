@@ -40,7 +40,7 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return string
+     * @return array
      */
     static function retreave($usuario)
     {
@@ -52,10 +52,10 @@ class UsuarioDAO implements IDAO
             $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
             $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
             $criteria->add($restrictionAtivadoID);
-            $criteria->select();
-            return $criteria->show();
+
+            return $criteria->select();
         }
-        return "Parametro ID nulo.";
+        return Mensagem::error("erro-retreave-usuario", 500);
     }
 
     /**
