@@ -92,9 +92,6 @@ class VideoDAO implements IDAO
             $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
             $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
             $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
-            $criteria->add($criteria->restrictions()->orderBy(["nome asc", "id desc"]));
-            $criteria->add($criteria->restrictions()->limit(3));
-            $criteria->add($criteria->restrictions()->offset(6));
             $criteria->add($restrictionAtivadoID);
             $criteria->select();
             return $criteria->show();

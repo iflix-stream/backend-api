@@ -26,7 +26,10 @@ class Tradutor
         if (file_exists("language/" . self::loadLanguage())) {
             $lang = file_get_contents("language/" . self::loadLanguage());
             $json_str = json_decode($lang, true);
-            return $json_str[$index];
+            if (isset($json_str[$index])){
+                return $json_str[$index];
+            }
+            return $json_str['traducao-nao-implementada'];
         }
         return false;
     }

@@ -44,9 +44,9 @@ class UsuarioDAO implements IDAO
         $phiber = new Phiber();
         $criteria = $phiber->openPersist($usuario);
         if ($criteria->create()) {
-            return Mensagem::success("sucesso-criar-usuario");
+            return (new Mensagem())->success("sucesso-criar-usuario");
         }
-        return Mensagem::error("erro-criar-usuario", 500);
+        return (new Mensagem())->error("erro-criar-usuario", 500);
     }
 
 
@@ -69,7 +69,7 @@ class UsuarioDAO implements IDAO
             return self::retreaveLimit15($usuario);
         }
 
-        return Mensagem::error("erro-retreave-usuario", 500);
+        return (new Mensagem())->error("erro-retreave-usuario", 500);
     }
 
     /**
@@ -143,25 +143,19 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return array
+     * @return array|boolean
      */
     public static function retreaveByEmail($usuario)
     {
-        if ($u = self::retreaveByEmail($usuario)) {
-            if (password_verify($usuario->getSenha(), $u['senha'])) {
-
-                $phiber = new Phiber();
-                $criteria = $phiber->openPersist($usuario);
-                $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
-                $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
-                $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
-                $criteria->add($restrictionAtivadoEmail);
-                $r = $criteria->select();
-                self::$rows = $criteria->rowCount();
-                return $r;
-            }
-        }
-
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
+        $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
+        $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
+        $criteria->add($restrictionAtivadoEmail);
+        $r = $criteria->select();
+        self::$rows = $criteria->rowCount();
+        return $r;
     }
 
     /**

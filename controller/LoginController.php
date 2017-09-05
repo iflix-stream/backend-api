@@ -18,6 +18,8 @@ use util\DataConversor;
 
 class LoginController implements Controller
 {
+
+
     public function post()
     {
         $login = new Usuario();
@@ -29,7 +31,7 @@ class LoginController implements Controller
             $login->setEmail($data['email']);
             $login->setSenha($data['senha']);
             $login->login();
-                $data = ["token" => "".$login->login().""];
+            $data = ["token" => $login->login()];
         } else {
             $data = $validate;
         }
@@ -39,16 +41,16 @@ class LoginController implements Controller
 
     public function get($params = [])
     {
-        View::render(Mensagem::error('login-somente-post', 500));
+        View::render((new Mensagem())->error('login-somente-post', 500));
     }
 
     public function put()
     {
-        View::render(Mensagem::error('login-somente-post', 500));
+        View::render((new Mensagem())->error('login-somente-post', 500));
     }
 
     public function delete()
     {
-        View::render(Mensagem::error('login-somente-post', 500));
+        View::render((new Mensagem())->error('login-somente-post', 500));
     }
 }

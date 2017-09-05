@@ -10,39 +10,88 @@ namespace util;
 
 class Mensagem
 {
-//TODO: Fazer classe pra retornar os erros via array
 
-    static function normal($index)
+
+    /**
+     * @param $ref
+     * @param bool $isTraduzir
+     * @return array
+     */
+    function normal($ref, $isTraduzir = true)
     {
+        if ($isTraduzir) {
+            return [
+                "type" => "normal",
+                "message" => "" . Tradutor::do($ref) . ""
+            ];
+        }
         return [
             "type" => "normal",
-            "message" => "" . Tradutor::do($index) . ""
+            "message" => "" . $ref . ""
         ];
+
     }
 
-    static function error($index, $codigo = 0)
+    /**
+     * @param $ref
+     * @param int $codigo
+     * @param bool $isTraduzir
+     * @return array
+     */
+    function error($ref, $codigo = 0, $isTraduzir = true)
     {
+        if ($isTraduzir) {
+            return [
+                "type" => "error",
+                "code" => $codigo,
+                "message" => "" . Tradutor::do($ref) . ""
+            ];
+        }
         return [
             "type" => "error",
             "code" => $codigo,
-            "message" => "" . Tradutor::do($index) . ""
+            "message" => "" . $ref . ""
         ];
     }
 
-    static function warning($index, $codigo = 0)
+    /**
+     * @param $ref
+     * @param int $codigo
+     * @param bool $isTraduzir
+     * @return array
+     */
+    function warning($ref, $codigo = 0, $isTraduzir = true)
     {
+        if ($isTraduzir) {
+            return [
+                "type" => "warning",
+                "code" => $codigo,
+                "message" => Tradutor::do($ref)
+            ];
+        }
         return [
             "type" => "warning",
             "code" => $codigo,
-            "message" => Tradutor::do($index)
+            "message" => $ref
         ];
     }
 
-    static function success($index)
+    /**
+     * @param $ref
+     * @param bool $isTraduzir
+     * @return array
+     */
+    function success($ref, $isTraduzir = true)
     {
+        if ($isTraduzir) {
+            return [
+                "type" => "success",
+                "message" => Tradutor::do($ref)
+            ];
+        }
         return [
             "type" => "success",
-            "message" => Tradutor::do($index)
+            "message" => $ref
         ];
     }
 }

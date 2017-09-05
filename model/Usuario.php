@@ -240,7 +240,7 @@ class Usuario
             $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
             return UsuarioDAO::create($this);
         }
-        return Mensagem::error("usuario-ja-cadastrado", 500);
+        return (new Mensagem())->error("usuario-ja-cadastrado", 500);
 
     }
 
@@ -257,19 +257,17 @@ class Usuario
 
     public function login()
     {
+        $usuario = UsuarioDAO::login($this);
+        $u = UsuarioDAO::retreaveByEmail($this);
 
-
-
-
-
-            $usuario = UsuarioDAO::login($this);
-
+        if (password_verify($this->senha, $u['senha'])) {
             if (UsuarioDAO::getRows() == 1) {
                 $token = new Token(); // se senha digitada for igual a true retorna um token
                 $token = $token->gerarToken('admin', $usuario['nome'], $usuario['email']);
-                return $token;
             }
+        }
 
-        return Mensagem::error("email-e-ou-senha-invalidos", 500);
+
+        return (new Mensagem())->error("email-e-ou-senha-invalidos", 500);
     }
 }

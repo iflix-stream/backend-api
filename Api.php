@@ -31,7 +31,7 @@ class Api
 
         $class = "\\controller\\" . ucfirst($this->retornaClasseURL()) . "Controller";
         if (!class_exists($class)) {
-            View::render(Mensagem::error("class-not-found",404));
+            View::render((new Mensagem())->error("class-not-found",404));
             return false;
         }
 
@@ -89,7 +89,7 @@ class Api
                 return $classe->delete();
                 break;
             default:
-                return View::render(Mensagem::error("method-not-found",404));
+                return View::render((new Mensagem())->error("method-not-found",404));
         }
     }
 }
