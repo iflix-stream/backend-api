@@ -9,6 +9,7 @@
 namespace model\dao;
 
 
+use model\MinhaLista;
 use model\Video;
 use phiber\Phiber;
 
@@ -183,4 +184,14 @@ class VideoDAO implements IDAO
         }
         return "Erro ao deletar vídeo de ID: ".$video->getId();
     }
+
+    /**
+     * @param MinhaLista $lista
+     * @param Video $video
+     */
+    public static function adicionarItemLista($lista, $video){
+
+
+
+        }
 }

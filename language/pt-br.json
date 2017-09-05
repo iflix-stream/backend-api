@@ -1,11 +1,11 @@
 {
-  "welcome": "Bem-vindo",
-  "class-not-found": "Classe não encontrada",
-  "method-not-found": "Método não encontrado",
+  "welcome": "Bem-vindo ao IFlix",
+  "class-not-found": "Classe não encontrada!",
+  "method-not-found": "Método não encontrado!",
   "erro-cadastrar-usuario": "Algum erro aconteceu ao tentar cadastrar um usuário",
   "sucesso-criar-usuario": "Usuário cadastrado com sucesso!",
   "erro-retreave-usuario": "Algum erro aconteceu ao tentar consultar um usuário",
   "usuario-ja-cadastrado": "Este email já está associado a um usuário.",
   "erro-inesperado-login": "Um erro inesperado aconteceu ao tentar fazer login.",
-  "login-somente-post": "Para realizar login somente por POST"
+  "login-somente-post": "Para realizar login, use somente o método POST!"
 }
