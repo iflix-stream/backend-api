@@ -44,17 +44,15 @@ class UsuarioDAO implements IDAO
      */
     static function retreave($usuario)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
-        if ($usuario->getId() != null) {
 
-            $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
-            $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
-            $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
-            $criteria->add($restrictionAtivadoID);
-
-            return $criteria->select();
+        if ($usuario->getId() != null and $usuario->getNome() == null) {
+            return self::retreaveById($usuario);
         }
+
+        if ($usuario->getId() == null and $usuario->getNome() != null) {
+            return self::retreaveByName($usuario);
+        }
+
         return Mensagem::error("erro-retreave-usuario", 500);
     }
 
@@ -110,4 +108,38 @@ class UsuarioDAO implements IDAO
         return $criteria->show();
     }
 
+
+    /**
+     * @param Usuario $usuario
+     * @return array
+     */
+    private static function retreaveById($usuario)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
+        $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
+        $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+        $criteria->add($restrictionAtivadoID);
+
+        return $criteria->select();
+    }
+
+    /**
+     * @param Usuario $usuario
+     * @return array
+     */
+    private static function retreaveByName($usuario)
+    {
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist($usuario);
+        $restrictionName = $criteria->restrictions()->like("nome", $usuario->getNome());
+        $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
+        $restrictionAtivadoName = $criteria->restrictions()->and($restrictionAtivado, $restrictionName);
+        $criteria->add($restrictionAtivadoName);
+        $criteria->returnArray(true);
+
+
+        return $criteria->select();
+    }
 }

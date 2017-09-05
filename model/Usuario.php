@@ -234,7 +234,6 @@ class Usuario
     public function cadastrar()
     {
 
-
         return UsuarioDAO::create($this);
 
     }

@@ -35,13 +35,14 @@ class UsuarioController implements Controller
         $usuario = new Usuario();
         $data = new DataConversor();
         $data = $data->converter();
-
+        $date = date('Y-m-d');
         $usuario->setNome($data['nome']);
         $usuario->setEmail($data['email']);
         $usuario->setAvatar('avatares/default.png');
         $usuario->setSenha($data['senha']);
         $usuario->setDataNascimento($data['data-nascimento']);
-
+        $usuario->setDataCriacao($date);
+        $usuario->setDataAlteracao($date);
 
 //        if ($this->token === 'normal') {
 //
@@ -70,7 +71,12 @@ class UsuarioController implements Controller
 //            $data = ["Mensagem" => "Nao tem permição"];
 //        }
         $usuario = new Usuario();
-        $usuario->setId($params['id']);
+        if(isset($params['id'])){
+            $usuario->setId($params['id']);
+        }
+        if(isset($params['nome'])) {
+            $usuario->setNome($params['nome']);
+        }
         View::render($usuario->listar());
     }
 
