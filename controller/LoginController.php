@@ -12,27 +12,42 @@ namespace controller;
 use model\Usuario;
 use util\Mensagem;
 use view\View;
+use model\validator\UsuarioValidate;
+use util\Token;
+use util\DataConversor;
 
 class LoginController implements Controller
 {
     public function post()
     {
         $login = new Usuario();
-        View::render($login->login());
+        $validate = new UsuarioValidate();
+        $data = new DataConversor();
+        $data = $data->converter();
+        $validate = $validate->validateLogin($data);
+        if ($validate === true) {
+            $login->setEmail($data['email']);
+            $login->setSenha($data['senha']);
+            $login->login();
+            $data = ["Token" => (string)$login->login()];
+        } else {
+            $data = $validate;
+        }
+        View::render($data);
     }
 
     public function get($params = [])
     {
-        // TODO: Implement get() method.
+        View::render(["Mesagem" => "Para realizar login somente post"]);
     }
 
     public function put()
     {
-        // TODO: Implement put() method.
+        View::render(["Mesagem" => "Para realizar login somente post"]);
     }
 
     public function delete()
     {
-        // TODO: Implement delete() method.
+        View::render(["Mesagem" => "Para realizar login somente post"]);
     }
 }

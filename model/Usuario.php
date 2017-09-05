@@ -251,19 +251,9 @@ class Usuario
 
     public function login()
     {
-        $t = new UsuarioValidate();
-        $data = new DataConversor();
-        $data = $data->converter();
-        $t = $t->validateLogin($data);
-        if ($t === true) {
-            Usuario::setEmail($data['email']);
-            Usuario::setSenha($data['senha']);
-            UsuarioDAO::login($this);
-            $token = new Token();
-            $token = $token->gerarToken('admin', 'Lucas');
-            return ["Token" => (string)$token];
-        } else {
-            return $t;
-        }
+        //UsuarioDAO::login($this);
+        $token = new Token();
+        $token = $token->gerarToken('admin', 'Lucas');
+         return $token;
     }
 }
