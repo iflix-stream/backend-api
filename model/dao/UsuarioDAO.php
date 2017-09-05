@@ -121,7 +121,6 @@ class UsuarioDAO implements IDAO
         $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
         $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
         $criteria->add($restrictionAtivadoID);
-
         return $criteria->select();
     }
 
@@ -136,8 +135,8 @@ class UsuarioDAO implements IDAO
         $restrictionName = $criteria->restrictions()->like("nome", $usuario->getNome());
         $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
         $restrictionAtivadoName = $criteria->restrictions()->and($restrictionAtivado, $restrictionName);
+//        $criteria->returnArray(true);
         $criteria->add($restrictionAtivadoName);
-        $criteria->returnArray(true);
 
 
         return $criteria->select();
