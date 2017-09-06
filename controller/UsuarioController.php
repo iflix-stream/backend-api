@@ -9,6 +9,7 @@
 namespace controller;
 
 use model\Usuario;
+use model\validator\UsuarioValidate;
 use util\DataConversor;
 use util\Mensagem;
 use view\View;
@@ -34,14 +35,22 @@ class UsuarioController implements Controller
         $usuario = new Usuario();
         $data = new DataConversor();
         $data = $data->converter();
-        $date = date('Y-m-d');
-        $usuario->setNome($data['nome']);
-        $usuario->setEmail($data['email']);
-        $usuario->setAvatar('avatares/default.png');
-        $usuario->setSenha($data['senha']);
-        $usuario->setDataNascimento($data['data-nascimento']);
-        $usuario->setDataCriacao($date);
-        $usuario->setDataAlteracao($date);
+        $validar = new UsuarioValidate();
+        $validar = $validar->validateUsuarioCriar($data);
+        if ($validar === true){
+            $date = date('Y-m-d');
+            $usuario->setNome($data['nome']);
+            $usuario->setEmail($data['email']);
+            $usuario->setAvatar('avatares/default.png');
+            $usuario->setSenha($data['senha']);
+            $usuario->setDataNascimento($data['data-nascimento']);
+            $usuario->setDataCriacao($date);
+            $usuario->setDataAlteracao($date);
+            View::render($usuario->cadastrar());
+        }
+        else{
+            View::render($validar);
+        }
 //        if ($this->token === 'normal') {
 //
 //            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
@@ -51,7 +60,6 @@ class UsuarioController implements Controller
 //        } else {
 //            $data = ["Mensagem" => "Nao tem permição"];
 //        }
-        View::render($usuario->cadastrar());
 
     }
 

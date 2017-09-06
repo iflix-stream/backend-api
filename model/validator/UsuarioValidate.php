@@ -24,4 +24,18 @@ class UsuarioValidate
             return $v->errors();
         }
     }
+
+    public function validateUsuarioCriar($params)
+    {
+        $v = new Validator($params);
+        $v->rule('required', ['nome', 'senha', 'email','data-nascimento']);
+        $v->rule('date','data-nascimento');
+        $v->rule('email', 'email');
+        if ($v->validate()) {
+            return true;
+        } else {
+            // Errors
+            return $v->errors();
+        }
+    }
 }
