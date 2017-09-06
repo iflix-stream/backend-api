@@ -66,7 +66,7 @@ class UsuarioDAO implements IDAO
         }
 
         if ($usuario->getId() == null and $usuario->getNome() == null) {
-            return self::retreaveLimit15($usuario);
+            return self::retreaveLimit15();
         }
 
         return (new Mensagem())->error("erro-retreave-usuario", 500);
@@ -74,7 +74,7 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return string
+     * @return array
      */
     static function update($usuario)
     {
@@ -83,9 +83,9 @@ class UsuarioDAO implements IDAO
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $criteria->add($restrictionID);
         if ($criteria->update()) {
-            return $criteria->show();
+            return (new Mensagem())->success("sucesso-alterar-usuario");
         }
-        return "erro ao alterar usuário:" . $usuario->getId();
+        return (new Mensagem())->error("erro-alterar-usuario", 500);
     }
 
 
@@ -99,6 +99,7 @@ class UsuarioDAO implements IDAO
         $usuario->setStatus(0);
         $criteria = $phiber->openPersist($usuario);
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
+
         $criteria->add($restrictionID);
         if ($criteria->update()) {
             return $criteria->show();
@@ -112,7 +113,7 @@ class UsuarioDAO implements IDAO
      */
     static function login($usuario)
     {
-        $criteria = (new Phiber())->openPersist($usuario);
+        $criteria = (new Phiber())->openPersist();
         $restrictionStatus = $criteria->restrictions()->equals("status", 1);
         $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
         $restriction = $criteria->restrictions()->and($restrictionStatus, $restrictionEmail);
@@ -131,10 +132,12 @@ class UsuarioDAO implements IDAO
     private static function retreaveById($usuario)
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
+        $criteria = $phiber->openPersist();
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
         $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+        $criteria->setTable("usuario");
+        $criteria->add($criteria->restrictions()->fields(["id", "nome", "email", "avatar", "isControleDosPais"]));
         $criteria->add($restrictionAtivadoID);
         $r = $criteria->select();
         self::$rows = $criteria->rowCount();
@@ -152,6 +155,8 @@ class UsuarioDAO implements IDAO
         $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
         $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
         $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
+        $criteria->setTable("usuario");
+        $criteria->add($criteria->restrictions()->fields(["id", "nome", "email", "avatar", "isControleDosPais","senha"]));
         $criteria->add($restrictionAtivadoEmail);
         $r = $criteria->select();
         self::$rows = $criteria->rowCount();
@@ -165,25 +170,27 @@ class UsuarioDAO implements IDAO
     private static function retreaveByName($usuario)
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
+        $criteria = $phiber->openPersist();
         $restrictionName = $criteria->restrictions()->like("nome", $usuario->getNome());
         $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
         $restrictionAtivadoName = $criteria->restrictions()->and($restrictionAtivado, $restrictionName);
-//        $criteria->returnArray(true);
+        $criteria->setTable("usuario");
         $criteria->add($restrictionAtivadoName);
+        $criteria->add($criteria->restrictions()->fields(["id", "nome", "email", "avatar", "isControleDosPais"]));
 
 
         return $criteria->select();
     }
 
-    private static function retreaveLimit15($usuario)
+    private static function retreaveLimit15()
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
-//        $criteria->add($criteria->restrictions()->limit(15));
+        $criteria = $phiber->openPersist();
+        $criteria->setTable("usuario");
+        $criteria->add($criteria->restrictions()->fields(["id", "nome", "email", "avatar", "isControleDosPais"]));
+        $criteria->add($criteria->restrictions()->limit(15));
         $criteria->returnArray(true);
         $r = $criteria->select();
-        echo $criteria->show();
         return $r;
     }
 

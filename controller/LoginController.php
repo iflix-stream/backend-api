@@ -31,7 +31,7 @@ class LoginController implements Controller
             $login->setEmail($data['email']);
             $login->setSenha($data['senha']);
             $login->login();
-            $data = ["token" => $login->login()];
+            $data = $login->login();
         } else {
             $data = $validate;
         }

@@ -7,5 +7,12 @@
   "erro-retreave-usuario": "Errors ocurred during user listing.",
   "usuario-ja-cadastrado": "This Email is already on use!",
   "erro-inesperado-login": "Unexpected error during Login.",
-  "login-somente-post": "Use only POST method to Login in the site!"
+  "login-somente-post": "Use only POST method to Login in the site!",
+  "email-e-ou-senha-invalidos": "Invalid E-mail and/or password!",
+  "traducao-nao-implementada": "This text has no translation support",
+  "parametro-id-nulo": "Null ID param ",
+  "parametro-nome-nulo": "Null name param",
+  "parametro-genero-nulo": "Null genre param",
+  "parametro-nome-genero-nulo": "Null genre and name params",
+  "sucesso-deletar-video": "Video deleted with success!"
 }

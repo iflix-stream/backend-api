@@ -20,8 +20,6 @@ class UsuarioController implements Controller
     public function __construct()
     {
 
-        $this->token = new Token();
-        $this->token = $this->token->token();
 
     }
 
@@ -43,7 +41,6 @@ class UsuarioController implements Controller
         $usuario->setDataNascimento($data['data-nascimento']);
         $usuario->setDataCriacao($date);
         $usuario->setDataAlteracao($date);
-
 //        if ($this->token === 'normal') {
 //
 //            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
@@ -59,6 +56,8 @@ class UsuarioController implements Controller
 
     public function get($params = [])
     {
+        $this->token = new Token();
+        $this->token = $this->token->token();
 //        if ($this->token === 'normal') {
 //            $usuario = new Usuario();
 //            if (isset($params['id'])) $usuario->setId($params['id']);
@@ -71,10 +70,10 @@ class UsuarioController implements Controller
 //            $data = ["Mensagem" => "Nao tem permição"];
 //        }
         $usuario = new Usuario();
-        if(isset($params['id'])){
+        if (isset($params['id'])) {
             $usuario->setId($params['id']);
         }
-        if(isset($params['nome'])) {
+        if (isset($params['nome'])) {
             $usuario->setNome($params['nome']);
         }
 
@@ -83,7 +82,22 @@ class UsuarioController implements Controller
 
     public function put()
     {
-        // TODO: Implement put() method.
+        $this->token = new Token();
+        $token = $this->token->token();
+        $this->token->retornaClaims($token);
+        $data = new DataConversor();
+        $data = $data->converter();
+
+        $usuario = new Usuario();
+
+        isset($data['id']) ? $usuario->setId($data['id']) : null;
+        isset($data['avatar']) ? $usuario->setAvatar($data['avatar']) : null;
+        isset($data['nome']) ? $usuario->setNome($data['nome']): null;
+        isset($data['email']) ? $usuario->setEmail($data['email']): null;
+        isset($data['senha']) ? $usuario->setSenha($data['senha']): null;
+        isset($data['controleDosPais'])? $usuario->setIsControleDosPais($data['controleDosPais']): null;
+        $usuario->alterar();
+
     }
 
     public function delete()

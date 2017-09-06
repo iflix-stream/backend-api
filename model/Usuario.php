@@ -252,18 +252,28 @@ class Usuario
 
     public function alterar()
     {
+        $this->setDataAlteracao(date("d-m-Y"));
         return UsuarioDAO::update($this);
     }
 
     public function login()
     {
-        $usuario = UsuarioDAO::login($this);
+        UsuarioDAO::login($this);
         $u = UsuarioDAO::retreaveByEmail($this);
 
         if (password_verify($this->senha, $u['senha'])) {
             if (UsuarioDAO::getRows() == 1) {
+
+                $usuario = [
+                    "id" => $u['id'],
+                    "nome" => $u['nome'],
+                    "email" => $u['email'],
+                    "avatar" => $u['avatar']
+                ];
+
                 $token = new Token(); // se senha digitada for igual a true retorna um token
-                $token = $token->gerarToken('admin', $usuario['nome'], $usuario['email']);
+                $token = $token->gerarToken($usuario, 'admin');
+                return ["token" => (string)$token];
             }
         }
 
