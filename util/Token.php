@@ -54,6 +54,14 @@ class Token
         $claims = $oToken->getClaim('permicao');
         return $claims;
     }
+    public function retornaIdUsuario()
+    {
+        $parser = new Parser();
+        $oToken = $parser->parse($this->recebeToken());
+        $claims = $oToken->getClaim('usuario');
+
+        return $claims['id'];
+    }
 
     public function token()
     {

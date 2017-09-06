@@ -23,6 +23,6 @@ class Filme extends Video
     }
 
     function adicionaLista() {
-        VideoDAO::adicionarSerieLista("filme");
+        VideoDAO::adicionarSerieLista("filme", $this);
     }
 }
