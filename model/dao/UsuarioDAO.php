@@ -74,7 +74,7 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return array
+     * @return boolean
      */
     static function update($usuario)
     {
@@ -83,9 +83,9 @@ class UsuarioDAO implements IDAO
         $restrictionID = $criteria->restrictions()->equals("id", $usuario->getId());
         $criteria->add($restrictionID);
         if ($criteria->update()) {
-            return (new Mensagem())->success("sucesso-alterar-usuario");
+            return true;
         }
-        return (new Mensagem())->error("erro-alterar-usuario", 500);
+        return false;
     }
 
 

@@ -253,7 +253,10 @@ class Usuario
     public function alterar()
     {
         $this->setDataAlteracao(date("d-m-Y"));
-        return UsuarioDAO::update($this);
+        if (UsuarioDAO::update($this)) {
+            return (new Mensagem())->success("sucesso-alterar-usuario");
+        }
+        return (new Mensagem())->error("erro-alterar-usuario", 500);
     }
 
     public function login()

@@ -51,7 +51,7 @@ class Token
     {
         $parser = new Parser();
         $oToken = $parser->parse($token);
-        $claims["permissao"] = $oToken->getClaim('permicao');
+//        $claims["permissao"] = $oToken->getClaim('permicao');
         $claims["usuario"] = $oToken->getClaim('usuario');
         return $claims;
     }
@@ -60,7 +60,6 @@ class Token
         $parser = new Parser();
         $oToken = $parser->parse($this->recebeToken());
         $claims = $oToken->getClaim('usuario');
-
         return $claims['id'];
     }
 
@@ -84,7 +83,7 @@ class Token
     public function gerarToken($usuario, $permicao = "normal")
     {
         $signer = new Sha256();
-        $token = (new Builder())->setIssuer('api.iflix')// Configures the issuer (iss claim)
+        return  (new Builder())->setIssuer('api.iflix')// Configures the issuer (iss claim)
         ->setAudience('iflix.com')// Configures the audience (aud claim)
         ->setId('123iflix456', true)// Configura o id (jti claim), replicating as a header item
         ->setIssuedAt(time())// Configures the time that the token was issue (iat claim)
@@ -95,6 +94,6 @@ class Token
 
         ->sign($signer, 'chave')// cria uma chave de assinatura privada
         ->getToken(); // Recupera o token
-        return $token;
+
     }
 }

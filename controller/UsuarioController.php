@@ -10,6 +10,7 @@ namespace controller;
 
 use model\Usuario;
 use util\DataConversor;
+use util\Mensagem;
 use view\View;
 use util\Token;
 
@@ -83,20 +84,18 @@ class UsuarioController implements Controller
     public function put()
     {
         $this->token = new Token();
-        $token = $this->token->token();
-        $this->token->retornaClaims($token);
+        $this->token->token();
+        $tokenClaims = $this->token->retornaClaims(apache_request_headers()["Authorization"]);
         $data = new DataConversor();
         $data = $data->converter();
-
         $usuario = new Usuario();
-
-        isset($data['id']) ? $usuario->setId($data['id']) : null;
+        isset($tokenClaims->usuario->id) ? $usuario->setId($tokenClaims->usuario->id) : null;
         isset($data['avatar']) ? $usuario->setAvatar($data['avatar']) : null;
-        isset($data['nome']) ? $usuario->setNome($data['nome']): null;
-        isset($data['email']) ? $usuario->setEmail($data['email']): null;
-        isset($data['senha']) ? $usuario->setSenha($data['senha']): null;
-        isset($data['controleDosPais'])? $usuario->setIsControleDosPais($data['controleDosPais']): null;
-        $usuario->alterar();
+        isset($data['nome']) ? $usuario->setNome($data['nome']) : null;
+        isset($data['email']) ? $usuario->setEmail($data['email']) : null;
+        isset($data['senha']) ? $usuario->setSenha($data['senha']) : null;
+        isset($data['controleDosPais']) ? $usuario->setIsControleDosPais($data['controleDosPais']) : null;
+        View::render($usuario->alterar());
 
     }
 
