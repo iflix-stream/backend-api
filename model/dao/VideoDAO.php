@@ -12,7 +12,6 @@ namespace model\dao;
 use model\MinhaLista;
 use model\Video;
 use phiber\Phiber;
-use model\Usuario;
 
 class VideoDAO implements IDAO
 {
@@ -183,25 +182,24 @@ class VideoDAO implements IDAO
         return "Erro ao deletar vídeo de ID: ".$video->getId();
     }
 
-
     /**
      * @param MinhaLista $lista
      * @param Video $video
      */
-    public static function adicionarSerieLista($tipo){
+    public static function adicionarItemLista($tipo, $video){
 
+
+        $phiber = new Phiber();
+        $criteria = $phiber->openPersist();
         if($tipo == "serie") {
-            $phiber = new Phiber();
-            $criteria = $phiber->openPersist();
             $criteria->setTable("minha_lista_serie");
-            $criteria->setFields(["nome","email","senha"]);
-            $criteria->setValues(["cleitao","craudin1000grau@gmail.com","21312312"]);
+            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setValues(["adc", "aaaaaa"]);
         }else{
-            $phiber = new Phiber();
-            $criteria = $phiber->openPersist();
-            $criteria->setTable("minha_lista_filme");
-            $criteria->setFields(["nome","email","senha"]);
-            $criteria->setValues(["cleitao","craudin1000grau@gmail.com","21312312"]);
+        $criteria = $phiber->openPersist();
+        $criteria->setTable("minha_lista_serie");
+        $criteria->setFields(["nome","email","senha"]);
+        $criteria->setValues(["cleitao","craudin1000grau@gmail.com","21312312"]);
         }
 
         }
