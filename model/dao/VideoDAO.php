@@ -12,6 +12,7 @@ namespace model\dao;
 use model\MinhaLista;
 use model\Video;
 use phiber\Phiber;
+use util\Token;
 
 class VideoDAO implements IDAO
 {
@@ -194,12 +195,12 @@ class VideoDAO implements IDAO
         if($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
-            $criteria->setValues(["adc", "aaaaaa"]);
+            $criteria->setValues(["", "aaaaaa"]);
         }else{
         $criteria = $phiber->openPersist();
         $criteria->setTable("minha_lista_serie");
-        $criteria->setFields(["nome","email","senha"]);
-        $criteria->setValues(["cleitao","craudin1000grau@gmail.com","21312312"]);
+        $criteria->setFields(["idUsuario","idVideo"]);
+        $criteria->setValues(["aaa","aaaaaa"]);
         }
 
         }
