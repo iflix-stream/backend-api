@@ -59,8 +59,8 @@ class Token
     {
         $parser = new Parser();
         $oToken = $parser->parse($this->recebeToken());
-        $claims = $oToken->getClaim('usuario');
-        return $claims['id'];
+        $claims = (Array)$oToken->getClaim('usuario');
+        return $claims["id"];
     }
 
     public function token()

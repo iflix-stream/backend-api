@@ -85,11 +85,11 @@ class UsuarioController implements Controller
     {
         $this->token = new Token();
         $this->token->token();
-        $tokenClaims = $this->token->retornaClaims(apache_request_headers()["Authorization"]);
+        $tokenClaims = $this->token->retornaIdUsuario();
         $data = new DataConversor();
         $data = $data->converter();
         $usuario = new Usuario();
-        isset($tokenClaims->usuario->id) ? $usuario->setId($tokenClaims->usuario->id) : null;
+        isset($tokenClaims) ? $usuario->setId($tokenClaims) : null;
         isset($data['avatar']) ? $usuario->setAvatar($data['avatar']) : null;
         isset($data['nome']) ? $usuario->setNome($data['nome']) : null;
         isset($data['email']) ? $usuario->setEmail($data['email']) : null;
