@@ -9,11 +9,8 @@
 namespace model;
 
 use model\dao\UsuarioDAO;
-use model\validator\UsuarioValidate;
-use util\DataConversor;
 use util\Mensagem;
 use util\Token;
-use view\View;
 
 class Usuario
 {
@@ -252,7 +249,9 @@ class Usuario
 
     public function alterar()
     {
-        $this->setDataAlteracao(date("d-m-Y"));
+        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        $this->dataAlteracao = (date("Y-m-d"));
+        var_dump($this->dataAlteracao);
         if (UsuarioDAO::update($this)) {
             return (new Mensagem())->success("sucesso-alterar-usuario");
         }

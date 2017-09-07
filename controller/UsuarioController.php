@@ -11,7 +11,6 @@ namespace controller;
 use model\Usuario;
 use model\validator\UsuarioValidate;
 use util\DataConversor;
-use util\Mensagem;
 use view\View;
 use util\Token;
 
@@ -37,7 +36,7 @@ class UsuarioController implements Controller
         $data = $data->converter();
         $validar = new UsuarioValidate();
         $validar = $validar->validateUsuarioCriar($data);
-        if ($validar === true){
+        if ($validar === true) {
             $date = date('Y-m-d');
             $usuario->setNome($data['nome']);
             $usuario->setEmail($data['email']);
@@ -47,8 +46,7 @@ class UsuarioController implements Controller
             $usuario->setDataCriacao($date);
             $usuario->setDataAlteracao($date);
             View::render($usuario->cadastrar());
-        }
-        else{
+        } else {
             View::render($validar);
         }
 //        if ($this->token === 'normal') {
@@ -96,14 +94,28 @@ class UsuarioController implements Controller
         $tokenClaims = $this->token->retornaIdUsuario();
         $data = new DataConversor();
         $data = $data->converter();
-        $usuario = new Usuario();
-        isset($tokenClaims) ? $usuario->setId($tokenClaims) : null;
-        isset($data['avatar']) ? $usuario->setAvatar($data['avatar']) : null;
-        isset($data['nome']) ? $usuario->setNome($data['nome']) : null;
-        isset($data['email']) ? $usuario->setEmail($data['email']) : null;
-        isset($data['senha']) ? $usuario->setSenha($data['senha']) : null;
-        isset($data['controleDosPais']) ? $usuario->setIsControleDosPais($data['controleDosPais']) : null;
-        View::render($usuario->alterar());
+        $validar = new UsuarioValidate();
+        $validar = $validar->validateUsuarioAlterar($data);
+        if ($validar === true) {
+            $usuario = new Usuario();
+            $usuario->setId($tokenClaims);
+            if (isset($data['avatar'])) {
+                $usuario->setAvatar($data['avatar']);
+            }
+            if (isset($data['nome'])) {
+                $usuario->setNome($data['nome']);
+            }
+            if (isset($data['senha'])) {
+                $usuario->setSenha($data['senha']);
+            }
+            if (isset($data['controleDosPais'])) {
+                $usuario->setIsControleDosPais($data['controleDosPais']);
+            }
+            View::render($usuario->alterar());
+        } else {
+            View::render($validar);
+        }
+
 
     }
 
