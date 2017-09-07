@@ -45,19 +45,19 @@ class VideoDAO implements IDAO
      */
     public static function retreave($video)
     {
-        if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null){
-           return self::retreaveById($video);
+        if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null) {
+            return self::retreaveById($video);
         }
 
-        if($video->getNome() != null and $video->getId() == null and $video->getGenero() == null) {
+        if ($video->getNome() != null and $video->getId() == null and $video->getGenero() == null) {
             return self::retreaveByNome($video);
         }
 
-        if($video->getGenero() != null and $video->getId() == null and $video->getNome() == null) {
+        if ($video->getGenero() != null and $video->getId() == null and $video->getNome() == null) {
             return self::retreaveByGenero($video);
         }
 
-        if($video->getGenero() != null and $video->getNome() != null and $video->getId() == null) {
+        if ($video->getGenero() != null and $video->getNome() != null and $video->getId() == null) {
             return self::retreaveByNomeEGenero($video);
         }
         return "Parametros invalidos";
@@ -163,7 +163,8 @@ class VideoDAO implements IDAO
 
     }
 
-    static function  retreaveRecomendados($video) {
+    static function retreaveRecomendados($video)
+    {
 
     }
 
@@ -177,31 +178,38 @@ class VideoDAO implements IDAO
         $criteria = $phiber->openPersist($video);
         $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
         $criteria->add($restrictionID);
-        if($criteria->delete()){
+        if ($criteria->delete()) {
             return $criteria->show();
         }
-        return "Erro ao deletar vídeo de ID: ".$video->getId();
+        return "Erro ao deletar vídeo de ID: " . $video->getId();
     }
 
     /**
      * @param MinhaLista $lista
      * @param Video $video
      */
-    public static function adicionarItemLista($tipo, $video){
+    public static function adicionarItemLista($tipo, $video)
+    {
 
-
+        $token = new Token();
+        $token->token();
+        $userID = $token->retornaIdUsuario();
         $phiber = new Phiber();
         $criteria = $phiber->openPersist();
-        if($tipo == "serie") {
+        if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
-            $criteria->setValues(["", "aaaaaa"]);
-        }else{
-        $criteria = $phiber->openPersist();
-        $criteria->setTable("minha_lista_serie");
-        $criteria->setFields(["idUsuario","idVideo"]);
-        $criteria->setValues(["aaa","aaaaaa"]);
+            $criteria->setValues([$userID, $video->getId()]);
+        } else {
+            $criteria = $phiber->openPersist();
+            $criteria->setTable("minha_lista_serie");
+            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setValues([$userID, $video->getId()]);
         }
+        if ($criteria->create()) {
+            return $criteria->show();
+        }
+        return "Erro ao adicionar item á lista do usuário:" . $userID;
+    }
 
-        }
 }
