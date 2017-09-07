@@ -185,10 +185,11 @@ class VideoDAO implements IDAO
     }
 
     /**
-     * @param MinhaLista $lista
-     * @param Video $video
+     * @param string $tipo
+     * @param int $idVideo
+     * @return string
      */
-    public static function adicionarItemLista($tipo, $video)
+    public static function adicionarItemLista($tipo, $idVideo)
     {
 
         $token = new Token();
@@ -199,12 +200,12 @@ class VideoDAO implements IDAO
         if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
-            $criteria->setValues([$userID, $video->getId()]);
+            $criteria->setValues([$userID, $idVideo]);
         } else {
             $criteria = $phiber->openPersist();
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
-            $criteria->setValues([$userID, $video->getId()]);
+            $criteria->setValues([$userID, $idVideo]);
         }
         if ($criteria->create()) {
             return $criteria->show();
