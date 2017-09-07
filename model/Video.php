@@ -269,4 +269,8 @@ class Video extends MediaFactory
         $salvar = new Arquivo();
         return $salvar->salvar("Video", "arquivo");
     }
+    public function adicionarItemLista(){
+
+        return VideoDAO::adicionarItemLista($this->getTipo(),$this->getId());
+    }
 }
