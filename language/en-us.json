@@ -2,9 +2,9 @@
   "welcome": "Be Welcome to IFlix!",
   "class-not-found": "Class not found!",
   "method-not-found": "Method not found!",
-  "erro-cadastrar-usuario": "Errors ocurred during user sign up.",
-  "sucesso-criar-usuario": "User signed up succesfully!",
-  "erro-retreave-usuario": "Errors ocurred during user listing.",
+  "erro-cadastrar-usuario": "Errors occurred during user sign up.",
+  "sucesso-criar-usuario": "User signed up successfully!",
+  "erro-retreave-usuario": "Errors occurred during user listing.",
   "usuario-ja-cadastrado": "This Email is already on use!",
   "erro-inesperado-login": "Unexpected error during Login.",
   "login-somente-post": "Use only POST method to Login in the site!",
@@ -15,4 +15,6 @@
   "parametro-genero-nulo": "Null genre param",
   "parametro-nome-genero-nulo": "Null genre and name params",
   "sucesso-deletar-video": "Video deleted with success!"
+  "erro-alterar-usuario":"Errors occurred during user update!",
+  "sucesso-alterar-usuario":"User updated successfully!"
 }
