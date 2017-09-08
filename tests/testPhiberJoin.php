@@ -9,16 +9,16 @@
 use phiber\Phiber;
 
 include_once '../vendor/autoload.php';
+
 $phiber = new Phiber();
 
-$phiber->setTable("usuario");
-$phiber->setFields(["id","nome","email"]);
-$phiber->add($phiber->restrictions->join("usuario_endereco", ["pk_usuario", "fk_usuario"]));
-$phiber->add($phiber->restrictions->join("fornecedor_endereco", ["pk_usuario", "fk_usuario"],"LEFT"));
-$phiber->add($phiber->restrictions->and($phiber->restrictions->equals("ip","1"), $phiber->restrictions->equals("nome","marcio") ));
+$phiber->setTable("user");
+$phiber->setFields(["user.id","user.name","user.email"]);
+$phiber->add($phiber->restrictions->join("user_address", ["pk_user", "fk_user"]));
+$phiber->add($phiber->restrictions->and($phiber->restrictions->equals("user.id","1"), $phiber->restrictions->like("user.name","Marcio") ));
 $phiber->add($phiber->restrictions->limit(15));
 $phiber->add($phiber->restrictions->offset(5));
-$phiber->add($phiber->restrictions->orderBy(['id ASC']));
+$phiber->add($phiber->restrictions->orderBy(['user.id ASC']));
 $phiber->select();
 echo $phiber->show();
 
