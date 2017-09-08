@@ -251,7 +251,6 @@ class Usuario
     {
         $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
         $this->dataAlteracao = (date("Y-m-d"));
-        var_dump($this->dataAlteracao);
         if (UsuarioDAO::update($this)) {
             return (new Mensagem())->success("sucesso-alterar-usuario");
         }
