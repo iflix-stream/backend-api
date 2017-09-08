@@ -262,10 +262,8 @@ class Usuario
     {
         UsuarioDAO::login($this);
         $u = UsuarioDAO::retreaveByEmail($this);
-
+        if (UsuarioDAO::getRows() == 1) {
         if (password_verify($this->senha, $u['senha'])) {
-            if (UsuarioDAO::getRows() == 1) {
-
                 $usuario = [
                     "id" => $u['id'],
                     "nome" => $u['nome'],

@@ -151,15 +151,14 @@ class UsuarioDAO implements IDAO
     public static function retreaveByEmail($usuario)
     {
         $phiber = new Phiber();
-        $criteria = $phiber->openPersist($usuario);
-        $restrictionEmail = $criteria->restrictions()->equals("email", $usuario->getEmail());
-        $restrictionAtivado = $criteria->restrictions()->equals("status", '1');
-        $restrictionAtivadoEmail = $criteria->restrictions()->and($restrictionAtivado, $restrictionEmail);
-        $criteria->setTable("usuario");
-        $criteria->add($criteria->restrictions()->fields(["id", "nome", "email", "avatar", "isControleDosPais","senha"]));
-        $criteria->add($restrictionAtivadoEmail);
-        $r = $criteria->select();
-        self::$rows = $criteria->rowCount();
+        $restrictionEmail = $phiber->restrictions->equals("email", $usuario->getEmail());
+        $restrictionAtivado = $phiber->restrictions->equals("status", '1');
+        $restrictionAtivadoEmail = $phiber->restrictions->and($restrictionAtivado, $restrictionEmail);
+        $phiber->setTable("usuario");
+        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais","senha"]);
+        $phiber->add($restrictionAtivadoEmail);
+        $r = $phiber->select();
+        self::$rows = $phiber->rowCount();
         return $r;
     }
 
