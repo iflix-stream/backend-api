@@ -195,14 +195,13 @@ class VideoDAO implements IDAO
         $token = new Token();
         $token->token();
         $userID = $token->retornaIdUsuario();
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist();
+        $criteria = new Phiber();
         if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
             $criteria->setValues([$userID, $idVideo]);
         } else {
-            $criteria = $phiber->openPersist();
+
             $criteria->setTable("minha_lista_serie");
             $criteria->setFields(["idUsuario", "idVideo"]);
             $criteria->setValues([$userID, $idVideo]);
