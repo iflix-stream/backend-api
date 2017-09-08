@@ -21,3 +21,12 @@ $phiber->add($phiber->restrictions->offset(5));
 $phiber->add($phiber->restrictions->orderBy(['id ASC']));
 $phiber->select();
 echo $phiber->show();
+
+// PRINTS
+
+//SELECT id, nome, email FROM usuario
+// INNER JOIN usuario_endereco
+// ON pk_usuario = fk_usuario
+//  LEFT JOIN fornecedor_endereco ON pk_usuario = fk_usuario
+//  WHERE (ip = :condition_ip AND nome = :condition_nome)
+// ORDER BY id ASC LIMIT 15  OFFSET 5;
