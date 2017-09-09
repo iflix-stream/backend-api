@@ -213,10 +213,15 @@ class VideoDAO implements IDAO
     }
 
     public function retreaveLista(){
+        $token = new Token();
+        $token->token();
+        $userID = $token->retornaIdUsuario();
+
         $phiber = new Phiber();
         $phiber->setTable("minha_lista_serie");
         $phiber->setFields(["idVideo"]);
         $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
+        $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
         $phiber->select();
         echo $phiber->show();
     }
