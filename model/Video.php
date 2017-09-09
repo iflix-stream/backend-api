@@ -259,9 +259,13 @@ class Video extends MediaFactory
         }
     }
 
+    public function retreaveLista(){
+
+    }
+
     public function listarRecomendados($idUsuario)
     {
-
+//        return VideoDAO::retreaveLista();
     }
 
     public function fazerUpload()

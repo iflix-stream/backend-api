@@ -222,7 +222,9 @@ class VideoDAO implements IDAO
         $phiber->setFields(["idVideo"]);
         $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
         $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
-        $phiber->select();
-        echo $phiber->show();
+        if($phiber->select()){
+        return $phiber->show();
+    }
+    return "Erro ao Listar sua lista de reprodução!";
     }
 }
