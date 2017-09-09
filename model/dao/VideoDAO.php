@@ -202,7 +202,7 @@ class VideoDAO implements IDAO
             $criteria->setValues([$userID, $idVideo]);
         } else {
 
-            $criteria->setTable("minha_lista_serie");
+            $criteria->setTable("minha_lista_filme");
             $criteria->setFields(["idUsuario", "idVideo"]);
             $criteria->setValues([$userID, $idVideo]);
         }
@@ -212,4 +212,12 @@ class VideoDAO implements IDAO
         return "Erro ao adicionar item á lista do usuário:" . $userID;
     }
 
+    public function retreaveLista(){
+        $phiber = new Phiber();
+        $phiber->setTable("minha_lista_serie");
+        $phiber->setFields(["idVideo"]);
+        $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
+        $phiber->select();
+        echo $phiber->show();
+    }
 }
