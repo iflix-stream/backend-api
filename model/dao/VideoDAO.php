@@ -11,6 +11,7 @@ namespace model\dao;
 
 use model\MinhaLista;
 use model\Video;
+use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
 use util\Token;
 
@@ -33,10 +34,9 @@ class VideoDAO implements IDAO
      */
     public static function create($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
-        $criteria->create();
-        return $criteria->show();
+        $phiber = new Phiber($video);
+        $phiber->create();
+        return $phiber->show();
     }
 
     /**
@@ -69,12 +69,11 @@ class VideoDAO implements IDAO
      */
     public static function update($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
-        $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+        $phiber = new Phiber($video);
+        $restrictionID = $phiber->restrictions->equals("id", $video->getId());
 
-        $criteria->add($restrictionID);
-        if ($criteria->update()) {
+        $phiber->add($restrictionID);
+        if ($phiber->update()) {
             return true;
         }
         return false;
@@ -106,15 +105,15 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByNome($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
+        $phiber = new Phiber($video);
+
         if ($video->getNome() != null) {
-            $restrictionNome = $criteria->restrictions()->like("nome", $video->getNome());
-            $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
-            $restrictionAtivadoNome = $criteria->restrictions()->and($restrictionAtivado, $restrictionNome);
-            $criteria->add($restrictionAtivadoNome);
-            $criteria->select();
-            return $criteria->show();
+            $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
+            $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+            $restrictionAtivadoNome = $phiber->restrictions->and($restrictionAtivado, $restrictionNome);
+            $phiber->add($restrictionAtivadoNome);
+            $phiber->select();
+            return $phiber->show();
         }
         return "Parametro nome nulo.";
     }
@@ -125,15 +124,15 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByGenero($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
+        $phiber = new Phiber($video);
+
         if ($video->getGenero() != null) {
-            $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
-            $restrictionGenero = $criteria->restrictions()->equals("genero", $video->getGenero());
-            $restrictionAtivadoGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionGenero);
-            $criteria->add($restrictionAtivadoGenero);
-            $criteria->select();
-            return $criteria->show();
+            $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+            $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
+            $restrictionAtivadoGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionGenero);
+            $phiber->add($restrictionAtivadoGenero);
+            $phiber->select();
+            return $phiber->show();
         }
         return "Parametro nome nulo.";
     }
@@ -144,22 +143,21 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByNomeEGenero($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
+        $phiber = new Phiber($video);
 
         if ($video->getNome() == null) return "Parametro nome nulo.";
         if ($video->getGenero() == null) return "Parametro genero nulo.";
         if ($video->getGenero() == null && $video->getNome() == null) return "Parametros nome e genero nulos.";
 
 
-        $restrictionNome = $criteria->restrictions()->like("nome", $video->getNome());
-        $restrictionGenero = $criteria->restrictions()->equals("genero", $video->getGenero());
-        $restrictionNomeEGenero = $criteria->restrictions()->and($restrictionNome, $restrictionGenero);
-        $restrictionAtivado = $criteria->restrictions()->equals("ativado", "1");
-        $restrictionAtivadoNomeGenero = $criteria->restrictions()->and($restrictionAtivado, $restrictionNomeEGenero);
-        $criteria->add($restrictionAtivadoNomeGenero);
-        $criteria->select();
-        return $criteria->show();
+        $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
+        $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
+        $restrictionNomeEGenero = $phiber->restrictions->and($restrictionNome, $restrictionGenero);
+        $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+        $restrictionAtivadoNomeGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionNomeEGenero);
+        $phiber->add($restrictionAtivadoNomeGenero);
+        $phiber->select();
+        return $phiber->show();
 
     }
 
@@ -174,12 +172,11 @@ class VideoDAO implements IDAO
      */
     static function delete($video)
     {
-        $phiber = new Phiber();
-        $criteria = $phiber->openPersist($video);
-        $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
-        $criteria->add($restrictionID);
-        if ($criteria->delete()) {
-            return $criteria->show();
+        $phiber = new Phiber($video);
+        $restrictionID = $phiber->restrictions->equals("id", $video->getId());
+        $phiber->add($restrictionID);
+        if ($phiber->delete()) {
+            return $phiber->show();
         }
         return "Erro ao deletar vídeo de ID: " . $video->getId();
     }
