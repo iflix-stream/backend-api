@@ -210,7 +210,7 @@ class VideoDAO implements IDAO
         return "Erro ao adicionar item á lista do usuário:" . $userID;
     }
 
-    public function retreaveLista(){
+    public static function retreaveLista(){
         $token = new Token();
         $token->token();
         $userID = $token->retornaIdUsuario();
