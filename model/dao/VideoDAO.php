@@ -13,6 +13,7 @@ use model\MinhaLista;
 use model\Video;
 use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
+use util\Mensagem;
 use util\Token;
 
 class VideoDAO implements IDAO
@@ -222,6 +223,7 @@ class VideoDAO implements IDAO
         if($phiber->select()){
         return $phiber->show();
     }
-    return "Erro ao Listar sua lista de reprodução!";
+    return (new Mensagem())->error("erro-retreave-lista");
+
     }
 }

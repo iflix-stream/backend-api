@@ -16,5 +16,6 @@
   "parametro-nome-genero-nulo": "Null genre and name params",
   "sucesso-deletar-video": "Video deleted with success!",
   "erro-alterar-usuario":"Errors occurred during user update!",
-  "sucesso-alterar-usuario":"User updated successfully!"
+  "sucesso-alterar-usuario":"User updated successfully!",
+  "erro-retreave-lista":"List Retreave error!"
 }

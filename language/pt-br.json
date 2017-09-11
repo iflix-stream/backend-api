@@ -16,5 +16,7 @@
   "parametro-nome-genero-nulo": "Parâmetro nome e gênero nulos.",
   "sucesso-deletar-video": "Sucesso ao deletar o vídeo!",
   "erro-alterar-usuario":"Erro ao alterar o usuário.",
-  "sucesso-alterar-usuario":"Usuário alterado com sucesso!"
+  "sucesso-alterar-usuario":"Usuário alterado com sucesso!",
+  "erro-retreave-lista":"Erro ao retornar lista de reprodução."
+
 }
