@@ -12,6 +12,7 @@ use finfo;
 use model\dao\VideoDAO;
 use util\Arquivo;
 use util\DataConversor;
+use util\Mensagem;
 use view\View;
 
 class Video extends MediaFactory
@@ -196,14 +197,12 @@ class Video extends MediaFactory
 
     public function stream()
     {
-        if (!isset($_GET['ext']) || $_GET['ext'] == 'mp4') {
-            $path = dirname(__FILE__) . '/../resource/rain.mp4';
-        } else if ($_GET['ext'] == 'webm') {
-            $path = dirname(__FILE__) . '/../resource/rain.webm';
-        } else {
-            header('HTTP/1.1 400 Bad Request');
-            return;
+
+        if(empty($this->id)){
+//            echo (new Mensagem())->error("parametro-id-nulo",500);
+            die("Parametro ID nulo");
         }
+        $path = dirname(__FILE__) . "/../video/".$this->id.".mp4";
 
         $finfo = new finfo(FILEINFO_MIME);
         $mime = $finfo->file($path);
