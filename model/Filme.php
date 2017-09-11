@@ -9,7 +9,6 @@
 namespace model;
 
 
-use model\dao\VideoDAO;
 
 class Filme extends Video
 {
@@ -22,7 +21,4 @@ class Filme extends Video
         $this->setTipo('filme');
     }
 
-    function adicionaLista() {
-        VideoDAO::adicionarSerieLista("filme", $this);
-    }
 }
