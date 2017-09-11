@@ -3,15 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 05-Set-2017 às 03:39
+-- Generation Time: 11-Set-2017 às 21:24
 -- Versão do servidor: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "-03:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -31,11 +30,11 @@ SET time_zone = "-03:00";
 
 CREATE TABLE `episodio` (
   `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `sinopse` varchar(45) DEFAULT NULL,
+  `nome` varchar(255) NOT NULL,
+  `sinopse` text NOT NULL,
   `temporada_id` int(11) NOT NULL,
-  `duracao` varchar(45) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL
+  `duracao` varchar(45) NOT NULL,
+  `caminho` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -46,14 +45,24 @@ CREATE TABLE `episodio` (
 
 CREATE TABLE `filme` (
   `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `classificacao` varchar(11) DEFAULT NULL,
-  `genero` varchar(22) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL,
-  `duracao` varchar(45) DEFAULT NULL,
-  `sinopse` varchar(45) DEFAULT NULL,
-  `thumbnail` varchar(45) DEFAULT NULL
+  `nome` varchar(255) NOT NULL,
+  `classificacao` int(11) NOT NULL,
+  `caminho` varchar(45) NOT NULL,
+  `duracao` varchar(45) NOT NULL,
+  `sinopse` text NOT NULL,
+  `thumbnail` varchar(100) NOT NULL,
+  `genero_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `genero`
+--
+
+CREATE TABLE `genero` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -64,8 +73,8 @@ CREATE TABLE `filme` (
 
 CREATE TABLE `idioma_episodio` (
   `id` int(11) NOT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL,
+  `idioma` varchar(50) NOT NULL,
+  `caminho` varchar(100) NOT NULL,
   `episodio_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -77,8 +86,8 @@ CREATE TABLE `idioma_episodio` (
 
 CREATE TABLE `idioma_filme` (
   `id` int(11) NOT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL,
+  `idioma` varchar(50) NOT NULL,
+  `caminho` varchar(100) NOT NULL,
   `video_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -90,8 +99,8 @@ CREATE TABLE `idioma_filme` (
 
 CREATE TABLE `legenda_episodio` (
   `id` int(11) NOT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL,
+  `descricao` varchar(50) NOT NULL,
+  `caminho` varchar(100) NOT NULL,
   `episodio_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -103,22 +112,21 @@ CREATE TABLE `legenda_episodio` (
 
 CREATE TABLE `legenda_filme` (
   `id` int(11) NOT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `caminho` varchar(45) DEFAULT NULL,
+  `idioma` varchar(50) NOT NULL,
+  `caminho` varchar(100) NOT NULL,
   `video_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `minha_lista`
+-- Estrutura da tabela `minha_lista_filme`
 --
 
-CREATE TABLE `minha_lista` (
+CREATE TABLE `minha_lista_filme` (
   `id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  `serie_id` int(11) NOT NULL DEFAULT '0',
-  `filme_id` int(11) NOT NULL DEFAULT '0'
+  `filme_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -129,11 +137,11 @@ CREATE TABLE `minha_lista` (
 
 CREATE TABLE `serie` (
   `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `descricao` varchar(45) DEFAULT NULL,
-  `classificacao` varchar(45) DEFAULT NULL,
-  `genero` varchar(45) DEFAULT NULL,
-  `thumbnail` varchar(45) DEFAULT NULL
+  `nome` varchar(255) NOT NULL,
+  `sinopse` text NOT NULL,
+  `classificacao` int(11) NOT NULL,
+  `thumbnail` varchar(100) NOT NULL,
+  `genero_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -155,14 +163,14 @@ CREATE TABLE `temporada` (
 
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
-  `nome` varchar(180) DEFAULT NULL,
-  `avatar` varchar(80) DEFAULT NULL,
+  `nome` varchar(180) NOT NULL,
+  `avatar` varchar(100) NOT NULL,
   `isControleDosPais` tinyint(4) DEFAULT '0',
-  `senha` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `dataNascimento` date DEFAULT NULL,
-  `dataCriacao` date DEFAULT NULL,
-  `dataAlteracao` date DEFAULT NULL,
+  `senha` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `dataNascimento` date NOT NULL,
+  `dataCriacao` date NOT NULL,
+  `dataAlteracao` date NOT NULL,
   `status` tinyint(4) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -171,13 +179,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `avatar`, `isControleDosPais`, `senha`, `email`, `dataNascimento`, `dataCriacao`, `dataAlteracao`, `status`) VALUES
-(1, 'Lucas', 'lola', 0, 'theboss321', 'lukinh123@gmail.com', NULL, NULL, NULL, 1),
-(2, 'Marcio Lucas', 'sadadasd', 0, 'pamonha4321', 'marciioluucas@gmail.com', NULL, NULL, NULL, 1),
-(3, 'Marcio Lucas', 'avatares/default.png', 0, 'pamonha4321', 'marciioluucas@gmail.com', NULL, '2017-09-05', NULL, 1),
-(4, 'Marcio Lucas', 'avatares/default.png', 0, 'pamonha4321', 'marciioluucas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1),
-(5, 'Juanes Adriano', 'avatares/default.png', 0, 'pamonha4321', 'jonas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1),
-(6, 'Juanes Adriano', 'avatares/default.png', 0, 'pamonha4321', 'jonas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1),
-(7, 'Pamonha Adriano', 'avatares/default.png', 0, 'pamonha4321', 'jonas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1);
+  (8, 'Marcio', 'avatares/default.png', 0, '$2y$10$sB1.GlH0bWTr5mY8TqP5f.DrIyMRJ2EyDfQ4UKGDkN4Jv8.ppBXFi', 'marciioluucas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1);
 
 --
 -- Indexes for dumped tables
@@ -194,6 +196,13 @@ ALTER TABLE `episodio`
 -- Indexes for table `filme`
 --
 ALTER TABLE `filme`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_filme_genero1_idx` (`genero_id`);
+
+--
+-- Indexes for table `genero`
+--
+ALTER TABLE `genero`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -225,19 +234,19 @@ ALTER TABLE `legenda_filme`
   ADD KEY `fk_legenda_video1_idx` (`video_id`);
 
 --
--- Indexes for table `minha_lista`
+-- Indexes for table `minha_lista_filme`
 --
-ALTER TABLE `minha_lista`
+ALTER TABLE `minha_lista_filme`
   ADD PRIMARY KEY (`id`,`usuario_id`),
-  ADD KEY `fk_minha_lista_usuario1_idx` (`usuario_id`),
-  ADD KEY `fk_minha_lista_serie1_idx` (`serie_id`),
-  ADD KEY `fk_minha_lista_filme1_idx` (`filme_id`);
+  ADD KEY `fk_minha_lista_filme_usuario1_idx` (`usuario_id`),
+  ADD KEY `fk_minha_lista_filme_filme1_idx` (`filme_id`);
 
 --
 -- Indexes for table `serie`
 --
 ALTER TABLE `serie`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_serie_genero1_idx` (`genero_id`);
 
 --
 -- Indexes for table `temporada`
@@ -257,10 +266,60 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT for table `episodio`
+--
+ALTER TABLE `episodio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `filme`
+--
+ALTER TABLE `filme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `genero`
+--
+ALTER TABLE `genero`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `idioma_episodio`
+--
+ALTER TABLE `idioma_episodio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `idioma_filme`
+--
+ALTER TABLE `idioma_filme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `legenda_episodio`
+--
+ALTER TABLE `legenda_episodio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `legenda_filme`
+--
+ALTER TABLE `legenda_filme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `minha_lista_filme`
+--
+ALTER TABLE `minha_lista_filme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `serie`
+--
+ALTER TABLE `serie`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `temporada`
+--
+ALTER TABLE `temporada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -270,6 +329,12 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `episodio`
   ADD CONSTRAINT `fk_episodio_temporada1` FOREIGN KEY (`temporada_id`) REFERENCES `temporada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `filme`
+--
+ALTER TABLE `filme`
+  ADD CONSTRAINT `fk_filme_genero1` FOREIGN KEY (`genero_id`) REFERENCES `genero` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `idioma_episodio`
@@ -296,12 +361,17 @@ ALTER TABLE `legenda_filme`
   ADD CONSTRAINT `fk_legenda_video1` FOREIGN KEY (`video_id`) REFERENCES `filme` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limitadores para a tabela `minha_lista`
+-- Limitadores para a tabela `minha_lista_filme`
 --
-ALTER TABLE `minha_lista`
-  ADD CONSTRAINT `fk_minha_lista_filme1` FOREIGN KEY (`filme_id`) REFERENCES `filme` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_minha_lista_serie1` FOREIGN KEY (`serie_id`) REFERENCES `serie` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_minha_lista_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `minha_lista_filme`
+  ADD CONSTRAINT `fk_minha_lista_filme_filme1` FOREIGN KEY (`filme_id`) REFERENCES `filme` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_minha_lista_filme_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `serie`
+--
+ALTER TABLE `serie`
+  ADD CONSTRAINT `fk_serie_genero1` FOREIGN KEY (`genero_id`) REFERENCES `genero` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `temporada`
