@@ -249,7 +249,9 @@ class Usuario
 
     public function alterar()
     {
-        $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        if(!empty($this->senha)){
+            $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
+        }
         $this->dataAlteracao = (date("Y-m-d"));
         if (UsuarioDAO::update($this)) {
             return (new Mensagem())->success("sucesso-alterar-usuario");

@@ -108,8 +108,8 @@ class UsuarioController implements Controller
             if (isset($data['senha'])) {
                 $usuario->setSenha($data['senha']);
             }
-            if (isset($data['controleDosPais'])) {
-                $usuario->setIsControleDosPais($data['controleDosPais']);
+            if (isset($data['isControleDosPais'])) {
+                $usuario->setIsControleDosPais($data['isControleDosPais']);
             }
             View::render($usuario->alterar());
         } else {
