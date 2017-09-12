@@ -11,6 +11,12 @@ namespace controller;
 use model\Video;
 use view\View;
 
+
+/**
+ * Class VideoController
+ * @deprecated
+ * @package controller
+ */
 class VideoController implements Controller
 {
 

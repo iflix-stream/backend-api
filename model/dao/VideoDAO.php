@@ -97,8 +97,8 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            $phiber->select();
-            return $phiber->show();
+
+            return $phiber->select();
         }
         return "Parametro ID nulo.";
     }
@@ -120,7 +120,7 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            return $phiber->show();
+            return $phiber->select();
         }
         return "Parametro nome nulo.";
     }
@@ -142,8 +142,8 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            $phiber->select();
-            return $phiber->show();
+
+            return $phiber->select();
         }
         return "Parametro nome nulo.";
     }
@@ -171,7 +171,7 @@ class VideoDAO implements IDAO
         if ($video->getTipo() == "serie") {
             $phiber->setTable("serie");
         }
-        return $phiber->show();
+        return $phiber->select();
 
     }
 
