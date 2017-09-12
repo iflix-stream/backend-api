@@ -13,6 +13,7 @@ use model\MinhaLista;
 use model\Video;
 use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
+use util\Mensagem;
 use util\Token;
 
 class VideoDAO implements IDAO
@@ -86,19 +87,15 @@ class VideoDAO implements IDAO
     private static function retreaveById($video)
     {
         $phiber = new Phiber();
-
+        $criteria = $phiber->openPersist($video);
         if ($video->getId() != null) {
 
-            $restrictionID = $phiber->restrictions->equals("id", $video->getId());
-            $restrictionAtivado = $phiber->restrictions->equals("ativado", '1');
-            $restrictionAtivadoID = $phiber->restrictions->and($restrictionAtivado, $restrictionID);
-            $phiber->add($restrictionAtivadoID);
-            $phiber->setTable("filme");
-            if ($video->getTipo() == "serie") {
-                $phiber->setTable("serie");
-            }
-            $phiber->select();
-            return $phiber->show();
+            $restrictionID = $criteria->restrictions()->equals("id", $video->getId());
+            $restrictionAtivado = $criteria->restrictions()->equals("ativado", '1');
+            $restrictionAtivadoID = $criteria->restrictions()->and($restrictionAtivado, $restrictionID);
+            $criteria->add($restrictionAtivadoID);
+            $criteria->select();
+            return $criteria->show();
         }
         return "Parametro ID nulo.";
     }
@@ -109,17 +106,14 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByNome($video)
     {
-        $phiber = new Phiber();
+        $phiber = new Phiber($video);
 
         if ($video->getNome() != null) {
             $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
             $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
             $restrictionAtivadoNome = $phiber->restrictions->and($restrictionAtivado, $restrictionNome);
             $phiber->add($restrictionAtivadoNome);
-            $phiber->setTable("filme");
-            if ($video->getTipo() == "serie") {
-                $phiber->setTable("serie");
-            }
+            $phiber->select();
             return $phiber->show();
         }
         return "Parametro nome nulo.";
@@ -131,17 +125,13 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByGenero($video)
     {
-        $phiber = new Phiber();
+        $phiber = new Phiber($video);
 
         if ($video->getGenero() != null) {
             $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
             $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
             $restrictionAtivadoGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionGenero);
             $phiber->add($restrictionAtivadoGenero);
-            $phiber->setTable("filme");
-            if ($video->getTipo() == "serie") {
-                $phiber->setTable("serie");
-            }
             $phiber->select();
             return $phiber->show();
         }
@@ -154,7 +144,7 @@ class VideoDAO implements IDAO
      */
     private static function retreaveByNomeEGenero($video)
     {
-        $phiber = new Phiber();
+        $phiber = new Phiber($video);
 
         if ($video->getNome() == null) return "Parametro nome nulo.";
         if ($video->getGenero() == null) return "Parametro genero nulo.";
@@ -167,10 +157,7 @@ class VideoDAO implements IDAO
         $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
         $restrictionAtivadoNomeGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionNomeEGenero);
         $phiber->add($restrictionAtivadoNomeGenero);
-        $phiber->setTable("filme");
-        if ($video->getTipo() == "serie") {
-            $phiber->setTable("serie");
-        }
+        $phiber->select();
         return $phiber->show();
 
     }
@@ -209,12 +196,12 @@ class VideoDAO implements IDAO
         $criteria = new Phiber();
         if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
-            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setFields(["idUsuario", "serie-id"]);
             $criteria->setValues([$userID, $idVideo]);
         } else {
 
             $criteria->setTable("minha_lista_filme");
-            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setFields(["idUsuario", "filme-id"]);
             $criteria->setValues([$userID, $idVideo]);
         }
         if ($criteria->create()) {
@@ -223,7 +210,7 @@ class VideoDAO implements IDAO
         return "Erro ao adicionar item á lista do usuário:" . $userID;
     }
 
-    public function retreaveLista()
+    public static function retreaveLista()
     {
         $token = new Token();
         $token->token();
@@ -231,12 +218,39 @@ class VideoDAO implements IDAO
 
         $phiber = new Phiber();
         $phiber->setTable("minha_lista_serie");
-        $phiber->setFields(["idVideo"]);
-        $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
-        $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
-        if ($phiber->select()) {
-            return $phiber->show();
-        }
-        return "Erro ao Listar sua lista de reprodução!";
+        $phiber->add($phiber->restrictions->join("minha_lista_filme",
+            ["minha_lista_filme.usuario_id", "minha_lista_serie.usuario_id"]));
+        $phiber->add(
+            $phiber->restrictions->and($phiber->restrictions->equals("minha_lista_filme.usuario_id", $userID),
+                $phiber->restrictions->equals("minha_lista_serie.usuario_id", $userID))
+        );
+        $phiber->add($phiber->restrictions->orderBy(['id asc']));
+        $phiber->select();
+        return ["sql"=>(string) $phiber->show()];
+
+
+    }
+
+    public static function newRetreaveLista(){
+        $token = new Token();
+        $token->token();
+        $userID= $token->retornaIdUsuario();
+
+        $phiber = new Phiber();
+        $phiber->setTable("minha_lista_serie");
+        $phiber->setFields(["serie_id"]);
+        $phiber->add($phiber->restrictions->equals("usuario_id", $userID));
+        $idSerie = $phiber->select();
+        $test1= $phiber->show();
+
+        $phiber->setTable("minha_lista_filme");
+        $phiber->setFields(["filme_id"]);
+        $phiber->add($phiber->restrictions->equals("usuario_id", $userID));
+        $idFilme = $phiber->select();
+        $test2 = $phiber->show();
+
+        return ["sql serie" => "$test1","sql filme"=>"$test2"];
+
+
     }
 }
