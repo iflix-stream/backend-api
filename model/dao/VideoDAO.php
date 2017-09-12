@@ -36,13 +36,13 @@ class VideoDAO implements IDAO
     public static function create($video)
     {
         $phiber = new Phiber($video);
-        $phiber->create();
-        return $phiber->show();
+        if ($phiber->create()) return true;
+        return false;
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     public static function retreave($video)
     {
@@ -61,7 +61,7 @@ class VideoDAO implements IDAO
         if ($video->getGenero() != null and $video->getNome() != null and $video->getId() == null) {
             return self::retreaveByNomeEGenero($video);
         }
-        return "Parametros invalidos";
+        return (new Mensagem())->error("parametros-invalidos", 500);
     }
 
     /**
@@ -194,9 +194,9 @@ class VideoDAO implements IDAO
         $restrictionID = $phiber->restrictions->equals("id", $video->getId());
         $phiber->add($restrictionID);
         if ($phiber->delete()) {
-            return $phiber->show();
+            return true;
         }
-        return "Erro ao deletar vídeo de ID: " . $video->getId();
+        return false;
     }
 
     /**
@@ -222,9 +222,9 @@ class VideoDAO implements IDAO
             $criteria->setValues([$userID, $idVideo]);
         }
         if ($criteria->create()) {
-            return $criteria->show();
+            return true;
         }
-        return "Erro ao adicionar item á lista do usuário:" . $userID;
+        return false;
     }
 
     public function retreaveLista()
@@ -238,10 +238,10 @@ class VideoDAO implements IDAO
         $phiber->setFields(["idVideo"]);
         $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
         $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
-        if ($phiber->select()) {
-            return $phiber->show();
+        if ($r = $phiber->select()) {
+            return $r;
         }
-        return "Erro ao Listar sua lista de reprodução!";
+        return (new Mensagem())->error('erro-listar-lista', 500);
     }
 
     public static function newRetreaveLista()
@@ -249,21 +249,23 @@ class VideoDAO implements IDAO
         $token = new Token();
         $token->token();
         $userID = $token->retornaIdUsuario();
-
+        $arrMinhaLista = [];
         $phiber = new Phiber();
         $phiber->setTable("minha_lista_serie");
         $phiber->setFields(["serie_id"]);
         $phiber->add($phiber->restrictions->equals("usuario_id", $userID));
         $idSerie = $phiber->select();
-        $test1 = $phiber->show();
+        $arrMinhaLista['series'] = $idSerie;
+//        $test1 = $phiber->show();
 
         $phiber->setTable("minha_lista_filme");
         $phiber->setFields(["filme_id"]);
         $phiber->add($phiber->restrictions->equals("usuario_id", $userID));
         $idFilme = $phiber->select();
-        $test2 = $phiber->show();
+        $arrMinhaLista['filmes'] = $idFilme;
+//        $test2 = $phiber->show();
 
-        return ["sql serie" => "$test1", "sql filme" => "$test2"];
+        return $arrMinhaLista;
     }
 
 
