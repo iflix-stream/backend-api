@@ -179,6 +179,9 @@ class VideoDAO implements IDAO
 
     }
 
+    /**
+     * @param $video
+     */
     static function retreaveRecomendados($video)
     {
 
@@ -227,6 +230,9 @@ class VideoDAO implements IDAO
         return false;
     }
 
+    /**
+     * @return array
+     */
     public function retreaveLista()
     {
         $token = new Token();
@@ -244,6 +250,9 @@ class VideoDAO implements IDAO
         return (new Mensagem())->error('erro-listar-lista', 500);
     }
 
+    /**
+     * @return array
+     */
     public static function newRetreaveLista()
     {
         $token = new Token();
