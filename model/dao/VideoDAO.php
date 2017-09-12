@@ -13,6 +13,7 @@ use model\MinhaLista;
 use model\Video;
 use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
+use util\Mensagem;
 use util\Token;
 
 class VideoDAO implements IDAO
@@ -81,9 +82,9 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
-    private static function retreaveById($video)
+    public static function retreaveById($video)
     {
         $phiber = new Phiber();
 
@@ -97,15 +98,15 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            $phiber->select();
-            return $phiber->show();
+
+            return $phiber->select();
         }
-        return "Parametro ID nulo.";
+        return (new Mensagem())->error("parametro-nome-nulo", 500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByNome($video)
     {
@@ -120,14 +121,14 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            return $phiber->show();
+            return $phiber->select();
         }
-        return "Parametro nome nulo.";
+        return (new Mensagem())->error("parametro-nome-nulo", 500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByGenero($video)
     {
@@ -142,23 +143,26 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-            $phiber->select();
-            return $phiber->show();
+
+            return $phiber->select();
         }
-        return "Parametro nome nulo.";
+        return (new Mensagem())->error("parametro-genero-nulo", 500);
     }
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     private static function retreaveByNomeEGenero($video)
     {
         $phiber = new Phiber();
 
-        if ($video->getNome() == null) return "Parametro nome nulo.";
-        if ($video->getGenero() == null) return "Parametro genero nulo.";
-        if ($video->getGenero() == null && $video->getNome() == null) return "Parametros nome e genero nulos.";
+        if ($video->getNome() == null)
+            return (new Mensagem())->error("parametro-nome-nulo", 500);
+        if ($video->getGenero() == null)
+            return (new Mensagem())->error("parametro-genero-nulo", 500);
+        if ($video->getGenero() == null && $video->getNome() == null)
+            return (new Mensagem())->error("parametro-nome-genero-nulo", 500);
 
 
         $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
@@ -171,7 +175,7 @@ class VideoDAO implements IDAO
         if ($video->getTipo() == "serie") {
             $phiber->setTable("serie");
         }
-        return $phiber->show();
+        return $phiber->select();
 
     }
 
