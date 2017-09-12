@@ -44,12 +44,12 @@ class LoginController implements Controller
         View::render((new Mensagem())->error('login-somente-post', 500));
     }
 
-    public function put()
+    public function put($params = [])
     {
         View::render((new Mensagem())->error('login-somente-post', 500));
     }
 
-    public function delete()
+    public function delete($params = [])
     {
         View::render((new Mensagem())->error('login-somente-post', 500));
     }

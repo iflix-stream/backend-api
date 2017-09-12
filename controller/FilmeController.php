@@ -23,25 +23,16 @@ class FilmeController implements Controller
         $data = $data->converter();
         $validate = new FilmeValidate();
         $filme = new Filme();
-        if (!isset($data['id'])) { // verifica se tem upload no post se tiver seta e salva se nao e porque ele quer colocar o link;
-            $validate = $validate->validaUploadFilme($data);
-            if ($validate === true) {
-                $filme->setNome($data['nome']);
-                $filme->setDescricao($data['descricao']);
-                $filme->setGenero($data['genero']);
-                $filme->setFormato($data['formato']);
-                $filme->setClassificacao($data['idade_recomendada']);
-                $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.
-            } else {
-                View::render($validate);
-            }
+        $validate = $validate->validaUploadFilme($data);
+        if ($validate === true) {
+            $filme->setNome($data['nome']);
+            $filme->setDescricao($data['descricao']);
+            $filme->setGenero($data['genero']);
+            $filme->setFormato($data['formato']);
+            $filme->setClassificacao($data['idade_recomendada']);
+            $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.
         } else {
-            $caminho = $filme->fazerUpload($filme->getTipo(), $filme->getNome());
-            if (is_string($caminho)) {
-                $filme->setCaminho($caminho);
-                $filme->setId($data['id']); // id retornado apos adicionar entao setado para alterar o caminho.
-                $filme->alterar();
-            }
+            View::render($validate);
         }
     }
 
@@ -60,12 +51,19 @@ class FilmeController implements Controller
         View::render($data);
     }
 
-    public function put()
+    public function put($params = [])
     {
+        $filme = new Filme();
+        $caminho = $filme->fazerUpload($filme->getTipo(), $filme->getNome());
+        if (is_string($caminho)) {
+            $filme->setCaminho($caminho);
+            $filme->setId($params['id']); // id retornado apos adicionar entao setado para alterar o caminho. deve ser passado como parametro
+            $filme->alterar();
+        }
         // TODO: Implement put() method.
     }
 
-    public function delete()
+    public function delete($params = [])
     {
         // TODO: Implement delede() method.
     }

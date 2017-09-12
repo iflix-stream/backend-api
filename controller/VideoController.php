@@ -46,12 +46,12 @@ class VideoController implements Controller
         View::render($data);
     }
 
-    public function put()
+    public function put($params = [])
     {
         // TODO: Implement put() method.
     }
 
-    public function delete()
+    public function delete($params = [])
     {
         // TODO: Implement delede() method.
     }

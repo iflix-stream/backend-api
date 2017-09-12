@@ -87,7 +87,7 @@ class UsuarioController implements Controller
         View::render($usuario->listar());
     }
 
-    public function put()
+    public function put($params = [])
     {
         $this->token = new Token();
         $this->token->token();
@@ -119,7 +119,7 @@ class UsuarioController implements Controller
 
     }
 
-    public function delete()
+    public function delete($params = [])
     {
         // TODO: Implement delete() method.
     }

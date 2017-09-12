@@ -12,7 +12,10 @@ namespace controller;
 interface Controller
 {
     public function post();
+
     public function get($params = []);
-    public function put();
-    public function delete();
+
+    public function put($params = []);
+
+    public function delete($params = []);
 }
