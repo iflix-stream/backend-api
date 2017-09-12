@@ -10,6 +10,7 @@ namespace controller;
 
 
 use model\Serie;
+use model\Video;
 use view\View;
 
 class SerieController implements Controller
@@ -44,6 +45,11 @@ class SerieController implements Controller
 
     public function delete($params = [])
     {
-        // TODO: Implement delede() method.
+        $video = new Video();
+        $data= [];
+        if($_GET['deleteItemLista'] == "true"){
+            $data = $video->deleteItemLista();
+        }
+        View::render($data);
     }
 }
