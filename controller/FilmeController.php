@@ -31,7 +31,7 @@ class FilmeController implements Controller
                 $filme->setGenero($data['genero']);
                 $filme->setFormato($data['formato']);
                 $filme->setClassificacao($data['idade_recomendada']);
-                $filme->cadastrar();
+                $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.
             } else {
                 View::render($validate);
             }
@@ -39,7 +39,7 @@ class FilmeController implements Controller
             $caminho = $filme->fazerUpload($filme->getTipo(), $filme->getNome());
             if (is_string($caminho)) {
                 $filme->setCaminho($caminho);
-                $filme->setId($data['id']);
+                $filme->setId($data['id']); // id retornado apos adicionar entao setado para alterar o caminho.
                 $filme->alterar();
             }
         }
