@@ -12,6 +12,7 @@ namespace controller;
 use model\Filme;
 use util\DataConversor;
 use view\View;
+use model\validator\FilmeValidate;
 
 class FilmeController implements Controller
 {
@@ -20,14 +21,28 @@ class FilmeController implements Controller
     {
         $data = new DataConversor();
         $data = $data->converter();
-
+        $validate = new FilmeValidate();
         $filme = new Filme();
-        $filme->setNome($data['nome']);
-        $filme->setDescricao($data['descricao']);
-        $filme->setGenero($data['genero']);
-        $filme->setFormato($data['formato']);
-        $filme->setClassificacao($data['idade_recomendada']);
-        $filme->cadastrar();
+        if (!isset($data['id'])) { // verifica se tem upload no post se tiver seta e salva se nao e porque ele quer colocar o link;
+            $validate = $validate->validaUploadFilme($data);
+            if ($validate === true) {
+                $filme->setNome($data['nome']);
+                $filme->setDescricao($data['descricao']);
+                $filme->setGenero($data['genero']);
+                $filme->setFormato($data['formato']);
+                $filme->setClassificacao($data['idade_recomendada']);
+                $filme->cadastrar();
+            } else {
+                View::render($validate);
+            }
+        } else {
+            $caminho = $filme->fazerUpload($filme->getTipo(), $filme->getNome());
+            if (is_string($caminho)) {
+                $filme->setCaminho($caminho);
+                $filme->setId($data['id']);
+                $filme->alterar();
+            }
+        }
     }
 
     public function get($params = [])

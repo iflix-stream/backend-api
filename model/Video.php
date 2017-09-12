@@ -265,10 +265,10 @@ class Video extends MediaFactory
 //        return VideoDAO::retreaveLista();
     }
 
-    public function fazerUpload()
+    public function fazerUpload($tipo, $nome)
     {
         $salvar = new Arquivo();
-        return $salvar->salvar("Video", "arquivo");
+        return $salvar->salvar($tipo, $nome);
     }
 
     public function adicionarItemLista()
