@@ -10,6 +10,7 @@ namespace controller;
 
 
 use model\Filme;
+use util\DataConversor;
 use view\View;
 
 class FilmeController implements Controller
@@ -17,9 +18,16 @@ class FilmeController implements Controller
 
     public function post()
     {
+        $data = new DataConversor();
+        $data = $data->converter();
+
         $filme = new Filme();
+        $filme->setNome($data['nome']);
+        $filme->setDescricao($data['descricao']);
+        $filme->setGenero($data['genero']);
+        $filme->setFormato($data['formato']);
+        $filme->setClassificacao($data['idade_recomendada']);
         $filme->cadastrar();
-        // TODO: Implement post() method.
     }
 
     public function get($params = [])

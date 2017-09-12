@@ -162,11 +162,6 @@ class Video extends MediaFactory
         $data = $data->converter();
 
         if (isset($data['upload'])) { // verifica se tem upload no post se tiver seta e salva se nao e porque ele quer colocar o link;
-            $this->setNome($data['nome']);
-            $this->setDescricao($data['descricao']);
-            $this->setGenero($data['genero']);
-            $this->setFormato($data['formato']);
-            $this->setClassificacao($data['idade_recomendada']);
             VideoDAO::create($this);
         } else {
             $caminho = $this->fazerUpload();
