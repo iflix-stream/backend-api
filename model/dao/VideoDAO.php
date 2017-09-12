@@ -230,4 +230,27 @@ class VideoDAO implements IDAO
 
 
     }
+
+    public static function newRetreaveLista(){
+        $token = new Token();
+        $token->token();
+        $userID= $token->retornaIdUsuario();
+
+        $phiber = new Phiber();
+        $phiber->setTable("minha_lista_serie");
+        $phiber->setFields(["serie_id"]);
+        $phiber->restrictions->equals("usuario_id", $userID);
+        $idSerie = $phiber->select();
+        $test1= $phiber->show();
+
+        $phiber->setTable("minha_lista_filme");
+        $phiber->setFields(["filme_id"]);
+        $phiber->restrictions->equals("usuario_id", $userID);
+        $idFilme = $phiber->select();
+        $test2 = $phiber->show();
+
+        return ["sql serie" => "$test1","sql filme"=>"$test2"];
+
+
+    }
 }
