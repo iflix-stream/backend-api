@@ -260,7 +260,7 @@ class Video extends MediaFactory
 
     public function retreaveLista(){
 
-        VideoDAO::retreaveLista();
+       return VideoDAO::retreaveLista();
     }
 
     public function listarRecomendados($idUsuario)

@@ -196,12 +196,12 @@ class VideoDAO implements IDAO
         $criteria = new Phiber();
         if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
-            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setFields(["idUsuario", "serie-id"]);
             $criteria->setValues([$userID, $idVideo]);
         } else {
 
             $criteria->setTable("minha_lista_filme");
-            $criteria->setFields(["idUsuario", "idVideo"]);
+            $criteria->setFields(["idUsuario", "filme-id"]);
             $criteria->setValues([$userID, $idVideo]);
         }
         if ($criteria->create()) {
@@ -210,20 +210,24 @@ class VideoDAO implements IDAO
         return "Erro ao adicionar item á lista do usuário:" . $userID;
     }
 
-    public static function retreaveLista(){
+    public static function retreaveLista()
+    {
         $token = new Token();
         $token->token();
         $userID = $token->retornaIdUsuario();
 
         $phiber = new Phiber();
         $phiber->setTable("minha_lista_serie");
-        $phiber->setFields(["idVideo"]);
-        $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
-        $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
-        if($phiber->select()){
-        return $phiber->show();
-    }
-    return (new Mensagem())->error("erro-retreave-lista");
+        $phiber->add($phiber->restrictions->join("minha_lista_filme",
+            ["minha_lista_filme.usuario_id", "minha_lista_serie.usuario_id"]));
+        $phiber->add(
+            $phiber->restrictions->and($phiber->restrictions->equals("minha_lista_filme.usuario_id", $userID),
+                $phiber->restrictions->equals("minha_lista_serie.usuario_id", $userID))
+        );
+        $phiber->add($phiber->restrictions->orderBy(['id asc']));
+        $phiber->select();
+        return ["sql"=>(string) $phiber->show()];
+
 
     }
 }
