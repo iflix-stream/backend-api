@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 11-Set-2017 às 21:24
--- Versão do servidor: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Generation Time: 13-Set-2017 às 01:19
+-- Versão do servidor: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -54,6 +52,13 @@ CREATE TABLE `filme` (
   `genero_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `filme`
+--
+
+INSERT INTO `filme` (`id`, `nome`, `classificacao`, `caminho`, `duracao`, `sinopse`, `thumbnail`, `genero_id`) VALUES
+(1, 'Um dia de amanha', 18, '31231', 'qweqwe', '12312qwdas', 'wqsaeqwe123', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -64,6 +69,14 @@ CREATE TABLE `genero` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `genero`
+--
+
+INSERT INTO `genero` (`id`, `nome`) VALUES
+(1, 'Terror'),
+(2, 'Terror');
 
 -- --------------------------------------------------------
 
@@ -129,6 +142,32 @@ CREATE TABLE `minha_lista_filme` (
   `filme_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `minha_lista_filme`
+--
+
+INSERT INTO `minha_lista_filme` (`id`, `usuario_id`, `filme_id`) VALUES
+(1, 8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `minha_lista_serie`
+--
+
+CREATE TABLE `minha_lista_serie` (
+  `id` int(11) NOT NULL,
+  `serie_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `minha_lista_serie`
+--
+
+INSERT INTO `minha_lista_serie` (`id`, `serie_id`, `usuario_id`) VALUES
+(1, 1, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -143,6 +182,13 @@ CREATE TABLE `serie` (
   `thumbnail` varchar(100) NOT NULL,
   `genero_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `serie`
+--
+
+INSERT INTO `serie` (`id`, `nome`, `sinopse`, `classificacao`, `thumbnail`, `genero_id`) VALUES
+(1, 'How I met your mother', 'qweqweqadsdas', 14, 'qweqwadsdasd', 1);
 
 -- --------------------------------------------------------
 
@@ -179,7 +225,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nome`, `avatar`, `isControleDosPais`, `senha`, `email`, `dataNascimento`, `dataCriacao`, `dataAlteracao`, `status`) VALUES
-  (8, 'Marcio', 'avatares/default.png', 0, '$2y$10$sB1.GlH0bWTr5mY8TqP5f.DrIyMRJ2EyDfQ4UKGDkN4Jv8.ppBXFi', 'marciioluucas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1);
+(8, 'Marcio', 'avatares/default.png', 0, '$2y$10$sB1.GlH0bWTr5mY8TqP5f.DrIyMRJ2EyDfQ4UKGDkN4Jv8.ppBXFi', 'marciioluucas@gmail.com', '1998-02-11', '2017-09-05', '2017-09-05', 1),
+(9, 'Juanes Adriano', 'avatares/default.png', 0, '$2y$10$mnK1eKgDBrN.u3lB4TDnqud.nL4bVCF.AIHjcKxIp0ukwf3uuJ4oi', 'juaneshtk50@gmail.com', '1997-07-26', '2017-09-11', '2017-09-11', 1),
+(10, 'Marcio Lucas', 'avatares/default.png', 0, '$2y$10$weLlNbVWUj3BEYsAGFsVD.9mejsI.aCIF/uaU0UXM59iyfNrrL2G6', 'marciioluucas2@gmail.com', '1998-02-11', '2017-09-11', '2017-09-11', 1),
+(11, 'Teste teste', 'avatares/default.png', 0, '$2y$10$vbAEZ2N/nH1mIjQ.ReO/2em3luH0aeVzP5lTxq2iVhln/7JKwVoo.', 'teste@test.com', '1998-02-11', '2017-09-11', '2017-09-11', 1);
 
 --
 -- Indexes for dumped tables
@@ -242,6 +291,14 @@ ALTER TABLE `minha_lista_filme`
   ADD KEY `fk_minha_lista_filme_filme1_idx` (`filme_id`);
 
 --
+-- Indexes for table `minha_lista_serie`
+--
+ALTER TABLE `minha_lista_serie`
+  ADD PRIMARY KEY (`id`,`usuario_id`),
+  ADD KEY `fk_minha_lista_serie_serie1_idx` (`serie_id`),
+  ADD KEY `fk_minha_lista_serie_usuario1_idx` (`usuario_id`);
+
+--
 -- Indexes for table `serie`
 --
 ALTER TABLE `serie`
@@ -274,12 +331,12 @@ ALTER TABLE `episodio`
 -- AUTO_INCREMENT for table `filme`
 --
 ALTER TABLE `filme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `genero`
 --
 ALTER TABLE `genero`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `idioma_episodio`
 --
@@ -304,12 +361,17 @@ ALTER TABLE `legenda_filme`
 -- AUTO_INCREMENT for table `minha_lista_filme`
 --
 ALTER TABLE `minha_lista_filme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `minha_lista_serie`
+--
+ALTER TABLE `minha_lista_serie`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `serie`
 --
 ALTER TABLE `serie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `temporada`
 --
@@ -319,7 +381,7 @@ ALTER TABLE `temporada`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
@@ -368,6 +430,13 @@ ALTER TABLE `minha_lista_filme`
   ADD CONSTRAINT `fk_minha_lista_filme_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Limitadores para a tabela `minha_lista_serie`
+--
+ALTER TABLE `minha_lista_serie`
+  ADD CONSTRAINT `fk_minha_lista_serie_serie1` FOREIGN KEY (`serie_id`) REFERENCES `serie` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_minha_lista_serie_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Limitadores para a tabela `serie`
 --
 ALTER TABLE `serie`
@@ -378,7 +447,6 @@ ALTER TABLE `serie`
 --
 ALTER TABLE `temporada`
   ADD CONSTRAINT `fk_temporada_serie1` FOREIGN KEY (`serie_id`) REFERENCES `serie` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
