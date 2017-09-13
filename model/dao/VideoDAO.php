@@ -286,7 +286,7 @@ class VideoDAO implements IDAO
         if($phiber->delete()){
             return ["sql"=>$phiber->show()];
         }
-        return false;
+        return ["sql"=>(string)$phiber->show()];
     }
 
 

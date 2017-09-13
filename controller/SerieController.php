@@ -45,7 +45,7 @@ class SerieController implements Controller
 
     public function delete($params = [])
     {
-        $video = new Video();
+        $video = new Serie();
         $data= [];
         if($_GET['deleteItemLista'] == "true"){
             $data = $video->deleteItemLista();
