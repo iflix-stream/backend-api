@@ -9,6 +9,8 @@
 namespace model;
 
 
+use model\dao\VideoDAO;
+
 class Serie extends Video
 {
     private $episodios;
@@ -51,6 +53,19 @@ class Serie extends Video
         $this->temporadas = $temporadas;
     }
 
-
+    public function retreaveSeries() {
+//        $series =
+//        if(count($series) > 1 ){
+//
+//        for($i = 0; $i < count($series); $i++){
+//
+//            $series[$i]['temporada'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
+//            $series[$i]['temporada']['episodio'] = VideoDAO::retreaveEpisodios($series[$i]['temporada']['id']);
+//        }
+//
+//        }
+//        print_r($series);
+        return VideoDAO::retreave($this);;
+    }
 
 }

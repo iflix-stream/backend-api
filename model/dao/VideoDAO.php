@@ -42,10 +42,16 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
+     * @param string $de
+     * @param string $ate
      * @return array
      */
-    public static function retreave($video)
+    public static function retreave($video, $de = '0 ', $ate = '20')
     {
+        if ($video->getId() == null and $video->getNome() == null and $video->getGenero() == null) {
+            return self::retreaveParaPaginacao($video,$de,$ate);
+        }
+
         if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null) {
             return self::retreaveById($video);
         }
@@ -210,9 +216,7 @@ class VideoDAO implements IDAO
     public static function adicionarItemLista($tipo, $idVideo)
     {
 
-        $token = new Token();
-        $token->token();
-        $userID = $token->retornaIdUsuario();
+        $userID = (new Token())->retornaIdUsuario();
         $criteria = new Phiber();
         if ($tipo == "serie") {
             $criteria->setTable("minha_lista_serie");
@@ -239,9 +243,9 @@ class VideoDAO implements IDAO
      */
     public static function newRetreaveLista()
     {
-        $token = new Token();
-        $token->token();
-        $userID = $token->retornaIdUsuario();
+
+        $userID = (new Token())->retornaIdUsuario();
+
         $arrMinhaLista = [];
         $phiber = new Phiber();
         $phiber->setTable("minha_lista_serie");
@@ -264,13 +268,12 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
+     * @return array
      */
     public static function deleteItemLista($video)
     {
 
-        $token = new Token();
-        $token->token();
-        $userID = $token->retornaIdUsuario();
+        $userID = (new Token())->retornaIdUsuario();
 
         $phiber = new Phiber();
         $pUserId = $phiber->restrictions->equals("usuario_id", $userID);
@@ -283,10 +286,49 @@ class VideoDAO implements IDAO
         }
 
         $phiber->add($phiber->restrictions->and($pUserId, $cond));
-        if($phiber->delete()){
-            return ["sql"=>$phiber->show()];
+        if ($phiber->delete()) {
+            return ["sql" => $phiber->show()];
         }
-        return ["sql"=>(string)$phiber->show()];
+        return ["sql" => (string)$phiber->show()];
+    }
+
+    public static function retreaveTemporadas($idSerie)
+    {
+        $phiber = new Phiber();
+        $phiber->setTable('temporada');
+
+        $phiber->add($phiber->restrictions->equals("serie_id", $idSerie));
+        return $phiber->select();
+
+    }
+
+    public static function retreaveEpisodios($idTemporada)
+    {
+        $phiber = new Phiber();
+        $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
+        return $phiber->select();
+    }
+
+    /**
+     * @param Video $video
+     * @param string $de
+     * @param string $ate
+     * @return array
+     */
+    public static function retreaveParaPaginacao($video, $de = '0', $ate = '20')
+    {
+        $phiber = new Phiber();
+
+        $phiber->add($phiber->restrictions->limit($ate));
+        $phiber->add($phiber->restrictions->offset($de));
+        $phiber->add($phiber->restrictions->equals("status", '1'));
+        $phiber->setTable("filme");
+        if ($video->getTipo() == "serie") {
+            $phiber->setTable("serie");
+        }
+
+        return $phiber->select();
+
     }
 
 

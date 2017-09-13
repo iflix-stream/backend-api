@@ -38,7 +38,7 @@
       <path value="$PROJECT_DIR$/vendor/mustache/mustache" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings load_method="PHPUNIT_PHAR" custom_loader_path="C:/xampp/htdocs/iFlix/vendor/autoload.php" phpunit_phar_path="C:/Users/ifgoianoadmin/Dev/phpunit.phar" />

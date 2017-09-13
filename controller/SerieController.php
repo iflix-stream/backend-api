@@ -30,11 +30,13 @@ class SerieController implements Controller
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
         if (isset($params['genero'])) $serie->setGenero($params['genero']);
-        $data = ["SQL" => "" . $serie->listar() . ""];
-        if ($_GET['stream'] == "true") {
+        $data = ["erro" => "deu ruim"];
+        if (isset($_GET['test']) and $_GET['test'] == "true") $data = $serie->retreaveSeries();
+        if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);
             $serie->stream();
         }
+
         View::render($data);
     }
 
@@ -46,8 +48,8 @@ class SerieController implements Controller
     public function delete($params = [])
     {
         $video = new Serie();
-        $data= [];
-        if($_GET['deleteItemLista'] == "true"){
+        $data = [];
+        if ($_GET['deleteItemLista'] == "true") {
             $data = $video->deleteItemLista();
         }
         View::render($data);
