@@ -276,4 +276,9 @@ class Video extends MediaFactory
 
         return VideoDAO::adicionarItemLista($this->getTipo(), $this->getId());
     }
+    public function deleteItemLista(){
+        return VideoDAO::deleteItemLista($this);
+
+
+    }
 }

@@ -233,22 +233,6 @@ class VideoDAO implements IDAO
     /**
      * @return array
      */
-    public function retreaveLista()
-    {
-        $token = new Token();
-        $token->token();
-        $userID = $token->retornaIdUsuario();
-
-        $phiber = new Phiber();
-        $phiber->setTable("minha_lista_serie");
-        $phiber->setFields(["idVideo"]);
-        $phiber->add($phiber->restrictions->join("minha_lista_filme", ["idUsuario", "idUsuario"]));
-        $phiber->add($phiber->restrictions->equals("idUsuario", $userID));
-        if ($r = $phiber->select()) {
-            return $r;
-        }
-        return (new Mensagem())->error('erro-listar-lista', 500);
-    }
 
     /**
      * @return array
@@ -267,6 +251,7 @@ class VideoDAO implements IDAO
         $arrMinhaLista['series'] = $idSerie;
 //        $test1 = $phiber->show();
 
+
         $phiber->setTable("minha_lista_filme");
         $phiber->setFields(["filme_id"]);
         $phiber->add($phiber->restrictions->equals("usuario_id", $userID));
@@ -275,6 +260,33 @@ class VideoDAO implements IDAO
 //        $test2 = $phiber->show();
 
         return $arrMinhaLista;
+    }
+
+    /**
+     * @param Video $video
+     */
+    public static function deleteItemLista($video)
+    {
+
+        $token = new Token();
+        $token->token();
+        $userID = $token->retornaIdUsuario();
+
+        $phiber = new Phiber();
+        $pUserId = $phiber->restrictions->equals("usuario_id", $userID);
+        $cond = $phiber->restrictions->equals("filme_id", $video->getId());
+        $phiber->setTable("minha_lista_filme");
+
+        if ($video->getTipo() == "serie") {
+            $phiber->setTable("minha_lista_serie");
+            $cond = $phiber->restrictions->equals("serie_id", $video->getId());
+        }
+
+        $phiber->add($phiber->restrictions->and($pUserId, $cond));
+        if($phiber->delete()){
+            return ["sql"=>$phiber->show()];
+        }
+        return false;
     }
 
 

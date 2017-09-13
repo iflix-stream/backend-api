@@ -40,8 +40,8 @@ class VideoController implements Controller
             $video->stream();
         }
 
-        if($_GET['retreaveList'] == "true"){
-           $data = $video->retreaveLista();
+        if($_GET['deleteItemLista'] == "true"){
+           $data = $video->deleteItemLista();
         }
         View::render($data);
     }

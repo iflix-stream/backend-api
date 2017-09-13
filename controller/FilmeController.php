@@ -65,6 +65,6 @@ class FilmeController implements Controller
 
     public function delete($params = [])
     {
-        // TODO: Implement delede() method.
+
     }
 }
