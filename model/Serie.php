@@ -16,7 +16,7 @@ class Serie extends Video
     private $episodios;
     private $temporadas;
 
-    function __construct()
+    function  __construct()
     {
         $this->setTipo('serie');
     }
