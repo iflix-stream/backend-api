@@ -14,7 +14,7 @@ use util\DataConversor;
 use view\View;
 use util\Token;
 
-class UsuarioController implements Controller
+class UsuarioController implements IController
 {
     private $token;
 

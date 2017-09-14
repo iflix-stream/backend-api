@@ -9,7 +9,7 @@
 namespace controller;
 
 
-interface Controller
+interface IController
 {
     public function post();
 

@@ -48,7 +48,9 @@ class VideoDAO implements IDAO
      */
     public static function retreave($video, $de = '0 ', $ate = '20')
     {
+
         if ($video->getId() == null and $video->getNome() == null and $video->getGenero() == null) {
+
             return self::retreaveParaPaginacao($video,$de,$ate);
         }
 
@@ -296,17 +298,24 @@ class VideoDAO implements IDAO
     {
         $phiber = new Phiber();
         $phiber->setTable('temporada');
-
+//        $phiber->setFields(['temporada.serie_id as temp_serie_id',]);
+//        $phiber->add($phiber->restrictions->join('episodio',['temporada.id','temporada_id']));
         $phiber->add($phiber->restrictions->equals("serie_id", $idSerie));
-        return $phiber->select();
+
+        $r = $phiber->select();
+
+        return $r;
 
     }
 
     public static function retreaveEpisodios($idTemporada)
     {
         $phiber = new Phiber();
+        $phiber->setTable('episodio');
+        $phiber->returnArray(true);
         $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
-        return $phiber->select();
+        $r = $phiber->select();
+        return $r;
     }
 
     /**
@@ -327,7 +336,10 @@ class VideoDAO implements IDAO
             $phiber->setTable("serie");
         }
 
-        return $phiber->select();
+        $phiber->returnArray(true);
+        $r = $phiber->select();
+
+        return $r;
 
     }
 

@@ -16,7 +16,7 @@ use model\validator\UsuarioValidate;
 use util\Token;
 use util\DataConversor;
 
-class LoginController implements Controller
+class LoginController implements IController
 {
 
 

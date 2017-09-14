@@ -14,7 +14,7 @@ use util\DataConversor;
 use view\View;
 use model\validator\FilmeValidate;
 
-class FilmeController implements Controller
+class FilmeController implements IController
 {
 
     public function post()

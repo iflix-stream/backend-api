@@ -11,9 +11,10 @@ namespace controller;
 
 use model\Serie;
 use model\Video;
+use util\Mensagem;
 use view\View;
 
-class SerieController implements Controller
+class SerieController implements IController
 {
 
     public function post()
@@ -30,8 +31,10 @@ class SerieController implements Controller
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
         if (isset($params['genero'])) $serie->setGenero($params['genero']);
-        $data = ["erro" => "deu ruim"];
+        $data = (new Mensagem())->error('parametros-invalidos',500);
+
         if (isset($_GET['test']) and $_GET['test'] == "true") $data = $serie->retreaveSeries();
+
         if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);
             $serie->stream();

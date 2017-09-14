@@ -53,19 +53,20 @@ class Serie extends Video
         $this->temporadas = $temporadas;
     }
 
-    public function retreaveSeries() {
-//        $series =
-//        if(count($series) > 1 ){
-//
-//        for($i = 0; $i < count($series); $i++){
-//
-//            $series[$i]['temporada'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
-//            $series[$i]['temporada']['episodio'] = VideoDAO::retreaveEpisodios($series[$i]['temporada']['id']);
-//        }
-//
-//        }
-//        print_r($series);
-        return VideoDAO::retreave($this);;
+    public function retreaveSeries()
+    {
+        $series = VideoDAO::retreave($this);
+        if (count($series) > 1) {
+            for ($i = 0; $i < count($series); $i++) {
+                $series[$i]['temporadas'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
+                for ($j = 0; $j < count($series[$i]['temporadas']); $j++) {
+                    $series[$i]['temporadas'][$j]['episodios'] =
+                        VideoDAO::retreaveEpisodios($series[$i]['temporadas'][$j]['id']);
+                }
+            }
+
+        }
+        return $series;
     }
 
 }

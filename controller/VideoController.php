@@ -17,7 +17,7 @@ use view\View;
  * @deprecated
  * @package controller
  */
-class VideoController implements Controller
+class VideoController implements IController
 {
 
     public function post()

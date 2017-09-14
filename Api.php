@@ -11,7 +11,7 @@ include 'vendor/autoload.php';
 use util\Mensagem;
 use util\Settings;
 use view\View;
-use controller\Controller;
+use controller\IController;
 
 class Api
 {
@@ -65,7 +65,7 @@ class Api
     }
 
     /**
-     * @param Controller $classe
+     * @param IController $classe
      * @return mixed
      */
     public function selecionaMetodo($classe)
