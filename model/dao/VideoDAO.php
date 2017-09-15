@@ -107,7 +107,7 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-
+            $phiber->returnArray(true);
             return $phiber->select();
         }
         return (new Mensagem())->error("parametro-nome-nulo", 500);
@@ -130,6 +130,7 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
+            $phiber->returnArray(true);
             return $phiber->select();
         }
         return (new Mensagem())->error("parametro-nome-nulo", 500);
@@ -152,7 +153,7 @@ class VideoDAO implements IDAO
             if ($video->getTipo() == "serie") {
                 $phiber->setTable("serie");
             }
-
+            $phiber->returnArray(true);
             return $phiber->select();
         }
         return (new Mensagem())->error("parametro-genero-nulo", 500);
@@ -184,6 +185,7 @@ class VideoDAO implements IDAO
         if ($video->getTipo() == "serie") {
             $phiber->setTable("serie");
         }
+        $phiber->returnArray(true);
         return $phiber->select();
 
     }
@@ -313,8 +315,8 @@ class VideoDAO implements IDAO
     {
         $phiber = new Phiber();
         $phiber->setTable('episodio');
-        $phiber->returnArray(true);
         $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
+        $phiber->returnArray(true);
         $r = $phiber->select();
         return $r;
     }

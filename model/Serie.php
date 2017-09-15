@@ -16,7 +16,7 @@ class Serie extends Video
     private $episodios;
     private $temporadas;
 
-    function  __construct()
+    function __construct()
     {
         $this->setTipo('serie');
     }
@@ -56,14 +56,14 @@ class Serie extends Video
     public function retreaveSeries()
     {
         $series = VideoDAO::retreave($this);
-        if (count($series) > 1) {
-            for ($i = 0; $i < count($series); $i++) {
-                $series[$i]['temporadas'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
-                for ($j = 0; $j < count($series[$i]['temporadas']); $j++) {
-                    $series[$i]['temporadas'][$j]['episodios'] =
-                        VideoDAO::retreaveEpisodios($series[$i]['temporadas'][$j]['id']);
-                }
+
+        for ($i = 0; $i < count($series); $i++) {
+            $series[$i]['temporadas'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
+            for ($j = 0; $j < count($series[$i]['temporadas']); $j++) {
+                $series[$i]['temporadas'][$j]['episodios'] =
+                    VideoDAO::retreaveEpisodios($series[$i]['temporadas'][$j]['id']);
             }
+
 
         }
         return $series;
