@@ -63,8 +63,6 @@ class Serie extends Video
                 $series[$i]['temporadas'][$j]['episodios'] =
                     VideoDAO::retreaveEpisodios($series[$i]['temporadas'][$j]['id']);
             }
-
-
         }
         return $series;
     }
