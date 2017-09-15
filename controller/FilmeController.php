@@ -48,7 +48,6 @@ class FilmeController implements IController
             $filme->setId($_GET['id']);
             $filme->stream();
         }
-
     }
 
     public function put($params = [])
