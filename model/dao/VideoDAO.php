@@ -35,7 +35,16 @@ class VideoDAO implements IDAO
      */
     public static function create($video)
     {
-        $phiber = new Phiber($video);
+        $phiber = new Phiber();
+
+        if ($video->getTipo() == 'filme') {
+            $phiber->setTable('filme');
+        }
+        $phiber->setTable('serie');
+
+        $phiber->setFields(['nome', 'descricao', 'classificao', 'caminho', 'duracao', 'sinopse', 'thumbnail', 'genero_id']);
+        $phiber->setValues([$video->getNome(), $video->getDescricao(), $video->getClassificacao(),
+            $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()->getId()])
         if ($phiber->create()) return true;
         return false;
     }
@@ -51,7 +60,7 @@ class VideoDAO implements IDAO
 
         if ($video->getId() == null and $video->getNome() == null and $video->getGenero() == null) {
 
-            return self::retreaveParaPaginacao($video,$de,$ate);
+            return self::retreaveParaPaginacao($video, $de, $ate);
         }
 
         if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null) {
@@ -301,7 +310,7 @@ class VideoDAO implements IDAO
     {
         $phiber = new Phiber();
         $phiber->setTable('temporada');
-        $phiber->setFields(["id","numero"]);
+        $phiber->setFields(["id", "numero"]);
 //        $phiber->setFields(['temporada.serie_id as temp_serie_id',]);
 //        $phiber->add($phiber->restrictions->join('episodio',['temporada.id','temporada_id']));
         $phiber->add($phiber->restrictions->equals("serie_id", $idSerie));
@@ -316,7 +325,7 @@ class VideoDAO implements IDAO
     {
         $phiber = new Phiber();
         $phiber->setTable('episodio');
-        $phiber->setFields(['id','nome','sinopse','duracao','caminho']);
+        $phiber->setFields(['id', 'nome', 'sinopse', 'duracao', 'caminho']);
         $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
         $phiber->returnArray(true);
         $r = $phiber->select();
@@ -340,7 +349,7 @@ class VideoDAO implements IDAO
         if ($video->getTipo() == "serie") {
             $phiber->setTable("serie");
         }
-        $phiber->add($phiber->restrictions->join('genero',['genero.id','genero_id']));
+        $phiber->add($phiber->restrictions->join('genero', ['genero.id', 'genero_id']));
         $phiber->returnArray(true);
         $r = $phiber->select();
         return $r;
