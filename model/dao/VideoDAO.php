@@ -99,8 +99,9 @@ class VideoDAO implements IDAO
         if ($video->getId() != null) {
 
             $restrictionID = $phiber->restrictions->equals("id", $video->getId());
-            $restrictionAtivado = $phiber->restrictions->equals("ativado", '1');
+            $restrictionAtivado = $phiber->restrictions->equals("status", '1');
             $restrictionAtivadoID = $phiber->restrictions->and($restrictionAtivado, $restrictionID);
+//            $phiber->returnArray(true);
             $phiber->add($restrictionAtivadoID);
             $phiber->setTable("filme");
             if ($video->getTipo() == "serie") {
@@ -122,7 +123,7 @@ class VideoDAO implements IDAO
 
         if ($video->getNome() != null) {
             $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
-            $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+            $restrictionAtivado = $phiber->restrictions->equals("status", "1");
             $restrictionAtivadoNome = $phiber->restrictions->and($restrictionAtivado, $restrictionNome);
             $phiber->add($restrictionAtivadoNome);
             $phiber->setTable("filme");
@@ -143,7 +144,7 @@ class VideoDAO implements IDAO
         $phiber = new Phiber();
 
         if ($video->getGenero() != null) {
-            $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+            $restrictionAtivado = $phiber->restrictions->equals("status", "1");
             $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
             $restrictionAtivadoGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionGenero);
             $phiber->add($restrictionAtivadoGenero);
@@ -176,7 +177,7 @@ class VideoDAO implements IDAO
         $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
         $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
         $restrictionNomeEGenero = $phiber->restrictions->and($restrictionNome, $restrictionGenero);
-        $restrictionAtivado = $phiber->restrictions->equals("ativado", "1");
+        $restrictionAtivado = $phiber->restrictions->equals("status", "1");
         $restrictionAtivadoNomeGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionNomeEGenero);
         $phiber->add($restrictionAtivadoNomeGenero);
         $phiber->setTable("filme");
@@ -301,7 +302,7 @@ class VideoDAO implements IDAO
 //        $phiber->setFields(['temporada.serie_id as temp_serie_id',]);
 //        $phiber->add($phiber->restrictions->join('episodio',['temporada.id','temporada_id']));
         $phiber->add($phiber->restrictions->equals("serie_id", $idSerie));
-
+        $phiber->returnArray(true);
         $r = $phiber->select();
 
         return $r;
@@ -335,7 +336,6 @@ class VideoDAO implements IDAO
         if ($video->getTipo() == "serie") {
             $phiber->setTable("serie");
         }
-
         $phiber->returnArray(true);
         $r = $phiber->select();
 

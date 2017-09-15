@@ -33,7 +33,7 @@ class SerieController implements IController
         if (isset($params['genero'])) $serie->setGenero($params['genero']);
         $data = (new Mensagem())->error('parametros-invalidos',500);
 
-        if (isset($_GET['test']) and $_GET['test'] == "true") $data = $serie->retreaveSeries();
+       if(!isset($_GET['stream'])) $data = $serie->retreaveSeries();
 
         if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);

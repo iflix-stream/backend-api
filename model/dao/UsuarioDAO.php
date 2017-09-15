@@ -150,7 +150,7 @@ class UsuarioDAO implements IDAO
         $restrictionAtivado = $phiber->restrictions->equals("status", '1');
         $restrictionAtivadoEmail = $phiber->restrictions->and($restrictionAtivado, $restrictionEmail);
         $phiber->setTable("usuario");
-        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais","senha"]);
+        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais", "senha"]);
         $phiber->add($restrictionAtivadoEmail);
         $r = $phiber->select();
         self::$rows = $phiber->rowCount();
