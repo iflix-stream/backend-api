@@ -25,6 +25,57 @@ class Video extends MediaFactory
     private $genero;
     private $idiomasLegendas;
     private $tipo;
+    private $duracao;
+    private $sinopse;
+    private $thumbnail;
+
+    /**
+     * @return mixed
+     */
+    public function getDuracao()
+    {
+        return $this->duracao;
+    }
+
+    /**
+     * @param mixed $duracao
+     */
+    public function setDuracao($duracao)
+    {
+        $this->duracao = $duracao;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSinopse()
+    {
+        return $this->sinopse;
+    }
+
+    /**
+     * @param mixed $sinopse
+     */
+    public function setSinopse($sinopse)
+    {
+        $this->sinopse = $sinopse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * @param mixed $thumbnail
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+    }
 
     /**
      * @return mixed
