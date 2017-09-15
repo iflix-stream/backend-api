@@ -10,6 +10,8 @@ namespace model;
 
 
 
+use model\dao\VideoDAO;
+
 class Filme extends Video
 {
 
@@ -21,4 +23,11 @@ class Filme extends Video
         $this->setTipo('filme');
     }
 
+    public function retreaveFilmes()
+    {
+        $filme = VideoDAO::retreave($this);
+
+
+        return $filme;
+    }
 }

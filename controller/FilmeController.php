@@ -28,8 +28,9 @@ class FilmeController implements IController
             $filme->setNome($data['nome']);
             $filme->setDescricao($data['descricao']);
             $filme->setGenero($data['genero']);
-            $filme->setFormato($data['formato']);
             $filme->setClassificacao($data['idade_recomendada']);
+            $filme->setDuracao($data['duracao']);
+            $filme->setSinopse($data['sinopse']);
             $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.
         } else {
             View::render($validate);
