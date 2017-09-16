@@ -9,6 +9,7 @@
 namespace model\dao;
 
 use phiber\Phiber;
+use model\Genero;
 
 class GeneroDAO implements IDAO
 {
@@ -27,9 +28,19 @@ class GeneroDAO implements IDAO
         return false;
     }
 
-    static function retreave($video)
+
+    /**
+     * @param Genero $genero
+     */
+    static function retreave($genero)
     {
-        // TODO: Implement retreave() method.
+     $phiber = new Phiber();
+     $phiber->setTable('genero');
+     $phiber->add($phiber->restrictions->equals("genero_id", $genero->getId()));
+     if($phiber->select()){
+         return ["sql" => (string)$phiber->show()];
+     }
+        return ["sql" => (string)$phiber->show()];
     }
 
     static function update($video)
