@@ -44,7 +44,7 @@ class VideoDAO implements IDAO
 
         $phiber->setFields(['nome', 'descricao', 'classificao', 'caminho', 'duracao', 'sinopse', 'thumbnail', 'genero_id']);
         $phiber->setValues([$video->getNome(), $video->getDescricao(), $video->getClassificacao(),
-            $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()->getId()])
+            $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()->getId()]);
         if ($phiber->create()) return true;
         return false;
     }

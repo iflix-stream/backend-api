@@ -8,11 +8,13 @@
 
 namespace model\dao;
 
+use phiber\Phiber;
+
 class GeneroDAO implements IDAO
 {
 
     /**
-     * @param $genero
+     * @param Genero $genero
      * @return bool
      */
     static function create($genero)
