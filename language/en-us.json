@@ -18,7 +18,7 @@
   "sucesso-deletar-video": "Video deleted with success!",
   "erro-alterar-usuario":"Errors occurred during user update!",
   "sucesso-alterar-usuario":"User updated successfully!",
-  "erro-retreave-lista":"List Retreave error!"
-  "sucesso-criar-genero":"Sucesso ao Criar Genero",
-  "erro-criar-genero": "Ocorreu algum erro ao criar Genero"
+  "erro-retreave-lista":"List Retreave error!",
+  "sucesso-criar-genero":"Genre created succesfully!",
+  "erro-criar-genero": "Errors Ocurred during genre retreave."
 }
