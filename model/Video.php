@@ -30,6 +30,16 @@ class Video extends MediaFactory
     private $thumbnail;
 
     /**
+     * Video constructor.
+     * @param $genero
+     */
+    public function __construct()
+    {
+        $this->genero = new Genero();
+    }
+
+
+    /**
      * @return mixed
      */
     public function getDuracao()
@@ -158,7 +168,7 @@ class Video extends MediaFactory
     }
 
     /**
-     * @return mixed
+     * @return Genero
      */
     public function getGenero()
     {

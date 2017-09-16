@@ -17,6 +17,9 @@ use model\validator\FilmeValidate;
 class FilmeController implements IController
 {
 
+    /**
+     *
+     */
     public function post()
     {
         $data = new DataConversor();
@@ -26,9 +29,8 @@ class FilmeController implements IController
         $validate = $validate->validaUploadFilme($data);
         if ($validate === true) {
             $filme->setNome($data['nome']);
-            $filme->setDescricao($data['descricao']);
-            $filme->setGenero($data['genero']);
-            $filme->setClassificacao($data['idade_recomendada']);
+            $filme->getGenero()->setId($data['generoId']);
+            $filme->setClassificacao($data['idadeRecomendada']);
             $filme->setDuracao($data['duracao']);
             $filme->setSinopse($data['sinopse']);
             $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.

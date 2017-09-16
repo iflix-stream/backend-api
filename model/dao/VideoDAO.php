@@ -346,7 +346,11 @@ class VideoDAO implements IDAO
         $phiber->add($phiber->restrictions->offset($de));
         $phiber->add($phiber->restrictions->equals("status", '1'));
         $phiber->setTable("filme");
+        $phiber->setFields(['filme.id as id', 'filme.nome as nome', 'classificacao', 'caminho', 'duracao',
+            'sinopse', 'thumbnail', 'status', 'genero_id', 'genero.nome as genero_nome']);
         if ($video->getTipo() == "serie") {
+            $phiber->setFields(['serie.id as id', 'serie.nome as nome', 'classificacao',
+                'sinopse', 'thumbnail', 'status', 'genero_id', 'genero.nome as genero_nome']);
             $phiber->setTable("serie");
         }
         $phiber->add($phiber->restrictions->join('genero', ['genero.id', 'genero_id']));
