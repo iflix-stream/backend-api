@@ -10,6 +10,7 @@ namespace model\dao;
 
 use phiber\Phiber;
 use model\Genero;
+use util\Mensagem;
 
 class GeneroDAO implements IDAO
 {
@@ -18,13 +19,15 @@ class GeneroDAO implements IDAO
      * @param Genero $genero
      * @return bool
      */
-    static function create($genero)
+    public static function create($genero)
     {
         $phiber = new Phiber();
         $phiber->setTable('genero');
         $phiber->setFields(['nome']);
         $phiber->setValues([$genero->getNome()]);
-        if ($phiber->create()) return true;
+        if ($phiber->create()){
+            return true;
+        }
         return false;
     }
 
@@ -32,24 +35,56 @@ class GeneroDAO implements IDAO
     /**
      * @param Genero $genero
      */
-    static function retreave($genero)
+    public static function retreave($genero)
     {
      $phiber = new Phiber();
      $phiber->setTable('genero');
-     $phiber->add($phiber->restrictions->equals("genero_id", $genero->getId()));
+     $phiber->add($phiber->restrictions->equals("id", $genero->getId()));
      if($phiber->select()){
          return ["sql" => (string)$phiber->show()];
      }
         return ["sql" => (string)$phiber->show()];
     }
 
-    static function update($video)
-    {
-        // TODO: Implement update() method.
+    /**
+     * @param Genero $genero
+     * @return array
+     */
+    public static function retreaveByNome($genero){
+        $phiber = new Phiber();
+        $phiber->setTable('genero');
+        $phiber->add($phiber->restrictions->like("nome", $genero->getNome()));
+        if($phiber->select()){
+            return ["sql" => (string)$phiber->show()];
+        }
+        return ["sql" => (string)$phiber->show()];
     }
 
-    static function delete($video)
+    /**
+     * @param Genero $genero
+     */
+    public static function update($genero)
     {
-        // TODO: Implement delete() method.
+       $phiber = new Phiber();
+       $phiber->setTable('genero');
+       $phiber->add($phiber->restrictions->equals("id", $genero->getId()));
+        if($phiber->update()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param Genero $genero
+     */
+    public static function delete($genero)
+    {
+        $phiber = new Phiber();
+        $phiber->setTable('genero');
+        $phiber->add($phiber->restrictions->equals("id", $genero->getId()));
+        if($phiber->delete()){
+            return true;
+        }
+        return false;
     }
 }

@@ -54,5 +54,14 @@ class Genero
     public function listar(){
         return GeneroDAO::retreave($this);
     }
+    public function listarPorNome(){
+        return GeneroDAO::retreaveByNome($this);
+    }
+    public function update(){
+        return GeneroDAO::update($this);
+    }
+    public function delete(){
+        return GeneroDAO::delete($this);
+    }
 
 }
