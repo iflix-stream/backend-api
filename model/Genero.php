@@ -9,6 +9,8 @@
 namespace model;
 
 
+use model\dao\GeneroDAO;
+
 class Genero
 {
     private $id;
@@ -46,5 +48,11 @@ class Genero
         $this->nome = $nome;
     }
 
+    public function cadastrar(){
+        return GeneroDAO::create($this);
+    }
+    public function listar(){
+        return GeneroDAO::retreave($this);
+    }
 
 }
