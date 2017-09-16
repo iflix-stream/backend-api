@@ -19,4 +19,6 @@
   "erro-alterar-usuario":"Errors occurred during user update!",
   "sucesso-alterar-usuario":"User updated successfully!",
   "erro-retreave-lista":"List Retreave error!"
+  "sucesso-criar-genero":"Sucesso ao Criar Genero",
+  "erro-criar-genero": "Ocorreu algum erro ao criar Genero"
 }

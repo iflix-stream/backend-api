@@ -18,5 +18,7 @@
   "sucesso-deletar-video": "Sucesso ao deletar o vídeo!",
   "erro-alterar-usuario":"Erro ao alterar o usuário.",
   "sucesso-alterar-usuario":"Usuário alterado com sucesso!",
-  "erro-retreave-lista":"Erro ao retornar lista de reprodução."
+  "erro-retreave-lista":"Erro ao retornar lista de reprodução.",
+  "sucesso-criar-genero":"Sucesso ao Criar Genero",
+  "erro-criar-genero": "Ocorreu algum erro ao criar Genero"
 }
