@@ -38,14 +38,8 @@ CREATE TABLE `episodio` (
   `serie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `episodio`
---
 
-INSERT INTO `episodio` (`id`, `nome`, `sinopse`, `temporada_id`, `duracao`, `caminho`, `serie_id`) VALUES
-  (1, 'Piloto', 'aspdkaspodk', 1, 'adssa', 'asdweq', 0),
-  (2, 'wqeqwe', 'qweqwe', 1, 'eqweqwe', 'qweqweqwe', 0),
-  (3, 'Pilot greys', 'ewqeqweqwe', 3, '21312', '123123', 2);
+
 
 -- --------------------------------------------------------
 
@@ -65,12 +59,7 @@ CREATE TABLE `filme` (
   `status` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `filme`
---
 
-INSERT INTO `filme` (`id`, `nome`, `classificacao`, `caminho`, `duracao`, `sinopse`, `thumbnail`, `genero_id`, `status`) VALUES
-  (1, 'Um dia de amanha', 18, '31231', 'qweqwe', '12312qwdas', 'wqsaeqwe123', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +69,8 @@ INSERT INTO `filme` (`id`, `nome`, `classificacao`, `caminho`, `duracao`, `sinop
 
 CREATE TABLE `genero` (
   `id` int(11) NOT NULL,
-  `nome` varchar(50) NOT NULL
+  `nome` varchar(50) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -88,8 +78,7 @@ CREATE TABLE `genero` (
 --
 
 INSERT INTO `genero` (`id`, `nome`) VALUES
-  (1, 'Terror'),
-  (2, 'Terror');
+  (1, 'Terror');
 
 -- --------------------------------------------------------
 
@@ -155,12 +144,7 @@ CREATE TABLE `minha_lista_filme` (
   `filme_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `minha_lista_filme`
---
 
-INSERT INTO `minha_lista_filme` (`id`, `usuario_id`, `filme_id`) VALUES
-  (1, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -178,8 +162,7 @@ CREATE TABLE `minha_lista_serie` (
 -- Extraindo dados da tabela `minha_lista_serie`
 --
 
-INSERT INTO `minha_lista_serie` (`id`, `serie_id`, `usuario_id`) VALUES
-  (1, 1, 8);
+
 
 -- --------------------------------------------------------
 
@@ -197,13 +180,9 @@ CREATE TABLE `serie` (
   `status` tinyint(4) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `serie`
---
 
-INSERT INTO `serie` (`id`, `nome`, `sinopse`, `classificacao`, `thumbnail`, `genero_id`, `status`) VALUES
-  (1, 'How I met your mother', 'qweqweqadsdas', 14, 'qweqwadsdasd', 1, 1),
-  (2, 'Greys Anatomy', 'dsasadaas', 14, 'qweqwewqwq', 1, 1);
+
+
 
 -- --------------------------------------------------------
 
@@ -220,11 +199,6 @@ CREATE TABLE `temporada` (
 --
 -- Extraindo dados da tabela `temporada`
 --
-
-INSERT INTO `temporada` (`id`, `numero`, `serie_id`) VALUES
-  (1, 1, 1),
-  (2, 2, 1),
-  (3, 1, 2);
 
 -- --------------------------------------------------------
 

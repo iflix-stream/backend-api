@@ -20,5 +20,8 @@
   "sucesso-alterar-usuario":"Usuário alterado com sucesso!",
   "erro-retreave-lista":"Erro ao retornar lista de reprodução.",
   "sucesso-criar-genero":"Sucesso ao Criar Genero",
-  "erro-criar-genero": "Ocorreu algum erro ao criar Genero"
+  "erro-criar-genero": "Ocorreu algum erro ao criar Genero",
+  "nome-genero-existe": "Este gênero já existe",
+  "erro-deletar-genero": "Erro ao deletar o gênero",
+  "sucesso-deletar-genero": "Gênero deletado com sucesso!"
 }
