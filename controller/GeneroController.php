@@ -28,9 +28,9 @@ class GeneroController implements IController
 
         if(isset($params['id'])) $genero->setId($params['id']);
         if(isset($params['nome'])) $genero->setId($params['nome']);
-        $data = ["SQL"=>"".$genero->listar().""];
 
-        View::render($data);
+
+        View::render($genero->listar());
 
     }
 

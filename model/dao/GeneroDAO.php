@@ -26,7 +26,7 @@ class GeneroDAO implements IDAO
         $phiber->setFields(['nome']);
         $phiber->setValues([$genero->getNome()]);
         if ($phiber->create()){
-            return true;
+            return $phiber->show();
         }
         return false;
     }
@@ -40,10 +40,10 @@ class GeneroDAO implements IDAO
      $phiber = new Phiber();
      $phiber->setTable('genero');
      $phiber->add($phiber->restrictions->equals("id", $genero->getId()));
-     if($phiber->select()){
-         return ["sql" => (string)$phiber->show()];
-     }
-        return ["sql" => (string)$phiber->show()];
+
+        return  $phiber->select();
+
+
     }
 
     /**
