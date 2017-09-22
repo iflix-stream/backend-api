@@ -15,15 +15,11 @@ class HeaderWriter
      * HeaderWriter constructor.
      * @param string $params
      */
-    public function __construct($params = "")
+    public function __construct()
     {
-        $headers = "Content-type: application/json; charset=utf-8";
-        if ($params != "") {
-            $headers .= "; " . $params;
-        }
 
-        header($headers);
+        header("Content-type: application/json; charset=utf-8;");
+        header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT;");
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT");
     }
 }

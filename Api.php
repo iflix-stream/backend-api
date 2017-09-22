@@ -8,6 +8,7 @@
 
 include 'vendor/autoload.php';
 
+use util\HeaderWriter;
 use util\Mensagem;
 use util\Settings;
 use view\View;
@@ -19,7 +20,7 @@ class Api
 
     function __construct($url = "")
     {
-
+        new HeaderWriter();
         //-------Responsável pelo load das Settings-------\\
         Settings::load();
 
