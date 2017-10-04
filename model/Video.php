@@ -13,6 +13,7 @@ use model\dao\VideoDAO;
 use util\Arquivo;
 use util\DataConversor;
 use util\Mensagem;
+use util\VideoStream;
 use view\View;
 
 class Video extends MediaFactory
@@ -259,60 +260,9 @@ class Video extends MediaFactory
 //            echo (new Mensagem())->error("parametro-id-nulo",500);
             die("Parametro ID nulo");
         }
-        $path = dirname(__FILE__) . "/../video/" . $this->id . ".mp4";
 
-        $finfo = new finfo(FILEINFO_MIME);
-        $mime = $finfo->file($path);
-
-        header('Content-type: ' . $mime);
-
-        $size = filesize($path);
-
-        if (isset($_SERVER['HTTP_RANGE'])) {
-            // Parse do valor do campo
-            list($specifier, $value) = explode('=', $_SERVER['HTTP_RANGE']);
-
-            if ($specifier != 'bytes') {
-                header('HTTP/1.1 400 Bad Request');
-                return;
-            }
-
-            list($from, $to) = explode('-', $value);
-            if (!$to) {
-                $to = $size - 1;
-            }
-
-            header('HTTP/1.1 206 Partial Content');
-            header('Accept-Ranges: bytes');
-
-            header('Content-Length: ' . ($to - $from));
-
-            header("Content-Range: bytes {$from}-{$to}/{$size}");
-
-
-            $fp = fopen($path, 'rb');
-            $chunkSize = 8192;
-
-            fseek($fp, $from);
-
-            // Manda os dados
-            while (true) {
-                // Verifica se já chegou ao byte final
-                if (ftell($fp) >= $to) {
-                    break;
-                }
-
-                // Envia o conteúdo
-                echo fread($fp, $chunkSize);
-
-                // Flush do buffer
-                ob_flush();
-                flush();
-            }
-        } else {
-            header('Content-Length: ' . $size);
-            readfile($path);
-        }
+        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->id . ".mp4");
+        $stream->start();
     }
 
     public function retreaveLista()
@@ -337,7 +287,9 @@ class Video extends MediaFactory
 
         return VideoDAO::adicionarItemLista($this->getTipo(), $this->getId());
     }
-    public function deleteItemLista(){
+
+    public function deleteItemLista()
+    {
         return VideoDAO::deleteItemLista($this);
 
 

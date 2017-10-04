@@ -13,7 +13,6 @@ class HeaderWriter
 
     /**
      * HeaderWriter constructor.
-     * @param string $params
      */
     public function __construct()
     {
