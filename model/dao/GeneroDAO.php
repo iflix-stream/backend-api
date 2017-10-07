@@ -83,7 +83,7 @@ class GeneroDAO implements IDAO
         $phiber = new Phiber();
         $phiber->setTable('genero');
         $phiber->add($phiber->restrictions->equals("id", $genero->getId()));
-        $phiber->add($phiber->restrictions->equals("status", '1'));
+        $phiber->add($phiber->restrictions->equals("statusGenero", '1'));
         return $phiber->select();
 
 
@@ -97,7 +97,7 @@ class GeneroDAO implements IDAO
     {
         $phiber = new Phiber();
         $phiber->setTable('genero');
-        $phiber->add($phiber->restrictions->equals("status", '1'));
+        $phiber->add($phiber->restrictions->equals("statusGenero", '1'));
         $phiber->add($phiber->restrictions->like("nome", $genero->getNome()));
         $r = $phiber->select();
         self::$linhas = $phiber->rowCount();
@@ -138,10 +138,9 @@ class GeneroDAO implements IDAO
     public static function retreaveParaPaginacao($de = "0 ", $ate = "20")
     {
         $phiber = new Phiber();
-
         $phiber->add($phiber->restrictions->limit($ate));
         $phiber->add($phiber->restrictions->offset($de));
-        $phiber->add($phiber->restrictions->equals("status", '1'));
+        $phiber->add($phiber->restrictions->equals("statusGenero", '1'));
         $phiber->setTable("genero");
         $phiber->returnArray(true);
         return $phiber->select();

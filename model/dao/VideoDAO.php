@@ -59,7 +59,6 @@ class VideoDAO implements IDAO
     {
 
         if ($video->getId() == null and $video->getNome() == null and $video->getGenero() == null) {
-
             return self::retreaveParaPaginacao($video, $de, $ate);
         }
 
