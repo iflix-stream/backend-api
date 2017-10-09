@@ -10,6 +10,7 @@ namespace controller;
 
 
 use model\Filme;
+use model\Genero;
 use util\DataConversor;
 use view\View;
 use model\validator\FilmeValidate;
@@ -29,11 +30,13 @@ class FilmeController implements IController
         $validate = $validate->validaUploadFilme($data);
         if ($validate === true) {
             $filme->setNome($data['nome']);
-            $filme->getGenero()->setId($data['generoId']);
+            $filme->setGenero($data['genero']);
             $filme->setClassificacao($data['idadeRecomendada']);
             $filme->setDuracao($data['duracao']);
+            $filme->setThumbnail($data['thumbnail']);
+            $filme->setCaminho($data['caminho']);
             $filme->setSinopse($data['sinopse']);
-            $filme->cadastrar(); // deve retornar um id para o front para mandar o video logo apos.
+            View::render($filme->cadastrar()); // deve retornar um id para o front para mandar o video logo apos.
         } else {
             View::render($validate);
         }

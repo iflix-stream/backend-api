@@ -23,5 +23,7 @@
   "erro-criar-genero": "Ocorreu algum erro ao criar Genero",
   "nome-genero-existe": "Este gênero já existe",
   "erro-deletar-genero": "Erro ao deletar o gênero",
-  "sucesso-deletar-genero": "Gênero deletado com sucesso!"
+  "sucesso-deletar-genero": "Gênero deletado com sucesso!",
+  "sucesso-adicionar-filme":"Filme adicionado com sucesso!",
+  "falha-adicionar-filme":"Erro ao adicionar filme"
 }

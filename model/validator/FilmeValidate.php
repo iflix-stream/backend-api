@@ -13,8 +13,8 @@ class FilmeValidate
 {
     public function validaUploadFilme($params){
         $v = new Validator($params);
-        $v->rule('required',['nome','descricao','genero','idade_recomendada','duracao','sinopse']);
-        $v->rule('integer',['idade_recomendada','genero']);
+        $v->rule('required',['nome','genero','idadeRecomendada','thumbnail','duracao','caminho','sinopse']);
+        $v->rule('integer',['idade_recomendada','genero','caminho']);
         if ($v->validate()) {
             return true;
         } else {

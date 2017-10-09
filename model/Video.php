@@ -34,10 +34,6 @@ class Video extends MediaFactory
      * Video constructor.
      * @param $genero
      */
-    public function __construct()
-    {
-        $this->genero = new Genero();
-    }
 
 
     /**
@@ -219,23 +215,7 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-        //Cadastrar e colocar o nome do vídeo para o ID, não esquecer de colocar subdiretorio filme/serie
-        //Se caso não fazer o upload, deletar o filme/serie cadastrado do banco.
-        $data = new DataConversor();
-        $data = $data->converter();
-
-        if (isset($data['upload'])) { // verifica se tem upload no post se tiver seta e salva se nao e porque ele quer colocar o link;
-            VideoDAO::create($this);
-        } else {
-            $caminho = $this->fazerUpload();
-            if (is_string($caminho)) {
-                $this->setCaminho($caminho); // para setar o caminho tera que retornar o id do video inserido e atualizar com o caminho;
-                if (VideoDAO::create($this)) // aki nao e create tem que dar update na tabela;
-                    return array("mensagem" => "Upload feito com sucesso!");
-            }
-
-        }
-
+       return VideoDAO::create($this);
     }
 
     public function deletar()

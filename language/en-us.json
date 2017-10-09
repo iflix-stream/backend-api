@@ -20,5 +20,7 @@
   "sucesso-alterar-usuario":"User updated successfully!",
   "erro-retreave-lista":"List Retreave error!",
   "sucesso-criar-genero":"Genre created succesfully!",
-  "erro-criar-genero": "Errors Ocurred during genre retreave."
+  "erro-criar-genero": "Errors Ocurred during genre retreave.",
+  "sucesso-adicionar-filme":"Filme adicionado com sucesso!", //traduz esssa porra ai dps kk
+  "falha-adicionar-filme":"Erro ao adicionar filme"
 }
