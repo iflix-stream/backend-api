@@ -146,15 +146,20 @@ class UsuarioDAO implements IDAO
     public static function retreaveByEmail($usuario)
     {
         $phiber = new Phiber();
-        $restrictionEmail = $phiber->restrictions->equals("email", $usuario->getEmail());
-        $restrictionAtivado = $phiber->restrictions->equals("status", '1');
-        $restrictionAtivadoEmail = $phiber->restrictions->and($restrictionAtivado, $restrictionEmail);
-        $phiber->setTable("usuario");
-        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais", "senha"]);
-        $phiber->add($restrictionAtivadoEmail);
-        $r = $phiber->select();
+//        $restrictionEmail = $phiber->restrictions->equals("email", $usuario->getEmail());
+//        $restrictionAtivado = $phiber->restrictions->equals("status", '1');
+//        $restrictionAtivadoEmail = $phiber->restrictions->and($restrictionAtivado, $restrictionEmail);
+//        $phiber->setTable("usuario");
+//        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais", "senha"]);
+//        $phiber->add($restrictionAtivadoEmail);
+//        $r = $phiber->select();
+        $phiber->writeSQL("select id,nome,email,avatar,isControleDosPais,senha
+        from usuario WHERE status = :cond_status and email = :cond_email");
+        $phiber->bindValue("cond_status",1);
+        $phiber->bindValue("cond_email",$usuario->getEmail());
+        $phiber->execute();
         self::$rows = $phiber->rowCount();
-        return $r;
+        return $phiber->fetch();
     }
 
     /**

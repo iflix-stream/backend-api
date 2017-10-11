@@ -11,6 +11,7 @@ namespace model\dao;
 
 use model\MinhaLista;
 use model\Video;
+use PDO;
 use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
 use util\Mensagem;
@@ -323,12 +324,15 @@ class VideoDAO implements IDAO
     public static function retreaveEpisodios($idTemporada)
     {
         $phiber = new Phiber();
-        $phiber->setTable('episodio');
-        $phiber->setFields(['id', 'nome', 'sinopse', 'duracao', 'caminho']);
-        $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
-        $phiber->returnArray(true);
-        $r = $phiber->select();
-        return $r;
+        $phiber->writeSQL("SELECT id,nome,sinopse,duracao,caminho FROM episodio WHERE temporada_id = :temporada_id");
+        $phiber->bindValue("temporada_id", $idTemporada);
+        $phiber->execute();
+//        $phiber->setTable('episodio');
+//        $phiber->setFields(['id', 'nome', 'sinopse', 'duracao', 'caminho']);
+//        $phiber->add($phiber->restrictions->equals("temporada_id", $idTemporada));
+//        $phiber->returnArray(true);
+//        $r = $phiber->select();
+        return $phiber->fetchAll();
     }
 
     /**
@@ -341,21 +345,20 @@ class VideoDAO implements IDAO
     {
         $phiber = new Phiber();
 
-        $phiber->add($phiber->restrictions->limit($ate));
-        $phiber->add($phiber->restrictions->offset($de));
-        $phiber->add($phiber->restrictions->equals("status", '1'));
-        $phiber->setTable("filme");
-        $phiber->setFields(['filme.id as id', 'filme.nome as nome', 'classificacao', 'caminho', 'duracao',
-            'sinopse', 'thumbnail', 'status', 'genero_id', 'genero.nome as genero_nome']);
+        $sql = "SELECT filme.id AS id, filme.nome AS nome, classificacao, caminho, duracao, sinopse,
+ thumbnail, filme.status, genero_id, genero.nome AS genero_nome FROM filme INNER JOIN genero ON genero.id = genero_id WHERE
+ filme.status = :condition_status LIMIT $ate OFFSET $de;";
+
         if ($video->getTipo() == "serie") {
-            $phiber->setFields(['serie.id as id', 'serie.nome as nome', 'classificacao',
-                'sinopse', 'thumbnail', 'status', 'genero_id', 'genero.nome as genero_nome']);
-            $phiber->setTable("serie");
+            $sql = "SELECT serie.id as id, serie.nome as nome, classificacao,
+                sinopse, thumbnail, serie.status, genero_id, genero.nome as genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id WHERE
+ serie.status = :condition_status LIMIT $ate OFFSET $de ;";
+
         }
-        $phiber->add($phiber->restrictions->join('genero', ['genero.id', 'genero_id']));
-        $phiber->returnArray(true);
-        $r = $phiber->select();
-        return $r;
+        $phiber->writeSQL($sql);
+        $phiber->bindValue("condition_status", 1);
+        $phiber->execute();
+        return $phiber->fetchAll();
 
     }
 

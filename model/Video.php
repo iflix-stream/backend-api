@@ -241,7 +241,7 @@ class Video extends MediaFactory
             die("Parametro ID nulo");
         }
 
-        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->id . ".mp4");
+        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".mp4");
         $stream->start();
     }
 

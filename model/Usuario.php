@@ -261,7 +261,7 @@ class Usuario
 
     public function login()
     {
-        UsuarioDAO::login($this);
+//        UsuarioDAO::login($this);
         $u = UsuarioDAO::retreaveByEmail($this);
         if (UsuarioDAO::getRows() == 1) {
         if (password_verify($this->senha, $u['senha'])) {
@@ -277,8 +277,6 @@ class Usuario
                 return ["token" => (string)$token];
             }
         }
-
-
         return (new Mensagem())->error("email-e-ou-senha-invalidos", 500);
     }
 }
