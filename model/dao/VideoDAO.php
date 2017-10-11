@@ -147,23 +147,33 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
+     * @param string $de
+     * @param string $ate
      * @return array
      */
-    private static function retreaveByGenero($video)
+    private static function retreaveByGenero($video, $de = ' 0', $ate = '20')
     {
         $phiber = new Phiber();
 
         if ($video->getGenero() != null) {
-            $restrictionAtivado = $phiber->restrictions->equals("status", "1");
-            $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
-            $restrictionAtivadoGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionGenero);
-            $phiber->add($restrictionAtivadoGenero);
-            $phiber->setTable("filme");
+
+            $sql = "SELECT filme.id AS id, filme.nome AS nome, classificacao, caminho, duracao, sinopse,
+ thumbnail, filme.status, genero_id, genero.nome AS genero_nome FROM filme INNER JOIN genero ON genero.id = genero_id
+  WHERE filme.status = :condition_status AND genero_id = :cond_genero
+  OR genero.nome = :cond_genero  LIMIT $ate OFFSET $de;";
+
             if ($video->getTipo() == "serie") {
-                $phiber->setTable("serie");
+                $sql = "SELECT serie.id as id, serie.nome as nome, classificacao,
+                sinopse, thumbnail, serie.status, genero_id, genero.nome as genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id
+                 WHERE serie.status = :condition_status AND WHERE filme.status = :condition_status AND genero_id = :cond_genero
+  OR genero.nome = :cond_genero LIMIT $ate OFFSET $de ;";
+
             }
-            $phiber->returnArray(true);
-            return $phiber->select();
+            $phiber->writeSQL($sql);
+            $phiber->bindValue("cond_genero", $video->getGenero());
+            $phiber->bindValue("condition_status", 1);
+            $phiber->execute();
+            return $phiber->fetchAll();
         }
         return (new Mensagem())->error("parametro-genero-nulo", 500);
     }

@@ -165,7 +165,7 @@ class Video extends MediaFactory
     }
 
     /**
-     * @return Genero
+     * @return string Genero
      */
     public function getGenero()
     {
@@ -271,7 +271,5 @@ class Video extends MediaFactory
     public function deleteItemLista()
     {
         return VideoDAO::deleteItemLista($this);
-
-
     }
 }
