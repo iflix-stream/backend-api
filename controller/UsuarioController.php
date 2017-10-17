@@ -40,9 +40,9 @@ class UsuarioController implements IController
             $date = date('Y-m-d');
             $usuario->setNome($data['nome']);
             $usuario->setEmail($data['email']);
-            $usuario->setAvatar('avatares/default.png');
+            $usuario->setAvatar($data['avatar']);
             $usuario->setSenha($data['senha']);
-            $usuario->setDataNascimento($data['data-nascimento']);
+            $usuario->setDataNascimento($data['data_nascimento']);
             $usuario->setDataCriacao($date);
             $usuario->setDataAlteracao($date);
             View::render($usuario->cadastrar());

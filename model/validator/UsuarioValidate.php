@@ -28,8 +28,8 @@ class UsuarioValidate
     public function validateUsuarioCriar($params)
     {
         $v = new Validator($params);
-        $v->rule('required', ['nome', 'senha', 'email', 'data-nascimento']);
-        $v->rule('date', 'data-nascimento');
+        $v->rule('required', ['nome', 'senha', 'email', 'data_nascimento']);
+        $v->rule('date', 'data_nascimento');
         $v->rule('email', 'email');
         if ($v->validate()) {
             return true;
