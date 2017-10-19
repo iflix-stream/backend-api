@@ -31,7 +31,6 @@ class VideoStream
         if (!($this->stream = fopen($this->path, 'rb'))) {
             die('Could not open stream for reading');
         }
-        (new Contador())->somar();
     }
 
     /**
@@ -93,7 +92,6 @@ class VideoStream
     private function end()
     {
         fclose($this->stream);
-        (new Contador())->subtrair();
         exit;
     }
 
