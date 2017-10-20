@@ -372,5 +372,28 @@ class VideoDAO implements IDAO
 
     }
 
+    public static function retreaveTempoEpisodioAssistido($usuario_id, $episodio_id)
+    {
+        $phiber = new Phiber();
+        $phiber->writeSQL(
+            "SELECT tempo FROM episodio_assistido WHERE usuario_id = :usuario_id AND episodio_id = :episodio_id"
+        );
+        $phiber->bindValue('usuario_id', $usuario_id);
+        $phiber->bindValue('episodio_id', $episodio_id);
+        $phiber->execute();
+        return $phiber->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function retreaveTempoFilmeAssistido($usuario_id, $filme_id) {
+        $phiber = new Phiber();
+        $phiber->writeSQL(
+            "SELECT tempo FROM filme_assistido WHERE usuario_id = :usuario_id AND filme_id = :filme_id"
+        );
+        $phiber->bindValue('usuario_id', $usuario_id);
+        $phiber->bindValue('filme_id', $filme_id);
+        $phiber->execute();
+        return $phiber->fetch(PDO::FETCH_ASSOC);
+    }
+
 
 }

@@ -13,28 +13,33 @@ use model\dao\VideoDAO;
 
 class Serie extends Video
 {
-    private $episodios;
+
+    /**
+     * @var Episodio Episodio
+     */
+    private $episodio;
     private $temporadas;
 
     function __construct()
     {
         $this->setTipo('serie');
+        $this->episodio = new Episodio();
     }
 
     /**
-     * @return mixed
+     * @return Episodio
      */
-    public function getEpisodios()
+    public function getEpisodio()
     {
-        return $this->episodios;
+        return $this->episodio;
     }
 
     /**
-     * @param mixed $episodios
+     * @param Episodio $episodio
      */
-    public function setEpisodios($episodios)
+    public function setEpisodio($episodio)
     {
-        $this->episodios = $episodios;
+        $this->episodio = $episodio;
     }
 
     /**
@@ -65,6 +70,10 @@ class Serie extends Video
             }
         }
         return $series;
+    }
+
+    public function retreaveTempoEpisodioAssistido($usuario_id) {
+        return VideoDAO::retreaveTempoEpisodioAssistido($usuario_id, $this->episodio->getId());
     }
 
 }

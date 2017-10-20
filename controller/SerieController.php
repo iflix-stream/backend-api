@@ -31,13 +31,19 @@ class SerieController implements IController
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
         if (isset($params['genero'])) $serie->setGenero($params['genero']);
-        $data = (new Mensagem())->error('parametros-invalidos',500);
+        $data = (new Mensagem())->error('parametros-invalidos', 500);
 
-       if(!isset($_GET['stream'])) $data = $serie->retreaveSeries();
+        if (!isset($_GET['stream'])) $data = $serie->retreaveSeries();
 
         if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);
             $serie->stream();
+        }
+
+        if (isset($_GET['action']) and $_GET['action'] == "returnTempoAssistido"
+            and isset($_GET['episodio']) and $_GET['usuario']) {
+            $serie->getEpisodio()->setId($_GET['episodio']);
+                $data = $serie->retreaveTempoEpisodioAssistido($_GET['usuario']);
         }
 
         View::render($data);
