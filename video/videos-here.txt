@@ -1,0 +1,2 @@
+terá de criar duas pastas, filme e série, respectivamente para
+colocar os arquivos de mídia dentro dela

@@ -2,4 +2,6 @@
 /.idea/*
 composer.lock
 .idea/iFlix.iml
-Video/filme/1.mp4
+/video/filme/*
+/video/serie/*
+video/serie/
