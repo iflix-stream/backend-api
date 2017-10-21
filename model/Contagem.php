@@ -20,6 +20,23 @@ class Contagem
     private $episodioTemporadaId;
     private $episodioSerieId;
     private $tipo;
+    private $permicao;
+
+    /**
+     * @return mixed
+     */
+    public function getPermicao()
+    {
+        return $this->permicao;
+    }
+
+    /**
+     * @param mixed $permicao
+     */
+    public function setPermicao($permicao)
+    {
+        $this->permicao = $permicao;
+    }
 
 
     /**
@@ -139,6 +156,10 @@ class Contagem
 
     public function recuperar()
     {
-        ContagemDAO::retreave($this);
+        $var[]='';
+        if(!empty($this->getPermicao())){
+            $var['permicao'] = $this->getPermicao();
+        }
+        ContagemDAO::retreave($var);
     }
 }

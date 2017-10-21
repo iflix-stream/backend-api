@@ -34,59 +34,61 @@ class ContagemDAO implements IDAO
 
     static function retreave($video)
     {
-        //filme
-        $phiber = new Phiber();
-        $phiber->setTable('assistindo_filme');
-        $array = $phiber->select();
-        for ($i = 0; $i < count($array); $i++) {
-            $timestamp = strtotime($array[$i]['horario_play']);
+        if (!isset($video['permicao'])) {
+            $contagem = 0;
             $phiber = new Phiber();
-            $restrictionID = $phiber->restrictions->equals("id", $array[$i]['filme_id']);
-            $phiber->setTable('filme');
-            $phiber->setFields(['duracao']);
-            $phiber->add($restrictionID);
-            $array2 = $phiber->select();
-            $horario = $array2[0]['duracao'];
-            $segundos = strtotime('1970-01-01 ' . $horario . 'UTC');
-            if (($timestamp + $segundos) - time() < 0) {
-                $phiber = new Phiber();
-                $phiber->writeSQL('DELETE FROM assistindo_filme WHERE idassistindo_filme=' . $array[$i]["idassistindo_filme"]);
-                $phiber->execute();
-            }
-
-        }
-        //serie
-        $phiber = new Phiber();
-        $phiber->setTable('assistindo_serie');
-        $array = $phiber->select();
-        for ($i = 0; $i < count($array); $i++) {
-            $timestamp = strtotime($array[$i]['horario_play']);
+            $phiber->setTable('assistindo_serie');
+            $phiber->select();
+            $contagem += $phiber->rowCount();
             $phiber = new Phiber();
-            $restrictionID = $phiber->restrictions->equals("id", $array[$i]['episodio_id']);
-            $phiber->setTable('episodio');
-            $phiber->setFields(['duracao']);
-            $phiber->add($restrictionID);
-            $array2 = $phiber->select();
-            $horario = $array2[0]['duracao'];
-            $segundos = strtotime('1970-01-01 ' . $horario . 'UTC');
-            if (($timestamp + $segundos) - time() < 0) {
+            $phiber->setTable('assistindo_filme');
+            $phiber->select();
+            $contagem += $phiber->rowCount();
+            echo $contagem;
+
+        } else {
+            //filme
+            $phiber = new Phiber();
+            $phiber->setTable('assistindo_filme');
+            $array = $phiber->select();
+            for ($i = 0; $i < count($array); $i++) {
+                $timestamp = strtotime($array[$i]['horario_play']);
                 $phiber = new Phiber();
-                $phiber->writeSQL('DELETE FROM assistindo_serie WHERE idassistindo_serie=' . $array[$i]["idassistindo_serie"]);
-                $phiber->execute();
+                $restrictionID = $phiber->restrictions->equals("id", $array[$i]['filme_id']);
+                $phiber->setTable('filme');
+                $phiber->setFields(['duracao']);
+                $phiber->add($restrictionID);
+                $array2 = $phiber->select();
+                $horario = $array2[0]['duracao'];
+                $segundos = strtotime('1970-01-01 ' . $horario . 'UTC');
+                if (($timestamp + $segundos) - time() < 0) {
+                    $phiber = new Phiber();
+                    $phiber->writeSQL('DELETE FROM assistindo_filme WHERE idassistindo_filme=' . $array[$i]["idassistindo_filme"]);
+                    $phiber->execute();
+                }
+
+            }
+            //serie
+            $phiber = new Phiber();
+            $phiber->setTable('assistindo_serie');
+            $array = $phiber->select();
+            for ($i = 0; $i < count($array); $i++) {
+                $timestamp = strtotime($array[$i]['horario_play']);
+                $phiber = new Phiber();
+                $restrictionID = $phiber->restrictions->equals("id", $array[$i]['episodio_id']);
+                $phiber->setTable('episodio');
+                $phiber->setFields(['duracao']);
+                $phiber->add($restrictionID);
+                $array2 = $phiber->select();
+                $horario = $array2[0]['duracao'];
+                $segundos = strtotime('1970-01-01 ' . $horario . 'UTC');
+                if (($timestamp + $segundos) - time() < 0) {
+                    $phiber = new Phiber();
+                    $phiber->writeSQL('DELETE FROM assistindo_serie WHERE idassistindo_serie=' . $array[$i]["idassistindo_serie"]);
+                    $phiber->execute();
+                }
             }
         }
-
-        $contagem = 0;
-        $phiber = new Phiber();
-        $phiber->setTable('assistindo_serie');
-        $phiber->select();
-        $contagem += $phiber->rowCount();
-        $phiber = new Phiber();
-        $phiber->setTable('assistindo_filme');
-        $phiber->select();
-        $contagem += $phiber->rowCount();
-        echo $contagem;
-
     }
 
     static function update($video)

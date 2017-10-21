@@ -51,7 +51,7 @@ class Token
     {
         $parser = new Parser();
         $oToken = $parser->parse($token);
-//        $claims["permissao"] = $oToken->getClaim('permicao');
+        $claims["permissao"] = $oToken->getClaim('permicao');
         $claims["usuario"] = $oToken->getClaim('usuario');
         return $claims;
     }
