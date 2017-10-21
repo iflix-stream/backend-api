@@ -29,15 +29,18 @@ class ContagemController implements IController
         $data = new DataConversor();
         $data = $data->converter();
         $contagem = new Contagem();
-        $contagem->setFilmeId($data['filmeId']);
+        if(isset($data['filmeId']))$contagem->setFilmeId($data['filmeId']);
+        if(isset($data['episodioId']))$contagem->setEpisodioId($data['episodioId']);
+        if(isset($data['episodioTemporadaId']))$contagem->setEpisodioTemporadaId($data['episodioTemporadaId']);
+        if(isset($data['episodioSerieId']))$contagem->setEpisodioSerieId($data['episodioSerieId']);
+        $contagem->setTipo($data['tipo']);
         $contagem->setUsuarioId($this->token['usuario']->id);
         $contagem->aumentar();
-
     }
 
     public function get($params = [])
     {
-        // TODO: Implement get() method.
+        (new Contagem())->recuperar();
     }
 
     public function put($params = [])

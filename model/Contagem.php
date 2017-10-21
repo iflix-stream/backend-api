@@ -16,7 +16,75 @@ class Contagem
 {
     private $filmeId;
     private $usuarioId;
-    private $horarioPlay;
+    private $episodioId;
+    private $episodioTemporadaId;
+    private $episodioSerieId;
+    private $tipo;
+
+
+    /**
+     * @return mixed
+     */
+    public function getEpisodioId()
+    {
+        return $this->episodioId;
+    }
+
+    /**
+     * @param mixed $episodioId
+     */
+    public function setEpisodioId($episodioId)
+    {
+        $this->episodioId = $episodioId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEpisodioTemporadaId()
+    {
+        return $this->episodioTemporadaId;
+    }
+
+    /**
+     * @param mixed $episodioTemporadaId
+     */
+    public function setEpisodioTemporadaId($episodioTemporadaId)
+    {
+        $this->episodioTemporadaId = $episodioTemporadaId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEpisodioSerieId()
+    {
+        return $this->episodioSerieId;
+    }
+
+    /**
+     * @param mixed $episodioSerieId
+     */
+    public function setEpisodioSerieId($episodioSerieId)
+    {
+        $this->episodioSerieId = $episodioSerieId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
 
     /**
      * @return mixed
@@ -50,33 +118,27 @@ class Contagem
         $this->usuarioId = $usuarioId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHorarioPlay()
-    {
-        return $this->horarioPlay;
-    }
-
-    /**
-     * @param mixed $horarioPlay
-     */
-    public function setHorarioPlay($horarioPlay)
-    {
-        $this->horarioPlay = $horarioPlay;
-    }
-
     public function aumentar()
     {
-        $this->setHorarioPlay(time());
-        $var['filmeId'] = $this->getFilmeId();
+        $var['tipo'] = $this->getTipo();
         $var['usuarioId'] = $this->getUsuarioId();
-        $var['horarioPlay'] = $this->getHorarioPlay();
+        if ($this->getTipo() == 'serie') {
+            $var['episodioId'] = $this->getEpisodioId();
+            $var['episodioTemporadaId'] = $this->getEpisodioTemporadaId();
+            $var['episodioSerieId'] = $this->getEpisodioSerieId();
+        } else {
+            $var['filmeId'] = $this->getFilmeId();
+        }
         ContagemDAO::create($var);
     }
 
     public function diminuir()
     {
-        (new Contador())->subtrair();
+
+    }
+
+    public function recuperar()
+    {
+        ContagemDAO::retreave($this);
     }
 }
