@@ -15,7 +15,7 @@ class DataConversor
     public function converter()
     {
         $data = "";
-        $dataTipo = apache_request_headers()["Content-Type"];
+        $dataTipo = isset(apache_request_headers()["Content-Type"]) ? apache_request_headers()["Content-Type"] : null;
         switch ($dataTipo) {
             case "application/x-www-form-urlencoded":
                 $data = $_POST;

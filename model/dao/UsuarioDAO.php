@@ -11,6 +11,7 @@ namespace model\dao;
 
 use model\Usuario;
 use phiber\Phiber;
+use util\IflixException;
 use util\Mensagem;
 
 
@@ -36,15 +37,16 @@ class UsuarioDAO implements IDAO
 
     /**
      * @param Usuario $usuario
-     * @return array
+     * @return bool
+     * @throws IflixException
      */
     static function create($usuario)
     {
         $phiber = new Phiber($usuario);
         if ($phiber->create()) {
-            return (new Mensagem())->success("sucesso-criar-usuario");
+            return true;
         }
-        return (new Mensagem())->error("erro-criar-usuario", 500);
+        throw new IflixException("erro-criar-usuario", 500, true);
     }
 
 

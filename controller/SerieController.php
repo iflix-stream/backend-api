@@ -32,14 +32,15 @@ class SerieController implements IController
     {
         $serie = new Serie();
         $serie->cadastrar();
-        // TODO: Implement post() method.
+
     }
 
     public function get($params = [])
     {
         $serie = new Serie();
 
-        if (isset($_GET['user'])) $serie->getUsuario()->setId($this->token['usuario']->id);
+        $serie->getUsuario()->setId($this->token['usuario']->id);
+
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
         if (isset($params['genero'])) $serie->setGenero($params['genero']);

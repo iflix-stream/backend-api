@@ -94,4 +94,26 @@ class Mensagem
             "message" => $ref
         ];
     }
+
+    /**
+     * @param $ref
+     * @param int $codigo
+     * @param bool $isTraduzir
+     * @return array
+     */
+    function exception($ref, $codigo = 0, $isTraduzir = true)
+    {
+        if ($isTraduzir) {
+            return [
+                "type" => "exception",
+                "code" => $codigo,
+                "message" => "" . Tradutor::do($ref) . ""
+            ];
+        }
+        return [
+            "type" => "exception",
+            "code" => $codigo,
+            "message" => "" . $ref . ""
+        ];
+    }
 }

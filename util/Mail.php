@@ -30,7 +30,7 @@ class Mail
     }
 
     /**
-     * @param mixed $para
+     * @param array $para
      */
     public function setPara($para)
     {
@@ -70,8 +70,8 @@ class Mail
                 throw new Exception("Parâmetro \"para\" não foi passado.");
             }
             if(gettype($this->para) != "array"){
-                throw new Exception("Parâmetro \"para\" deve ser um arrai contendo
-                 as indexes \"email\" e \"para\"");
+                throw new Exception("Parâmetro \"para\" deve ser um array contendo
+                 as indexes \"email\" e \"nome\"");
             }
             if($this->assunto == "") {
                 throw new Exception("Parâmetro \"assunto\" não foi passado");
@@ -83,7 +83,7 @@ class Mail
                 throw new Exception("Parâmetro \"variáveis do template\" não foi passado");
             }
             //Configurações do servidor SMTP
-            $mail->SMTPDebug = 1;
+            $mail->SMTPDebug = 0;
             $mail->isSMTP();
             $mail->Host = 'mx1.hostinger.com';
             $mail->SMTPAuth = true;

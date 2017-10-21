@@ -9,7 +9,10 @@
 namespace model;
 
 use model\dao\UsuarioDAO;
+use util\IflixException;
+use util\Mail;
 use util\Mensagem;
+use util\Request;
 use util\Token;
 
 class Usuario
@@ -235,7 +238,31 @@ class Usuario
         UsuarioDAO::retreaveByEmail($this);
         if (UsuarioDAO::getRows() == 0) {
             $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
-            return UsuarioDAO::create($this);
+            try {
+                if (UsuarioDAO::create($this)) {
+                    $request = new Request();
+                    $request->request('POST', 'email',
+                         [
+                            "assunto" => "Sucesso ao criar um usuário",
+                            "para" =>
+                                [
+                                    "email" => $this->email,
+                                    "nome" => $this->nome
+                                ],
+                            "template" => "./templates/novo-usuario/index.html",
+                            "variaveisTemplate" =>
+                                [
+                                    "nomepessoa" => $this->nome,
+                                    "url" => "http://localhost:8080/#/login"
+                                ]
+                        ]
+                    );
+
+                    return (new Mensagem())->success("sucesso-criar-usuario");
+                }
+            } catch (IflixException $exception) {
+                return $exception->retornaJsonMensagem();
+            }
         }
         return (new Mensagem())->error("usuario-ja-cadastrado", 500);
 
@@ -249,7 +276,7 @@ class Usuario
 
     public function alterar()
     {
-        if(!empty($this->senha)){
+        if (!empty($this->senha)) {
             $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
         }
         $this->dataAlteracao = (date("Y-m-d"));
@@ -266,7 +293,7 @@ class Usuario
 
         if (UsuarioDAO::getRows() == 1) {
 
-        if (password_verify($this->senha, $u['senha'])) {
+            if (password_verify($this->senha, $u['senha'])) {
                 $usuario = [
                     "id" => $u['id'],
                     "nome" => $u['nome'],
