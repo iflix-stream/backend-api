@@ -17,6 +17,7 @@ class EmailController implements IController
 
     public function post()
     {
+        echo "aqui";
         $data = new DataConversor();
         $data = $data->converter();
         $email = new Email();
@@ -29,7 +30,7 @@ class EmailController implements IController
 
     public function get($params = [])
     {
-        // TODO: Implement get() method.
+       json_encode(["asdasd"=>"aqui"]);
     }
 
     public function put($params = [])

@@ -241,23 +241,24 @@ class Usuario
             try {
                 if (UsuarioDAO::create($this)) {
                     $request = new Request();
-                    $request->request('POST', 'email',
-                         [
-                            "assunto" => "Sucesso ao criar um usuário",
-                            "para" =>
-                                [
-                                    "email" => $this->email,
-                                    "nome" => $this->nome
-                                ],
-                            "template" => "./templates/novo-usuario/index.html",
-                            "variaveisTemplate" =>
-                                [
-                                    "nomepessoa" => $this->nome,
-                                    "url" => "http://localhost:8080/#/login"
-                                ]
+                 $request->post('email',
+                        [
+                            'json' => [
+                                "assunto" => "Sucesso ao criar um usuário",
+                                "para" =>
+                                    [
+                                        "email" => $this->email,
+                                        "nome" => $this->nome
+                                    ],
+                                "template" => "./templates/novo-usuario/index.html",
+                                "variaveisTemplate" =>
+                                    [
+                                        "nomepessoa" => $this->nome,
+                                        "url" => "http://localhost:8080/#/login"
+                                    ]
+                            ]
                         ]
                     );
-
                     return (new Mensagem())->success("sucesso-criar-usuario");
                 }
             } catch (IflixException $exception) {
