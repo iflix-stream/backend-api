@@ -18,7 +18,7 @@ class ContagemDAO implements IDAO
     {
         var_dump($video);
         $phiber = new Phiber();
-        $phiber->writeQuery('INSERT INTO assistindo_filme(filme_id,usuario_id,horario_play) VALUES (:filmeId,:usuarioId,:horarioPlay)');
+        $phiber->writeSQL('INSERT INTO assistindo_filme(filme_id,usuario_id,horario_play) VALUES (:filmeId,:usuarioId,:horarioPlay)');
         $phiber->bindValue("filmeId", $video['filmeId']);
         $phiber->bindValue("usuarioId", $video['usuarioId']);
         $phiber->bindValue("horarioPlay", $video['horarioPlay']);
