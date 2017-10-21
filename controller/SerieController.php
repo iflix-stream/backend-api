@@ -10,12 +10,23 @@ namespace controller;
 
 
 use model\Serie;
-use model\Video;
 use util\Mensagem;
+use util\Token;
 use view\View;
 
 class SerieController implements IController
 {
+
+    private $token;
+
+    /**
+     * SerieController constructor.
+     */
+    public function __construct()
+    {
+        $this->token = new Token();
+        $this->token = $this->token->token();
+    }
 
     public function post()
     {
@@ -28,6 +39,7 @@ class SerieController implements IController
     {
         $serie = new Serie();
 
+        if (isset($_GET['user'])) $serie->getUsuario()->setId($this->token['usuario']->id);
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
         if (isset($params['genero'])) $serie->setGenero($params['genero']);
@@ -38,12 +50,6 @@ class SerieController implements IController
         if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);
             $serie->stream();
-        }
-
-        if (isset($_GET['action']) and $_GET['action'] == "returnTempoAssistido"
-            and isset($_GET['episodio']) and $_GET['usuario']) {
-            $serie->getEpisodio()->setId($_GET['episodio']);
-                $data = $serie->retreaveTempoEpisodioAssistido($_GET['usuario']);
         }
 
         View::render($data);

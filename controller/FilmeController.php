@@ -12,11 +12,19 @@ namespace controller;
 use model\Filme;
 use model\Genero;
 use util\DataConversor;
+use util\Token;
 use view\View;
 use model\validator\FilmeValidate;
 
 class FilmeController implements IController
 {
+    private $token;
+
+    public function __construct()
+    {
+        $this->token = new Token();
+        $this->token = $this->token->token();
+    }
 
     /**
      *
@@ -46,6 +54,7 @@ class FilmeController implements IController
     {
         $filme = new Filme();
 
+        if (isset($_GET['user'])) $filme->getUsuario()->setId($this->token['usuario']->id);
         if (isset($params['id'])) $filme->setId($params['id']);
         if (isset($params['nome'])) $filme->setNome($params['nome']);
         if (isset($params['genero'])) $filme->setGenero($params['genero']);

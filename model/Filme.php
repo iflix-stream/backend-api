@@ -15,12 +15,15 @@ use model\dao\VideoDAO;
 class Filme extends Video
 {
 
+    private $usuario;
+
     /**
      * Filme constructor.
      */
     public function __construct()
     {
         $this->setTipo('filme');
+        $this->usuario = new Usuario();
     }
 
     public function retreaveFilmes()
