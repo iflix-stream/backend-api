@@ -23,8 +23,8 @@ class FilmeController implements IController
     public function __construct()
     {
 
-        $this->token = new Token();
-        $this->token = $this->token->token();
+//        $this->token = new Token();
+//        $this->token = $this->token->token();
     }
 
     /**
