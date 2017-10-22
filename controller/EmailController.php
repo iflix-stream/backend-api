@@ -17,7 +17,6 @@ class EmailController implements IController
 
     public function post()
     {
-        echo "aqui";
         $data = new DataConversor();
         $data = $data->converter();
         $email = new Email();

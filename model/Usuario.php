@@ -8,11 +8,15 @@
 
 namespace model;
 
+use GuzzleHttp\Client;
 use model\dao\UsuarioDAO;
+use Psr\Http\Message\ResponseInterface;
 use util\IflixException;
 use util\Mail;
 use util\Mensagem;
 use util\Request;
+use util\Settings;
+use util\ThreadEmail;
 use util\Token;
 
 class Usuario
@@ -240,26 +244,28 @@ class Usuario
             $this->senha = password_hash($this->senha, PASSWORD_DEFAULT);
             try {
                 if (UsuarioDAO::create($this)) {
-                    $request = new Request();
-                 $request->post('email',
-                        [
-                            'json' => [
-                                "assunto" => "Sucesso ao criar um usuário",
-                                "para" =>
-                                    [
-                                        "email" => $this->email,
-                                        "nome" => $this->nome
-                                    ],
-                                "template" => "./templates/novo-usuario/index.html",
-                                "variaveisTemplate" =>
-                                    [
-                                        "nomepessoa" => $this->nome,
-                                        "url" => "http://localhost:8080/#/login"
-                                    ]
-                            ]
-                        ]
+                    $client = new Client();
+
+                    $promise = $client->requestAsync('POST', Settings::URL_BASE_API . '/email',
+
+                        ["form_params" => [
+                            "assunto" => "Conta criada com sucesso!",
+                            "para" =>
+                                [
+                                    "email" => $this->email,
+                                    "nome" => $this->nome
+                                ],
+                            "template" => "./templates/novo-usuario/index.html",
+                            "variaveisTemplate" =>
+                                [
+                                    "nomepessoa" => $this->nome,
+                                    "url" => Settings::URL_BASE_API . "/#/login"
+                                ]
+                        ]]
                     );
+                    $promise->wait();
                     return (new Mensagem())->success("sucesso-criar-usuario");
+
                 }
             } catch (IflixException $exception) {
                 return $exception->retornaJsonMensagem();

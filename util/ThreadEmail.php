@@ -3,29 +3,35 @@
  * Created by PhpStorm.
  * User: marci
  * Date: 21/10/2017
- * Time: 13:50
+ * Time: 18:25
  */
 
-namespace model;
+namespace util;
 
 
-use util\Mail;
+use \Thread;
 
-class Email
+class ThreadEmail
 {
+
+    /**
+     * @var Mail
+     */
     private $mail;
     private $assunto;
     private $para;
     private $template;
     private $variaveisTemplate;
 
-        /**
-     * Email constructor.
-     */
-    public function __construct()
+    function run()
     {
         $this->mail = new Mail();
+        $this->mail->setAssunto($this->assunto);
+        $this->mail->setPara($this->para);
+        $this->mail->setTemplate($this->template);
+        $this->mail->setVariaveisTemplate($this->variaveisTemplate);
     }
+
 
     /**
      * @param mixed $assunto
@@ -33,7 +39,6 @@ class Email
     public function setAssunto($assunto)
     {
         $this->assunto = $assunto;
-        $this->mail->setAssunto($this->assunto);
     }
 
     /**
@@ -42,7 +47,6 @@ class Email
     public function setPara($para)
     {
         $this->para = $para;
-        $this->mail->setPara($this->para);
     }
 
     /**
@@ -51,7 +55,6 @@ class Email
     public function setTemplate($template)
     {
         $this->template = $template;
-        $this->mail->setTemplate($this->template);
     }
 
     /**
@@ -60,12 +63,10 @@ class Email
     public function setVariaveisTemplate($variaveisTemplate)
     {
         $this->variaveisTemplate = $variaveisTemplate;
-        $this->mail->setVariaveisTemplate($this->variaveisTemplate);
     }
 
     public function enviar(){
         $this->mail->enviar();
     }
-
 
 }
