@@ -26,6 +26,7 @@
   "sucesso-deletar-genero": "Gênero deletado com sucesso!",
   "sucesso-adicionar-filme":"Filme adicionado com sucesso!",
   "falha-adicionar-filme":"Erro ao adicionar filme",
-  "sucesso-adicionar-minha-lista": "Adicionado com sucesso a minha lista",
-  "erro-adicionar-minha-lista": "Erro ao adicionar a minha lista"
+  "sucesso-adicionar-minha-lista": "Adicionado com sucesso a sua lista",
+  "erro-adicionar-minha-lista": "Erro ao adicionar a sua lista",
+  "sucesso-remover-minha-lista": "Removido com sucesso da sua lista"
 }
