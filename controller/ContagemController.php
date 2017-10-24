@@ -42,13 +42,11 @@ class ContagemController implements IController
     {
 
         $contagem = new Contagem();
-        if ($this->token['permissao'] === 'normal') {
-            $contagem->recuperar();
-        }
-        else if ($this->token['permissao'] === 'admin'){
+        if ($this->token['permissao'] === 'admin') {
             $contagem->setPermicao(true);
-            $contagem->recuperar();
         }
+        $contagem->recuperar();
+
     }
 
     public function put($params = [])
