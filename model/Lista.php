@@ -68,9 +68,11 @@ class Lista
             if ($this->isUsuarioJaAdicionou()) {
                 if (ListaDAO::create($this)) {
                     return (new Mensagem())->success("sucesso-adicionar-minha-lista");
+
                 }
             }
-            return (new Mensagem())->error("erro-adicionar-minha-lista");
+            return $this->remover();
+
         } catch (IflixException $exception) {
             return $exception->retornaJsonMensagem();
         }
@@ -78,21 +80,16 @@ class Lista
 
     public function remover()
     {
-        $this->isListaValida();
+        if (ListaDAO::delete($this)) {
+            return (new Mensagem())->success("sucesso-remover-minha-lista");
+        }
+        return (new Mensagem())->error("erro-adicionar-minha-lista");
+
     }
 
     private function isUsuarioJaAdicionou()
     {
         ListaDAO::retornaListaWhereVideoAndUsuario($this);
-        if (ListaDAO::getRows() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    private function isListaValida()
-    {
-        ListaDAO::delete($this);
         if (ListaDAO::getRows() == 0) {
             return true;
         }

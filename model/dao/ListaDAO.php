@@ -29,6 +29,8 @@ class ListaDAO implements IDAO
 
     /**
      * @param Lista $lista
+     * @return bool
+     * @throws IflixException
      */
     static function create($lista)
     {
@@ -46,6 +48,7 @@ class ListaDAO implements IDAO
 
     /**
      * @param $lista
+     * @return mixed|void
      */
     static function retreave($lista)
     {
@@ -54,6 +57,7 @@ class ListaDAO implements IDAO
 
     /**
      * @param $lista
+     * @return mixed|void
      */
     static function update($lista)
     {
@@ -61,7 +65,8 @@ class ListaDAO implements IDAO
     }
 
     /**
-     * @param $lista
+     * @param Lista $lista
+     * @return boolean
      */
     static function delete($lista)
     {
@@ -71,10 +76,14 @@ class ListaDAO implements IDAO
         $restrictionUsuario = $phiber->restrictions->equals("usuario_id", $lista->getUsuario()->getId());
         $restriction = $phiber->restrictions->and($restrictionIdVideo, $restrictionUsuario);
         $phiber->add($restriction);
-        $phiber->delete();
-        echo $phiber->show();
+        return $phiber->delete();
     }
 
+
+    /**
+     * @param Lista $lista
+     * @return array
+     */
     static function retornaListaWhereVideoAndUsuario($lista)
     {
         $phiber = new Phiber();

@@ -11,8 +11,27 @@ namespace model\dao;
 
 interface IDAO
 {
-    static function create($video);
-    static function retreave($video);
-    static function update($video);
-    static function delete($video);
+    /**
+     * @param $object
+     * @return mixed
+     */
+    static function create($object);
+
+    /**
+     * @param $object
+     * @return mixed
+     */
+    static function retreave($object);
+
+    /**
+     * @param $object
+     * @return mixed
+     */
+    static function update($object);
+
+    /**
+     * @param $object
+     * @return mixed
+     */
+    static function delete($object);
 }

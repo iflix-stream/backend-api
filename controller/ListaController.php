@@ -9,11 +9,13 @@
 namespace controller;
 
 
+use InvalidArgumentException;
 use model\Filme;
 use model\Lista;
 use model\Usuario;
 use model\Video;
 use util\DataConversor;
+use util\IflixException;
 use view\View;
 
 class ListaController implements IController
@@ -43,17 +45,41 @@ class ListaController implements IController
         $this->usuario = new Usuario();
         $this->video = new Filme();
         $this->data = (new DataConversor())->converter();
-        $class = "\\model\\" . ucfirst($this->data['tipo']);
-        $this->video = new $class;
+        if (isset($this->data['tipo'])) {
+            $class = "\\model\\" . ucfirst($this->data['tipo']);
+            $this->video = new $class;
+        }
+        $parametrosEsquecidos = "";
+        if (!isset($this->data['tipo'])) {
+            $parametrosEsquecidos .= "tipo ";
+        }
+
+        if (!isset($this->data['usuario'])) {
+            $parametrosEsquecidos .= "usuario ";
+        }
+
+        if (!isset($this->data['id'])) {
+            $parametrosEsquecidos .= "id ";
+        }
+        if ($parametrosEsquecidos != "") {
+            throw new InvalidArgumentException(
+                "Parâmetro/s " . str_replace(" ", ", ", $parametrosEsquecidos) . " não passado/s"
+            );
+
+        }
+
     }
 
 
     public function post()
     {
-        $list = new Lista($this->usuario, $this->video);
+
         $this->usuario->setId($this->data['usuario']);
         $this->video->setId($this->data['id']);
+        $list = new Lista($this->usuario, $this->video);
         View::render($list->adicionar());
+
+
     }
 
     public function get($params = [])
