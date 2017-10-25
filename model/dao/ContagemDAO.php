@@ -22,12 +22,9 @@ class ContagemDAO implements IDAO
             $phiber->bindValue("filmeId", $video['filmeId']);
             $phiber->bindValue("usuarioId", $video['usuarioId']);
         } else if ($video['tipo'] == 'serie') {
-            $phiber->writeSQL('INSERT INTO assistindo_serie(episodio_id,usuario_id,episodio_temporada_id,episodio_serie_id)
-            VALUES (:episodioId,:usuarioId,:episodioTemporadaId,:episodioSerieId)');
+            $phiber->writeSQL('INSERT INTO assistindo_serie(episodio_id,usuario_id) VALUES (:episodioId,:usuarioId)');
             $phiber->bindValue("episodioId", $video['episodioId']);
             $phiber->bindValue("usuarioId", $video['usuarioId']);
-            $phiber->bindValue("episodioTemporadaId", $video['episodioTemporadaId']);
-            $phiber->bindValue("episodioSerieId", $video['episodioSerieId']);
         }
         $phiber->execute();
     }
@@ -98,6 +95,9 @@ class ContagemDAO implements IDAO
 
     static function delete($video)
     {
-        // TODO: Implement delete() method.
+        $phiber = new Phiber();
+        $phiber->writeSQL('DELETE FROM assistindo_filme WHERE (:usuarioId);DELETE FROM assistindo_serie WHERE (:usuarioId)');
+        $phiber->bindValue("usuarioId", $video['usuarioId']);
+        return $phiber->execute();
     }
 }

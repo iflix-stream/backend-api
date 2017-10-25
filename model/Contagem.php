@@ -14,13 +14,28 @@ use util\Contador;
 
 class Contagem
 {
-    private $filmeId;
+    private $Id;
     private $usuarioId;
-    private $episodioId;
     private $episodioTemporadaId;
     private $episodioSerieId;
     private $tipo;
     private $permicao;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->Id;
+    }
+
+    /**
+     * @param mixed $Id
+     */
+    public function setId($Id)
+    {
+        $this->Id = $Id;
+    }
 
     /**
      * @return mixed
@@ -36,23 +51,6 @@ class Contagem
     public function setPermicao($permicao)
     {
         $this->permicao = $permicao;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getEpisodioId()
-    {
-        return $this->episodioId;
-    }
-
-    /**
-     * @param mixed $episodioId
-     */
-    public function setEpisodioId($episodioId)
-    {
-        $this->episodioId = $episodioId;
     }
 
     /**
@@ -106,22 +104,6 @@ class Contagem
     /**
      * @return mixed
      */
-    public function getFilmeId()
-    {
-        return $this->filmeId;
-    }
-
-    /**
-     * @param mixed $filmeId
-     */
-    public function setFilmeId($filmeId)
-    {
-        $this->filmeId = $filmeId;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getUsuarioId()
     {
         return $this->usuarioId;
@@ -140,24 +122,23 @@ class Contagem
         $var['tipo'] = $this->getTipo();
         $var['usuarioId'] = $this->getUsuarioId();
         if ($this->getTipo() == 'serie') {
-            $var['episodioId'] = $this->getEpisodioId();
-            $var['episodioTemporadaId'] = $this->getEpisodioTemporadaId();
-            $var['episodioSerieId'] = $this->getEpisodioSerieId();
+            $var['episodioId'] = $this->getId();
         } else {
-            $var['filmeId'] = $this->getFilmeId();
+            $var['filmeId'] = $this->getId();
         }
         ContagemDAO::create($var);
     }
 
     public function diminuir()
     {
-
+        $var['usuarioId'] = $this->getUsuarioId();
+        ContagemDAO::delete($var);
     }
 
     public function recuperar()
     {
-        $var[]='';
-        if(!empty($this->getPermicao())){
+        $var[] = '';
+        if (!empty($this->getPermicao())) {
             $var['permicao'] = $this->getPermicao();
         }
         ContagemDAO::retreave($var);

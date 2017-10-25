@@ -56,6 +56,13 @@ class ContagemController implements IController
 
     public function delete($params = [])
     {
-        // TODO: Implement delete() method.
+        $data = new DataConversor();
+        $data = $data->converter();
+        if (isset($data['tipo'])){
+            $contagem = new Contagem();
+            $contagem->setTipo($data['tipo']);
+            $contagem->setUsuarioId($this->token['usuario']->id);
+            $contagem->diminuir();
+        }
     }
 }
