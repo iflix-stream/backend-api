@@ -65,7 +65,7 @@ class Lista
     public function adicionar()
     {
         try {
-            if ($this->isUsuarioJaAdicionou()) {
+            if (!$this->isUsuarioJaAdicionou()) {
                 if (ListaDAO::create($this)) {
                     return (new Mensagem())->success("sucesso-adicionar-minha-lista");
 
@@ -84,13 +84,12 @@ class Lista
             return (new Mensagem())->success("sucesso-remover-minha-lista");
         }
         return (new Mensagem())->error("erro-adicionar-minha-lista");
-
     }
 
-    private function isUsuarioJaAdicionou()
+    public function isUsuarioJaAdicionou()
     {
         ListaDAO::retornaListaWhereVideoAndUsuario($this);
-        if (ListaDAO::getRows() == 0) {
+        if (ListaDAO::getRows() != 0) {
             return true;
         }
         return false;
