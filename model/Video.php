@@ -29,6 +29,7 @@ class Video extends MediaFactory
     private $duracao;
     private $sinopse;
     private $thumbnail;
+    private $tempoAssistido;
 
     /**
      * Video constructor.
@@ -51,6 +52,24 @@ class Video extends MediaFactory
     {
         $this->duracao = $duracao;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTempoAssistido()
+    {
+        return $this->tempoAssistido;
+    }
+
+    /**
+     * @param mixed $tempoAssistido
+     */
+    public function setTempoAssistido($tempoAssistido)
+    {
+        $this->tempoAssistido = $tempoAssistido;
+    }
+
+
 
     /**
      * @return mixed
@@ -271,5 +290,20 @@ class Video extends MediaFactory
     public function deleteItemLista()
     {
         return VideoDAO::deleteItemLista($this);
+    }
+
+    /**
+     * @param Video $video
+     * @param Usuario $usuario
+     */
+    public function gerenciaSegundosAssistidos($video, $usuario) {
+
+        VideoDAO::retreaveTempoAssistido($video, $usuario);
+        if(VideoDAO::getRows() == 0) {
+            VideoDAO::createSegundosAssistidos($video, $usuario);
+        }else{
+            VideoDAO::updateSegundosAssistidos($video,$usuario);
+        }
+
     }
 }

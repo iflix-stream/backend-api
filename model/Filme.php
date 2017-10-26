@@ -18,6 +18,16 @@ class Filme extends Video
     private $usuario;
 
     /**
+     * @return Usuario
+     */
+    public function getUsuario(): Usuario
+    {
+        return $this->usuario;
+    }
+
+
+
+    /**
      * Filme constructor.
      */
     public function __construct()
@@ -29,8 +39,14 @@ class Filme extends Video
     public function retreaveFilmes()
     {
         $filme = VideoDAO::retreave($this);
-
-
+        $movie = new Filme();
+        for($i = 0; $i < count($filme); $i++) {
+            $movie->setId($filme[$i]['id']);
+            $filme[$i]['tempoAssistido'] = VideoDAO::retreaveTempoAssistido(
+                $movie,
+                $this->usuario
+            );
+        }
         return $filme;
     }
 }

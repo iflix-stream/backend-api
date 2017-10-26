@@ -10,6 +10,7 @@ namespace model\dao;
 
 
 use model\MinhaLista;
+use model\Usuario;
 use model\Video;
 use PDO;
 use phiber\bin\queries\Restrictions;
@@ -24,11 +25,22 @@ class VideoDAO implements IDAO
      * @var Video
      */
     private $video;
+    public static $rows;
 
     function __construct($video)
     {
         $this->video = $video;
     }
+
+    /**
+     * @return mixed
+     */
+    public static function getRows()
+    {
+        return self::$rows;
+    }
+
+
 
     /**
      * @param Video $video
@@ -258,9 +270,6 @@ class VideoDAO implements IDAO
         return false;
     }
 
-    /**
-     * @return array
-     */
 
     /**
      * @return array
@@ -372,28 +381,75 @@ class VideoDAO implements IDAO
 
     }
 
-    public static function retreaveTempoEpisodioAssistido($usuario_id, $episodio_id)
+    /**
+     * @param Video $video
+     * @param Usuario $usuario
+     * @return mixed
+     */
+    public static function retreaveTempoAssistido($video, $usuario)
     {
         $phiber = new Phiber();
         $phiber->writeSQL(
-            "SELECT tempo FROM episodio_assistido WHERE usuario_id = :usuario_id AND episodio_id = :episodio_id"
+            "SELECT tempo FROM "
+            .$video->getTipo()."_assistido WHERE usuario_id = :usuario_id AND ".$video->getTipo()."_id = :video_id"
         );
-        $phiber->bindValue('usuario_id', $usuario_id);
-        $phiber->bindValue('episodio_id', $episodio_id);
+
+        $phiber->bindValue('usuario_id', $usuario->getId());
+        $phiber->bindValue('video_id', $video->getId());
         $phiber->execute();
-        return $phiber->fetch(PDO::FETCH_ASSOC);
+        $r = $phiber->fetch(PDO::FETCH_ASSOC)['tempo'];
+        self::$rows = $phiber->rowCount();
+        return $r != null ? $r : 0;
     }
 
-    public static function retreaveTempoFilmeAssistido($usuario_id, $filme_id) {
-        $phiber = new Phiber();
-        $phiber->writeSQL(
-            "SELECT tempo FROM filme_assistido WHERE usuario_id = :usuario_id AND filme_id = :filme_id"
-        );
-        $phiber->bindValue('usuario_id', $usuario_id);
-        $phiber->bindValue('filme_id', $filme_id);
-        $phiber->execute();
-        return $phiber->fetch(PDO::FETCH_ASSOC);
+    /**
+     * @param Video $video
+     * @param Usuario $usuario
+     * @return string
+     */
+    public static function createSegundosAssistidos($video, $usuario)
+    {
+        $phiber = new Phiber($video);
+
+        $phiber->setTable($video->getTipo() . "_assistido");
+        $phiber->setFields(['usuario_id', $video->getTipo() . "_id", 'tempo']);
+        $phiber->setValues([$usuario->getId(), $video->getId(), $video->getTempoAssistido()]);
+
+        return $phiber->create();
     }
+
+    /**
+     * @param Video $video
+     * @param Usuario $usuario
+     * @return string
+     */
+    public static function updateSegundosAssistidos($video, $usuario)
+    {
+        $phiber = new Phiber($video);
+
+        $phiber->setTable($video->getTipo() . "_assistido");
+        $phiber->setFields(['tempo']);
+        $phiber->setValues([$video->getTempoAssistido()]);
+        $phiber->add($phiber->restrictions->equals('usuario_id', $usuario->getId()));
+
+        return $phiber->update();
+    }
+
+//    /**
+//     * @param Video $video
+//     * @param Usuario $usuario
+//     * @return array
+//     */
+//    public static function retraveSegundosAssistidos($video, $usuario)
+//    {
+//        $phiber = new Phiber($video);
+//
+//        $phiber->setTable($video->getTipo() . "_assistido");
+//        $restricutionUsuario = $phiber->restrictions->equals('usuario_id', $usuario->getId());
+//        $restricutionVideo = $phiber->restrictions->equals($video->getTipo() . '_id', $usuario->getId());
+//        $phiber->add($phiber->restrictions->and($restricutionUsuario,$restricutionVideo));
+//        return $phiber->select();
+//    }
 
 
 }

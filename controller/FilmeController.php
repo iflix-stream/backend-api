@@ -54,12 +54,15 @@ class FilmeController implements IController
     public function get($params = [])
     {
         $filme = new Filme();
+        if (isset($this->token['usuario']->id)) {
+            $filme->getUsuario()->setId($this->token['usuario']->id);
+        }
+        $filme->getUsuario()->setId($_GET['user']);
 
-        if (isset($_GET['user'])) $filme->getUsuario()->setId($this->token['usuario']->id);
         if (isset($params['id'])) $filme->setId($params['id']);
         if (isset($params['nome'])) $filme->setNome($params['nome']);
         if (isset($params['genero'])) $filme->setGenero($params['genero']);
-        if (!isset($_GET['stream'])) View::render($filme->listar());
+        if (!isset($_GET['stream'])) View::render($filme->retreaveFilmes());
         if (isset($_GET['stream']) == "true") {
             $filme->setId($_GET['id']);
             $filme->stream();

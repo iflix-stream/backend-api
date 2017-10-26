@@ -84,6 +84,7 @@ class Serie extends Video
     public function retreaveSeries()
     {
         $series = VideoDAO::retreave($this);
+        $episodio = new Episodio();
 
         for ($i = 0; $i < count($series); $i++) {
             $series[$i]['temporadas'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
@@ -91,10 +92,13 @@ class Serie extends Video
                 $series[$i]['temporadas'][$j]['episodios'] =
                     VideoDAO::retreaveEpisodios($series[$i]['temporadas'][$j]['id']);
                 for ($k = 0; $k < count($series[$i]['temporadas'][$j]['episodios']); $k++) {
+                    $episodio->setId($series[$i]['temporadas'][$j]['episodios'][$k]['id']);
                     $series[$i]['temporadas'][$j]['episodios'][$k]['tempoAssistido'] =
-                        VideoDAO::retreaveTempoEpisodioAssistido(
-                            $this->getUsuario()->getId(), $series[$i]['temporadas'][$j]['episodios'][$k]['id']
-                        )['tempo'];
+
+                        VideoDAO::retreaveTempoAssistido(
+                            $episodio,
+                            $this->usuario
+                        );
 
                 }
 
