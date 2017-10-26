@@ -10,6 +10,7 @@ namespace controller;
 
 
 use InvalidArgumentException;
+use model\dao\ListaDAO;
 use model\Filme;
 use model\Lista;
 use model\Usuario;
@@ -22,12 +23,12 @@ class ListaController implements IController
 {
 
     /**
-     * @var Usuario
+     * @var Usuario Usuario
      */
     private $usuario;
 
     /**
-     * @var Video
+     * @var Video Video
      */
     private $video;
 
@@ -38,13 +39,18 @@ class ListaController implements IController
 
     /**
      * ListaController constructor.
-     * @param $video
      */
     public function __construct()
     {
         $this->usuario = new Usuario();
         $this->video = new Filme();
         $this->data = (new DataConversor())->converter();
+
+    }
+
+
+    public function post()
+    {
         if (isset($this->data['tipo'])) {
             $class = "\\model\\" . ucfirst($this->data['tipo']);
             $this->video = new $class;
@@ -67,13 +73,6 @@ class ListaController implements IController
             );
 
         }
-
-    }
-
-
-    public function post()
-    {
-
         $this->usuario->setId($this->data['usuario']);
         $this->video->setId($this->data['id']);
         $list = new Lista($this->usuario, $this->video);
@@ -84,7 +83,15 @@ class ListaController implements IController
 
     public function get($params = [])
     {
-        // TODO: Implement get() method.
+        $this->usuario->setId($params['usuario']);
+        $this->video->setId($params['id']);
+        $this->video->setTipo($params['tipo']);
+
+        $list = new Lista($this->usuario, $this->video);
+        $list->isUsuarioJaAdicionou()
+            ? View::render(["isAdicionado" => 'true'])
+            : View::render(["isAdicionado" => 'false']);
+
     }
 
     public function put($params = [])
@@ -94,9 +101,7 @@ class ListaController implements IController
 
     public function delete($params = [])
     {
-        $list = new Lista($this->usuario, $this->video);
-        $this->usuario->setId($this->data['usuario']);
-        $this->video->setId($this->data['id']);
-        $list->remover();
     }
+
+
 }
