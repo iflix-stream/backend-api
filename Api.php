@@ -31,6 +31,11 @@ class Api
         }
 
         $class = "\\controller\\" . ucfirst($this->retornaClasseURL()) . "Controller";
+
+        if($classFiltrada = strstr($this->retornaClasseURL(), '?', true)) {
+            $class = "\\controller\\" . ucfirst($classFiltrada) . "Controller";
+
+        }
         if (!class_exists($class)) {
             View::render((new Mensagem())->error("class-not-found",404));
             return false;
