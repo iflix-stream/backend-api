@@ -13,7 +13,6 @@ use model\MinhaLista;
 use model\Usuario;
 use model\Video;
 use PDO;
-use phiber\bin\queries\Restrictions;
 use phiber\Phiber;
 use util\Mensagem;
 use util\Token;
@@ -44,7 +43,7 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
-     * @return string
+     * @return array
      */
     public static function create($video)
     {
@@ -430,7 +429,10 @@ class VideoDAO implements IDAO
         $phiber->setTable($video->getTipo() . "_assistido");
         $phiber->setFields(['tempo']);
         $phiber->setValues([$video->getTempoAssistido()]);
-        $phiber->add($phiber->restrictions->equals('usuario_id', $usuario->getId()));
+        $resUsuario = $phiber->restrictions->equals('usuario_id', $usuario->getId());
+        $resVideo = $phiber->restrictions->equals($video->getTipo() . '_id', $video->getId());
+        $resAnd = $phiber->restrictions->and($resUsuario, $resVideo);
+        $phiber->add($resAnd);
 
         return $phiber->update();
     }
