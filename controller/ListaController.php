@@ -10,13 +10,11 @@ namespace controller;
 
 
 use InvalidArgumentException;
-use model\dao\ListaDAO;
 use model\Filme;
 use model\Lista;
 use model\Usuario;
 use model\Video;
 use util\DataConversor;
-use util\IflixException;
 use view\View;
 
 class ListaController implements IController
@@ -89,8 +87,8 @@ class ListaController implements IController
 
         $list = new Lista($this->usuario, $this->video);
         $list->isUsuarioJaAdicionou()
-            ? View::render(["isAdicionado" => 'true'])
-            : View::render(["isAdicionado" => 'false']);
+            ? View::render(["isAdicionado" => true])
+            : View::render(["isAdicionado" => false]);
 
     }
 
