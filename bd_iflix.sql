@@ -61,26 +61,27 @@ CREATE TABLE `assistindo_serie` (
 --
 
 CREATE TABLE `episodio` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `sinopse` text NOT NULL,
-  `temporada_id` int(11) NOT NULL,
-  `duracao` varchar(45) NOT NULL,
-  `caminho` varchar(100) NOT NULL,
-  `serie_id` int(11) NOT NULL
+  `id`           int(11)      NOT NULL,
+  `nome`         varchar(255) NOT NULL,
+  `sinopse`      text         NOT NULL,
+  `temporada_id` int(11)      NOT NULL,
+  `duracao`      varchar(45)  NOT NULL,
+  `caminho`      varchar(100) NOT NULL,
+  `serie_id`     INT(11)      NOT NULL,
+  `numero`       INT(11)      NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `episodio`
 --
 
-INSERT INTO `episodio` (`id`, `nome`, `sinopse`, `temporada_id`, `duracao`, `caminho`, `serie_id`) VALUES
-  (2, 'Panico na floresta do pijama', 'Panico na floresta do pijama', 2, '660', '1', 2),
-  (3, 'Problemas na terra do caroco', 'Problemas na terra do caroco', 2, '660', '2', 2),
-  (4, 'Prisioneiras do amor', 'Prisioneiras do amor', 2, '660', '3', 2),
-  (5, 'Dona Tromba', 'Dona tromba', 2, '660', '4', 2),
-  (6, 'O enquiridio', 'O enquiridio', 2, '660', '5', 2),
-  (7, 'Zig Zag', 'Zig Zag', 2, '660', '6', 2);
+INSERT INTO `episodio` (`id`, `nome`, `sinopse`, `temporada_id`, `duracao`, `caminho`, `serie_id`, `numero`) VALUES
+  (2, 'Panico na floresta do pijama', 'Panico na floresta do pijama', 2, '660', '1', 2, 1),
+  (3, 'Problemas na terra do caroco', 'Problemas na terra do caroco', 2, '660', '2', 2, 2),
+  (4, 'Prisioneiras do amor', 'Prisioneiras do amor', 2, '660', '3', 2, 3),
+  (5, 'Dona Tromba', 'Dona tromba', 2, '660', '4', 2, 4),
+  (6, 'O enquiridio', 'O enquiridio', 2, '660', '5', 2, 5),
+  (7, 'Zig Zag', 'Zig Zag', 2, '660', '6', 2, 6);
 
 -- --------------------------------------------------------
 
@@ -89,19 +90,34 @@ INSERT INTO `episodio` (`id`, `nome`, `sinopse`, `temporada_id`, `duracao`, `cam
 --
 
 CREATE TABLE `episodio_assistido` (
-  `id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `episodio_id` int(11) NOT NULL,
-  `tempo` int(11) NOT NULL DEFAULT '0'
+  `id`            int(11)  NOT NULL,
+  `usuario_id`    int(11)  NOT NULL,
+  `episodio_id`   int(11)  NOT NULL,
+  `tempo`         INT(11)  NOT NULL DEFAULT '0',
+  `dataCriacao`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dataAlteracao` DATETIME          DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `episodio_assistido`
 --
 
-INSERT INTO `episodio_assistido` (`id`, `usuario_id`, `episodio_id`, `tempo`) VALUES
-  (10, 84, 2, 277),
-  (11, 84, 5, 192);
+INSERT INTO `episodio_assistido` (`id`, `usuario_id`, `episodio_id`, `tempo`, `dataCriacao`, `dataAlteracao`) VALUES
+  (15, 98, 2, 27, '2017-10-29 14:31:28', '2017-10-29 14:40:48'),
+  (16, 98, 4, 53, '2017-10-29 14:32:54', '2017-10-29 14:35:50');
+
+--
+-- Acionadores `episodio_assistido`
+--
+DELIMITER $$
+CREATE TRIGGER `episodio_assistido_BEFORE_UPDATE`
+BEFORE UPDATE ON `episodio_assistido`
+FOR EACH ROW
+  BEGIN
+    SET new.dataAlteracao = NOW();
+  END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -148,7 +164,7 @@ CREATE TABLE `filme_assistido` (
 --
 
 INSERT INTO `filme_assistido` (`id`, `usuario_id`, `filme_id`, `tempo`) VALUES
-  (7, 84, 12, 4);
+  (8, 98, 12, 2205);
 
 -- --------------------------------------------------------
 
@@ -235,13 +251,6 @@ CREATE TABLE `minha_lista_filme` (
   `filme_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `minha_lista_filme`
---
-
-INSERT INTO `minha_lista_filme` (`id`, `usuario_id`, `filme_id`) VALUES
-  (32, 84, 12);
-
 -- --------------------------------------------------------
 
 --
@@ -327,18 +336,13 @@ INSERT INTO `usuario` (`id`, `nome`, `avatar`, `isControleDosPais`, `senha`, `em
   (11, 'Teste teste', 'avatares/default.png', 0, '$2y$10$vbAEZ2N/nH1mIjQ.ReO/2em3luH0aeVzP5lTxq2iVhln/7JKwVoo.', 'teste@test.com', '1998-02-11', '2017-09-11', '2017-09-11', 1, 0),
   (13, 'Lucas Goncalves', 'avatares/default.png', 0, '$2y$10$NCB.O6hykNDlYJ.RN6LKt.rxkEg/79aytP8pxwL1F3qxMIrvOd8yO', 'lucas@hotmail.com', '1995-10-10', '2017-10-06', '2017-10-06', 1, 0),
   (14, 'Lucas', '1', 0, '$2y$10$Q4.QFGLV0BCtfTGm3IV/ZOk8dqjyKIGIR8Z7WGthd8TQQXuieAUp.', 'lucaslucas@hotmail.com', '2017-10-17', '2017-10-18', '2017-10-18', 1, 0),
-  (84, 'Marcio Lucas', '1', 0, '$2y$10$8uACfJ.JtbgQkGWAP9QAL.UlIfshDAYDuf2AR0pxKRlZMh4b0558q',
-       'marciioluucas@gmail.com', '1998-02-11', '2017-10-22', '2017-10-22', 1, 0),
-  (85, 'Jubiraci', '1', 0, '$2y$10$Nxy/SOjrbggvpaGRH7y7ZuUQm/lgK6GshHLoiDUaUCzrJbIJw4XQm', 'jujuju@gmail.com',
-       '1997-10-22', '2017-10-27', '2017-10-27', 1, 0),
-  (86, 'AsnDsaD', '1', 0, '$2y$10$o9RffcmdvGLxR09LTrKpiuoypziG/eGUMohO6JBgINx0GniNT76SO', 'LASDAS@HOTMAIL.COM',
-       '2017-10-24', '2017-10-27', '2017-10-27', 1, 0),
-  (87, 'ASD', '1', 0, '$2y$10$/Q3/Y6uHaDLSmWR8M/u4AeQSpzESiZbPflp23KpmrokpA0tmpk9t2', 'ASDSA@HSD.COM', '2017-10-04',
-       '2017-10-27', '2017-10-27', 1, 0),
-  (88, 'marciisaojdsa', '1', 0, '$2y$10$jd.kltCVDKYZprFLIjBRDOTnUxbjgkxxJrvR0EaMXHTyfm6ZWnI3u', 'odsajsa@ffd.com',
-       '2017-10-27', '2017-10-27', '2017-10-27', 1, 0),
-  (89, 'werr', '1', 0, '$2y$10$BWA6/0qypsbeGW9lBQ3My.Jhlo6LXmpB5AB65XubnDcaU.lSqtDD2', 'rweerw@ffsd.com', '2017-10-17',
-       '2017-10-27', '2017-10-27', 1, 0);
+  (85, 'Jubiraci', '1', 0, '$2y$10$Nxy/SOjrbggvpaGRH7y7ZuUQm/lgK6GshHLoiDUaUCzrJbIJw4XQm', 'jujuju@gmail.com', '1997-10-22', '2017-10-27', '2017-10-27', 1, 0),
+  (86, 'AsnDsaD', '1', 0, '$2y$10$o9RffcmdvGLxR09LTrKpiuoypziG/eGUMohO6JBgINx0GniNT76SO', 'LASDAS@HOTMAIL.COM', '2017-10-24', '2017-10-27', '2017-10-27', 1, 0),
+  (87, 'ASD', '1', 0, '$2y$10$/Q3/Y6uHaDLSmWR8M/u4AeQSpzESiZbPflp23KpmrokpA0tmpk9t2', 'ASDSA@HSD.COM', '2017-10-04', '2017-10-27', '2017-10-27', 1, 0),
+  (88, 'marciisaojdsa', '1', 0, '$2y$10$jd.kltCVDKYZprFLIjBRDOTnUxbjgkxxJrvR0EaMXHTyfm6ZWnI3u', 'odsajsa@ffd.com', '2017-10-27', '2017-10-27', '2017-10-27', 1, 0),
+  (89, 'werr', '1', 0, '$2y$10$BWA6/0qypsbeGW9lBQ3My.Jhlo6LXmpB5AB65XubnDcaU.lSqtDD2', 'rweerw@ffsd.com', '2017-10-17', '2017-10-27', '2017-10-27', 1, 0),
+  (90, 'Teste de software', '1', 0, '$2y$10$6xEByrFFrhI44NLtJp/Amep8EWbL.PvQokWychxKF5a5aEoS.EgSC', 'teste@gmail.com', '2017-10-23', '2017-10-29', '2017-10-29', 1, 0),
+  (98, 'Marcio Lucas', '1', 0, '$2y$10$llrRgdrRUEnkj2cj/BwsjOU.bVQXIexD23ZAsXx45yuCTZ7j/XSjO', 'marciioluucas@gmail.com', '1998-02-11', '2017-10-29', '2017-10-29', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -365,6 +369,7 @@ ALTER TABLE `assistindo_serie`
 --
 ALTER TABLE `episodio`
   ADD PRIMARY KEY (`id`,`temporada_id`,`serie_id`),
+  ADD UNIQUE KEY `episodio_numero_uindex` (`numero`),
   ADD KEY `fk_episodio_temporada1_idx` (`temporada_id`),
   ADD KEY `fk_episodio_serie1_idx` (`serie_id`);
 
@@ -469,7 +474,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `assistindo_filme`
 --
 ALTER TABLE `assistindo_filme`
-  MODIFY `idassistindo_filme` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idassistindo_filme` INT(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `assistindo_serie`
 --
@@ -486,7 +491,7 @@ ALTER TABLE `episodio`
 --
 ALTER TABLE `episodio_assistido`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 12;
+  AUTO_INCREMENT = 17;
 --
 -- AUTO_INCREMENT for table `filme`
 --
@@ -497,7 +502,7 @@ ALTER TABLE `filme`
 --
 ALTER TABLE `filme_assistido`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 8;
+  AUTO_INCREMENT = 9;
 --
 -- AUTO_INCREMENT for table `genero`
 --
@@ -534,8 +539,7 @@ ALTER TABLE `minha_lista_filme`
 -- AUTO_INCREMENT for table `minha_lista_serie`
 --
 ALTER TABLE `minha_lista_serie`
-  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 21;
+  MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `serie`
 --
@@ -553,7 +557,7 @@ ALTER TABLE `temporada`
 --
 ALTER TABLE `usuario`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 90;
+  AUTO_INCREMENT = 99;
 --
 -- Constraints for dumped tables
 --
