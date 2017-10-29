@@ -28,5 +28,6 @@
   "falha-adicionar-filme":"Erro ao adicionar filme",
   "sucesso-adicionar-minha-lista": "Adicionado com sucesso a sua lista",
   "erro-adicionar-minha-lista": "Erro ao adicionar a sua lista",
-  "sucesso-remover-minha-lista": "Removido com sucesso da sua lista"
+  "sucesso-remover-minha-lista": "Removido com sucesso da sua lista",
+  "sucesso-enviar-email": "Sucesso ao enviar email"
 }

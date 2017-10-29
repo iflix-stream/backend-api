@@ -21,7 +21,7 @@ class HeaderWriter
         header("X-Powered-By: iFlix-Api-Server;");
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Credentials: true");
-        header("Access-Control-Allow-Headers: Authorization");
+        header("Access-Control-Allow-Headers: Authorization, Content-Type");
         header('P3P: CP="CAO PSA OUR"'); // Makes IE to support cookies
         header("Content-Type: application/json; charset=utf-8");
     }

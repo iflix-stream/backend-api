@@ -11,7 +11,6 @@ namespace controller;
 
 use model\Serie;
 use util\Mensagem;
-use util\Token;
 use view\View;
 
 class SerieController implements IController
@@ -42,7 +41,9 @@ class SerieController implements IController
         if (isset($this->token['usuario']->id)) {
             $serie->getUsuario()->setId($this->token['usuario']->id);
         }
-        $serie->getUsuario()->setId($_GET['user']);
+        if (isset($_GET['user'])) {
+            $serie->getUsuario()->setId($_GET['user']);
+        }
 
         if (isset($params['id'])) $serie->setId($params['id']);
         if (isset($params['nome'])) $serie->setNome($params['nome']);
@@ -54,6 +55,15 @@ class SerieController implements IController
         if (isset($_GET['stream']) and $_GET['stream'] == "true") {
             $serie->setId($_GET['id']);
             $serie->stream();
+        }
+
+        if (isset($_GET['q']) == 'ultimo-episodio') {
+
+            $data = $serie->retreaveUltimoEpisodioAssistido();
+        }
+
+        if (isset($_GET['q']) == 'primeiro-episodio') {
+            $data = $serie->retreavePrimeiroEpisodio();
         }
 
         View::render($data);

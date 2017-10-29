@@ -87,6 +87,9 @@ class Serie extends Video
         $episodio = new Episodio();
 
         for ($i = 0; $i < count($series); $i++) {
+            $this->setId($series[$i]['id']);
+            $series[$i]['ultimo_ep_assistido'] = $this->retreaveUltimoEpisodioAssistido();
+            $series[$i]['primeiro_episodio'] = $this->retreavePrimeiroEpisodio();
             $series[$i]['temporadas'] = VideoDAO::retreaveTemporadas($series[$i]['id']);
             for ($j = 0; $j < count($series[$i]['temporadas']); $j++) {
                 $series[$i]['temporadas'][$j]['episodios'] =
@@ -103,8 +106,27 @@ class Serie extends Video
                 }
 
             }
+
         }
         return $series;
+    }
+
+    public function retreaveUltimoEpisodioAssistido()
+    {
+        $last = VideoDAO::ultimoEpisodioAssistido($this, $this->usuario);
+        if (VideoDAO::getRows() == 1) {
+            return $last;
+        }
+        return 0;
+    }
+
+    public function retreavePrimeiroEpisodio()
+    {
+        $first = VideoDAO::primeiroEpisodio($this);
+        if (VideoDAO::getRows() == 1) {
+            return $first;
+        }
+        return 0;
     }
 
 

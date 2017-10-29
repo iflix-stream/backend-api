@@ -11,6 +11,8 @@ namespace controller;
 
 use model\Email;
 use util\DataConversor;
+use util\Mensagem;
+use view\View;
 
 class EmailController implements IController
 {
@@ -25,6 +27,7 @@ class EmailController implements IController
         $email->setTemplate($data['template']);
         $email->setVariaveisTemplate($data['variaveisTemplate']);
         $email->enviar();
+        View::render((new Mensagem())->success('sucesso-enviar-email'));
     }
 
     public function get($params = [])

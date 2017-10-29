@@ -10,6 +10,7 @@ namespace model\dao;
 
 
 use model\MinhaLista;
+use model\Serie;
 use model\Usuario;
 use model\Video;
 use PDO;
@@ -38,7 +39,6 @@ class VideoDAO implements IDAO
     {
         return self::$rows;
     }
-
 
 
     /**
@@ -390,7 +390,7 @@ class VideoDAO implements IDAO
         $phiber = new Phiber();
         $phiber->writeSQL(
             "SELECT tempo FROM "
-            .$video->getTipo()."_assistido WHERE usuario_id = :usuario_id AND ".$video->getTipo()."_id = :video_id"
+            . $video->getTipo() . "_assistido WHERE usuario_id = :usuario_id AND " . $video->getTipo() . "_id = :video_id"
         );
 
         $phiber->bindValue('usuario_id', $usuario->getId());
@@ -452,6 +452,51 @@ class VideoDAO implements IDAO
 //        $phiber->add($phiber->restrictions->and($restricutionUsuario,$restricutionVideo));
 //        return $phiber->select();
 //    }
+
+    /**
+     * @param Serie $serie
+     * @param Usuario $usuario
+     * @return mixed
+     */
+    public static function ultimoEpisodioAssistido(Serie $serie, Usuario $usuario)
+    {
+        $phiber = new Phiber();
+        $phiber->writeSQL(
+            "
+            SELECT
+              episodio_id as id,
+              tempo as tempoAssistido,
+              caminho
+            FROM episodio_assistido
+            INNER JOIN episodio ON episodio_assistido.episodio_id = episodio.id
+            WHERE usuario_id = :condition_usuario_id AND serie_id = :condition_serie_id ORDER BY dataAlteracao DESC LIMIT 1;");
+
+        $phiber->bindValue("condition_usuario_id", $usuario->getId());
+        $phiber->bindValue("condition_serie_id", $serie->getId());
+        $phiber->execute();
+        self::$rows = $phiber->rowCount();
+        return $phiber->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param Serie $serie
+     * @return mixed
+     */
+    public static function primeiroEpisodio(Serie $serie)
+    {
+        $phiber = new Phiber();
+        $phiber->writeSQL(
+            "
+            SELECT *
+            FROM episodio
+            
+            WHERE serie_id = :condition_serie_id ORDER BY numero asc LIMIT 1;");
+
+        $phiber->bindValue("condition_serie_id", $serie->getId());
+        $phiber->execute();
+        self::$rows = $phiber->rowCount();
+        return $phiber->fetch(PDO::FETCH_ASSOC);
+    }
 
 
 }
