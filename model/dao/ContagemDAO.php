@@ -18,12 +18,12 @@ class ContagemDAO implements IDAO
     {
         $phiber = new Phiber();
         if ($video['tipo'] == 'filme') {
-            $phiber->writeSQL('INSERT INTO assistindo_filme(filme_id,usuario_id) VALUES (:filmeId,:usuarioId)');
-            $phiber->bindValue("filmeId", $video['filmeId']);
+            $phiber->writeSQL('INSERT INTO assistindo_filme(filme_id,usuario_id) VALUES (:id,:usuarioId)');
+            $phiber->bindValue("id", $video['id']);
             $phiber->bindValue("usuarioId", $video['usuarioId']);
         } else if ($video['tipo'] == 'serie') {
-            $phiber->writeSQL('INSERT INTO assistindo_serie(episodio_id,usuario_id) VALUES (:episodioId,:usuarioId)');
-            $phiber->bindValue("episodioId", $video['episodioId']);
+            $phiber->writeSQL('INSERT INTO assistindo_serie(episodio_id,usuario_id) VALUES (:id,:usuarioId)');
+            $phiber->bindValue("id", $video['id']);
             $phiber->bindValue("usuarioId", $video['usuarioId']);
         }
         $phiber->execute();

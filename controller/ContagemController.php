@@ -29,10 +29,7 @@ class ContagemController implements IController
         $data = new DataConversor();
         $data = $data->converter();
         $contagem = new Contagem();
-        if (isset($data['filmeId'])) $contagem->setFilmeId($data['filmeId']);
-        if (isset($data['episodioId'])) $contagem->setEpisodioId($data['episodioId']);
-        if (isset($data['episodioTemporadaId'])) $contagem->setEpisodioTemporadaId($data['episodioTemporadaId']);
-        if (isset($data['episodioSerieId'])) $contagem->setEpisodioSerieId($data['episodioSerieId']);
+        if (isset($data['id'])) $contagem->setId($data['id']);
         $contagem->setTipo($data['tipo']);
         $contagem->setUsuarioId($this->token['usuario']->id);
         $contagem->aumentar();
@@ -56,13 +53,8 @@ class ContagemController implements IController
 
     public function delete($params = [])
     {
-        $data = new DataConversor();
-        $data = $data->converter();
-        if (isset($data['tipo'])){
-            $contagem = new Contagem();
-            $contagem->setTipo($data['tipo']);
-            $contagem->setUsuarioId($this->token['usuario']->id);
-            $contagem->diminuir();
-        }
+        $contagem = new Contagem();
+        $contagem->setUsuarioId($this->token['usuario']->id);
+        $contagem->diminuir();
     }
 }
