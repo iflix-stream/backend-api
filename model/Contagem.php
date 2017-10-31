@@ -121,11 +121,7 @@ class Contagem
     {
         $var['tipo'] = $this->getTipo();
         $var['usuarioId'] = $this->getUsuarioId();
-        if ($this->getTipo() == 'serie') {
-            $var['episodioId'] = $this->getId();
-        } else {
-            $var['filmeId'] = $this->getId();
-        }
+        $var['id'] = $this->getId();
         ContagemDAO::create($var);
     }
 
