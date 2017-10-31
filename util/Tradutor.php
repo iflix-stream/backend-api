@@ -18,7 +18,7 @@ class Tradutor
         if (isset(apache_request_headers()['Content-Language'])) {
             return apache_request_headers()['Content-Language'] . ".json";
         }
-        return "en-us.json";
+        return Settings::DEFAULT_LANGUAGE . ".json";
     }
 
     final static function do($index)
@@ -29,7 +29,7 @@ class Tradutor
             if (isset($json_str[$index])) {
                 return $json_str[$index];
             }
-            $lang = file_get_contents("language/pt-br.json");
+            $lang = file_get_contents("language/" . Settings::DEFAULT_LANGUAGE . ".json");
             $json_str = json_decode($lang, true);
 
             if (isset($json_str[$index])) {
