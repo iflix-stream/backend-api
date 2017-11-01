@@ -13,9 +13,9 @@ use \Exception;
 
 class IflixException extends Exception
 {
-    private $referencia;
-    private $code;
-    private $isTraduzir;
+    protected $referencia;
+    protected $code;
+    protected $isTraduzir;
 
     public function __construct($referencia, $code = 0, $isTraduzir = false, Exception $previous = null)
     {

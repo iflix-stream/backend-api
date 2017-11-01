@@ -47,12 +47,34 @@ class ListaDAO implements IDAO
     }
 
     /**
-     * @param $lista
-     * @return mixed|void
+     * @param Lista $lista
+     * @return array
+     * @throws IflixException
      */
     static function retreave($lista)
     {
-        // TODO: Implement retreave() method.
+
+        $phiber = new Phiber();
+        $phiber->writeSQL("
+SELECT
+  " . $lista->getVideo()->getTipo() . "_id AS id,
+  nome,
+  classificacao,
+  caminho,
+  duracao,
+  sinopse,
+  thumbnail,
+  genero_id,
+  status
+FROM " . $lista->getVideo()->getTipo() . " 
+  INNER JOIN  minha_lista_" . $lista->getVideo()->getTipo() . " 
+    ON filme_id =  " . $lista->getVideo()->getTipo() . ".id
+WHERE usuario_id = :condition_usuario_id");
+
+        $phiber->bindValue("condition_usuario_id", $lista->getUsuario()->getId());
+        $phiber->execute();
+        return $phiber->fetchAll();
+
     }
 
     /**

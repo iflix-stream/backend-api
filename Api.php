@@ -83,17 +83,19 @@ class Api
             case 'GET':
                 return $classe->get($this->retornaCamposeValoresFormatados());
                 break;
-            case 'POST':
 
+            case 'POST':
                 return $classe->post();
                 break;
-            case 'PUT':
 
+            case 'PUT':
                 return $classe->put($this->retornaCamposeValoresFormatados());
                 break;
+
             case 'DELETE':
                 return $classe->delete($this->retornaCamposeValoresFormatados());
                 break;
+
             default:
                 return View::render((new Mensagem())->error("method-not-found",404));
         }

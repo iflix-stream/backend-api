@@ -1,5 +1,3 @@
-drop DATABASE bd_iflix;
-create DATABASE bd_iflix;
 use bd_iflix;
 
 -- phpMyAdmin SQL Dump

@@ -80,10 +80,15 @@ class Lista
 
     public function remover()
     {
-        if (ListaDAO::delete($this)) {
-            return (new Mensagem())->success("sucesso-remover-minha-lista");
+        try {
+            if (ListaDAO::delete($this)) {
+                return (new Mensagem())->success("sucesso-remover-minha-lista");
+            }
+            return (new Mensagem())->error("erro-adicionar-minha-lista");
+        }catch (IflixException $exception) {
+            return $exception->retornaJsonMensagem();
         }
-        return (new Mensagem())->error("erro-adicionar-minha-lista");
+
     }
 
     public function isUsuarioJaAdicionou()
@@ -93,6 +98,11 @@ class Lista
             return true;
         }
         return false;
+    }
+
+    public function retreaveListaUsuario()
+    {
+        return ListaDAO::retreave($this);
     }
 
 }

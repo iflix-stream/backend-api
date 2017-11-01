@@ -81,14 +81,25 @@ class ListaController implements IController
 
     public function get($params = [])
     {
-        $this->usuario->setId($params['usuario']);
-        $this->video->setId($params['id']);
-        $this->video->setTipo($params['tipo']);
+
+        isset($params['usuario']) ? $this->usuario->setId($params['usuario']) : null;
+        isset($params['id']) ? $this->video->setId($params['id']) : null;
+        isset($params['tipo']) ? $this->video->setTipo($params['tipo']) : null;
 
         $list = new Lista($this->usuario, $this->video);
-        $list->isUsuarioJaAdicionou()
-            ? View::render(["isAdicionado" => true])
-            : View::render(["isAdicionado" => false]);
+        if (isset($_GET['q'])) {
+            switch ($_GET['q']) {
+                case 'is-added':
+                    $list->isUsuarioJaAdicionou()
+                        ? View::render(["isAdicionado" => true])
+                        : View::render(["isAdicionado" => false]);
+                    break;
+
+                case 'my':
+                    View::render($list->retreaveListaUsuario());
+                    break;
+            }
+        }
 
     }
 
