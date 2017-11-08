@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Usuario
- * Date: 22/08/2017
- * Time: 08:14
+ * @author Márcio Lucas Rezende de Oliveira <marciioluucas@gmail.com>
+ * @copyright MIT
+ * @link https://github.com/marciioluucas/file-uploader-php
  */
 
 namespace util;
@@ -12,13 +11,35 @@ namespace util;
 use Exception;
 use InvalidArgumentException;
 
+/**
+ * Class Arquivo
+ * @package util
+ */
 class Arquivo
 {
+    /**
+     * @var mixed|string
+     */
     private $tempName;
+    /**
+     * @var
+     */
     private $destinationPath;
+    /**
+     * @var mixed|string
+     */
     private $name;
+    /**
+     * @var mixed|string
+     */
     private $size;
+    /**
+     * @var mixed|string
+     */
     private $type;
+    /**
+     * @var mixed|string
+     */
     private $error;
 
     /**
@@ -100,6 +121,9 @@ class Arquivo
         return $this->type;
     }
 
+    /**
+     * @throws Exception
+     */
     public function save()
     {
         try {
