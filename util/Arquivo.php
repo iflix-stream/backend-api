@@ -9,32 +9,146 @@
 namespace util;
 
 
+use Exception;
+use InvalidArgumentException;
 
 class Arquivo
 {
-    public function salvar($pasta, $nome)
+    private $tempName;
+    private $destinationPath;
+    private $name;
+    private $size;
+    private $type;
+    private $error;
+
+    /**
+     * Arquivo constructor.
+     * @param array $file
+     */
+    public function __construct(array $file)
     {
-        $data = self::getData();
-        $dataEx = explode("/", $data);
-        $diretorio = "../" . $pasta . "/" . $dataEx[1] . "-" . $dataEx[0];
-        if (!isset($_FILES[$nome])) {
-            return false;
-        }
-        else if (!is_dir($diretorio)) {
-            mkdir($diretorio, 0777, true);
-        }
-        $arquivo = $_FILES[$nome];
-        $destino = $diretorio . "/" . $arquivo['name'];
-        $url = substr($diretorio, 2) . "/" . $arquivo['name'];
-        if (!move_uploaded_file($arquivo['tmp_name'], $destino)) {
-            return false;
-        }
-        return $url;
+        $this->tempName = isset($file["tmp_name"]) ? $file["tmp_name"] : '';
+        $this->name = isset($file["name"]) ? $file['name'] : '';
+        $this->size = isset($file["size"]) ? $file['size'] : '';
+        $this->type = isset($file["type"]) ? $file['type'] : '';
+        $this->error = isset($file["error"]) ? $file['error'] : '';
     }
 
-    public function getData()
+    /**
+     * @return mixed
+     */
+    public function getError()
     {
-        $getData = new Data();
-        return $getData->gerarDataHora();
+        return $this->error;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDestinationPath()
+    {
+        return $this->destinationPath;
+    }
+
+    /**
+     * @param mixed $destinationPath
+     */
+    public function setDestinationPath($destinationPath)
+    {
+        $this->destinationPath = $destinationPath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTempName()
+    {
+        return $this->tempName;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function save()
+    {
+        try {
+            $this->moveUploadedFile();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function createDir()
+    {
+        if (!isset($this->destinationPath)) {
+            throw new InvalidArgumentException("Destination path without value. Did you put a target folder with the setDestinationPath() method?");
+        }
+        if (!$this->isDirExists()) {
+            if (!mkdir($this->destinationPath, 0777, true)) {
+                throw new Exception("Error during create a directory");
+            };
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDirExists()
+    {
+        if (!isset($this->destinationPath)) {
+            throw new InvalidArgumentException("Destination path without value. Did you put a target folder with the setDestinationPath() method?");
+        }
+        return is_dir($this->destinationPath);
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function moveUploadedFile()
+    {
+        $this->createDir();
+        $destino = $this->destinationPath . "/" . $this->name;
+        if (!move_uploaded_file($this->tempName, $destino)) {
+            throw new InvalidArgumentException("The filename is not a valid upload file or cannot be moved for some reason.");
+        }
+        return true;
+    }
+
 }

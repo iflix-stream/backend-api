@@ -55,22 +55,16 @@ class ListaDAO implements IDAO
     {
 
         $phiber = new Phiber();
-        $phiber->writeSQL("
-SELECT
-  " . $lista->getVideo()->getTipo() . "_id AS id,
-  nome,
-  classificacao,
-  caminho,
-  duracao,
-  sinopse,
-  thumbnail,
-  genero_id,
-  status
+        $sql = "SELECT " . $lista->getVideo()->getTipo() . "_id AS id, nome, classificacao, ";
+        if ($lista->getVideo()->getTipo() == 'filme') {
+            $sql .= "caminho, duracao, ";
+        }
+        $sql .= "sinopse, thumbnail, genero_id, status
 FROM " . $lista->getVideo()->getTipo() . " 
   INNER JOIN  minha_lista_" . $lista->getVideo()->getTipo() . " 
-    ON filme_id =  " . $lista->getVideo()->getTipo() . ".id
-WHERE usuario_id = :condition_usuario_id");
-
+    ON " . $lista->getVideo()->getTipo() . "_id =  " . $lista->getVideo()->getTipo() . ".id
+WHERE usuario_id = :condition_usuario_id";
+        $phiber->writeSQL($sql);
         $phiber->bindValue("condition_usuario_id", $lista->getUsuario()->getId());
         $phiber->execute();
         return $phiber->fetchAll();
