@@ -1,14 +1,15 @@
 <?php
 /**
- * @author Márcio Lucas Rezende de Oliveira <marciioluucas@gmail.com>
- * @copyright MIT
- * @link https://github.com/marciioluucas/file-uploader-php
+ * Created by PhpStorm.
+ * User: marci
+ * Date: 10/11/2017
+ * Time: 07:57
  */
 
 namespace util;
 
 
-use Exception;
+use Closure;
 use InvalidArgumentException;
 
 /**
@@ -18,161 +19,75 @@ use InvalidArgumentException;
 class Arquivo
 {
     /**
-     * @var mixed|string
+     * string @var
      */
-    private $tempName;
+    private $path;
+
     /**
-     * @var
+     * @var Closure
      */
-    private $destinationPath;
-    /**
-     * @var mixed|string
-     */
-    private $name;
-    /**
-     * @var mixed|string
-     */
-    private $size;
-    /**
-     * @var mixed|string
-     */
-    private $type;
-    /**
-     * @var mixed|string
-     */
-    private $error;
+    private $file;
 
     /**
      * Arquivo constructor.
-     * @param array $file
      */
-    public function __construct(array $file)
+    public function __construct()
     {
-        $this->tempName = isset($file["tmp_name"]) ? $file["tmp_name"] : '';
-        $this->name = isset($file["name"]) ? $file['name'] : '';
-        $this->size = isset($file["size"]) ? $file['size'] : '';
-        $this->type = isset($file["type"]) ? $file['type'] : '';
-        $this->error = isset($file["error"]) ? $file['error'] : '';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getError()
-    {
-        return $this->error;
+        if (!isset($this->path))
+            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
+        $this->file = function (string $mode = 'w') {
+            return fopen($this->path, $mode);
+        };
     }
 
 
     /**
-     * @return mixed
+     * @return string mixed
      */
-    public function getDestinationPath()
+    public function getPath()
     {
-        return $this->destinationPath;
+        return $this->path;
     }
 
     /**
-     * @param mixed $destinationPath
+     * @param string $path
      */
-    public function setDestinationPath($destinationPath)
+    public function setPath(string $path)
     {
-        $this->destinationPath = $destinationPath;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTempName()
-    {
-        return $this->tempName;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function save()
-    {
-        try {
-            $this->moveUploadedFile();
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function createDir()
-    {
-        if (!isset($this->destinationPath)) {
-            throw new InvalidArgumentException("Destination path without value. Did you put a target folder with the setDestinationPath() method?");
-        }
-        if (!$this->isDirExists()) {
-            if (!mkdir($this->destinationPath, 0777, true)) {
-                throw new Exception("Error during create a directory");
-            };
-        }
-        return true;
+        $this->path = $path;
     }
 
     /**
      * @return bool
      */
-    public function isDirExists()
+    public function create()
     {
-        if (!isset($this->destinationPath)) {
-            throw new InvalidArgumentException("Destination path without value. Did you put a target folder with the setDestinationPath() method?");
-        }
-        return is_dir($this->destinationPath);
+
+        return $this->file->call($this, 'a') ? true : false;
+    }
+
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function write(string $value)
+    {
+        return fwrite($this->file->call($this, 'w'), $value) ? true : false;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function read()
+    {
+        return (fread($this->file->call($this, 'r'), filesize($this->path)));
     }
 
     /**
      * @return bool
-     * @throws Exception
      */
-    public function moveUploadedFile()
+    public function delete()
     {
-        $this->createDir();
-        $destino = $this->destinationPath . "/" . $this->name;
-        if (!move_uploaded_file($this->tempName, $destino)) {
-            throw new InvalidArgumentException("The filename is not a valid upload file or cannot be moved for some reason.");
-        }
-        return true;
+        return unlink($this->path);
     }
-
 }

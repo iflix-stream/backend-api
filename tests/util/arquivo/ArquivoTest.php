@@ -2,65 +2,63 @@
 /**
  * Created by PhpStorm.
  * User: marci
- * Date: 08/11/2017
- * Time: 09:16
+ * Date: 10/11/2017
+ * Time: 07:58
  */
 
 namespace tests\util\arquivo;
-include '../../../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use util\Arquivo;
 
 class ArquivoTest extends TestCase
 {
-    private $archive;
 
-    /**
-     * ArquivoTest constructor.
-     */
-    public function __construct()
+
+    public function testCriarArquivo()
     {
-        parent::__construct();
-        $this->archive = new Arquivo(
-            [
-                "tmp_name" => "C:\\Users\\marci\\WebstormProjects\\iflix-app\\res\\screen\\android\\screen-hdpi-landscape.png",
-                "name" => "screen-hdpi-landscape.png",
-                "size" => "152315",
-                "type" => "image/png"
-            ]
-        );
-
-    }
-
-
-    /**
-     * @test
-     */
-    public function testCriaDiretorio()
-    {
-        $this->archive->setDestinationPath("./uploads");
-        $func = $this->archive->createDir();
-        self::assertEquals(true, $func);
-    }
-
-
-    /**
-     * @test
-     */
-    public function testIsDir()
-    {
-        $this->archive->setDestinationPath("./uploads");
-        self::assertEquals(true, $this->archive->isDirExists());
+        $file = new Arquivo();
+        $file->setPath('./contagem.txt');
+        self::assertEquals(true, $file->create());
     }
 
     /**
-     * @test
+     * @depends testCriarArquivo
      */
-    public function testMoveUploadedFile()
+    public function testEscreverArquivo()
     {
-        $this->archive->setDestinationPath("./uploads");
-        self::assertEquals(true, $this->archive->moveUploadedFile());
+        $file = new Arquivo();
+        $file->setPath('./contagem.txt');
+        self::assertEquals(true, $file->write("ola mundo"));
+    }
+
+    /**
+     * @depends testEscreverArquivo
+     */
+    public function testLerArquivo()
+    {
+        $file = new Arquivo();
+        $file->setPath('./contagem.txt');
+        self::assertEquals("ola mundo", $file->read());
+    }
+
+    /**
+     * @depends testLerArquivo
+     */
+    public function testMudarArquivo()
+    {
+        $file = new Arquivo();
+        $file->setPath('./contagem.txt');
+        $file->write("pamonha");
+        self::assertEquals("pamonha", $file->read());
+    }
+
+    public function testDeleteArquivo()
+    {
+        $file = new Arquivo;
+        $file->setPath('./contagem.txt');
+        $file->delete();
+        self::assertEquals(false, is_dir($file->getPath()));
     }
 
 

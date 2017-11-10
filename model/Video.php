@@ -8,13 +8,9 @@
 
 namespace model;
 
-use finfo;
 use model\dao\VideoDAO;
-use util\Arquivo;
-use util\DataConversor;
-use util\Mensagem;
+use util\Upload;
 use util\VideoStream;
-use view\View;
 
 class Video extends MediaFactory
 {
@@ -277,7 +273,7 @@ class Video extends MediaFactory
 
     public function fazerUpload($tipo, $nome)
     {
-        $salvar = new Arquivo();
+        $salvar = new Upload();
         return $salvar->salvar($tipo, $nome);
     }
 
