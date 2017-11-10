@@ -10,6 +10,7 @@ namespace util;
 
 
 use Closure;
+use Exception;
 use InvalidArgumentException;
 
 /**
@@ -33,8 +34,7 @@ class Arquivo
      */
     public function __construct()
     {
-        if (!isset($this->path))
-            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
+
         $this->file = function (string $mode = 'w') {
             return fopen($this->path, $mode);
         };
@@ -62,8 +62,11 @@ class Arquivo
      */
     public function create()
     {
-
-        return $this->file->call($this, 'a') ? true : false;
+        if (!isset($this->path))
+            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
+        $fp = fopen($this->path, 'a+');
+        fclose($fp);
+        return $fp;
     }
 
     /**
@@ -72,15 +75,31 @@ class Arquivo
      */
     public function write(string $value)
     {
-        return fwrite($this->file->call($this, 'w'), $value) ? true : false;
+        if (!isset($this->path))
+            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
+        $fp = fopen($this->path, 'r+');
+        $r = fwrite($fp, $value) ? true : false;
+        fclose($fp);
+        return $r;
     }
 
     /**
      * @return bool|string
+     * @throws Exception
      */
     public function read()
     {
-        return (fread($this->file->call($this, 'r'), filesize($this->path)));
+        if (!isset($this->path))
+            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
+        if (!file_exists($this->path))
+            throw new Exception("File don't exists");
+        if (filesize($this->path) > 0) {
+            $fp = fopen($this->path, "r");
+            $r = fgets($fp, 1024);
+            fclose($fp);
+            return $r;
+        }
+        throw new Exception("Arquivo vazio.");
     }
 
     /**
@@ -88,6 +107,8 @@ class Arquivo
      */
     public function delete()
     {
+        if (!isset($this->path))
+            throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
         return unlink($this->path);
     }
 }

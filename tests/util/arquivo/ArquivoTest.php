@@ -22,9 +22,7 @@ class ArquivoTest extends TestCase
         self::assertEquals(true, $file->create());
     }
 
-    /**
-     * @depends testCriarArquivo
-     */
+
     public function testEscreverArquivo()
     {
         $file = new Arquivo();
