@@ -16,6 +16,7 @@ class TradutorTest extends TestCase
 
     public function testTraduzir()
     {
+
         self::assertEquals("Bem-vindo ao IFlix", Tradutor::do('welcome'));
     }
 }

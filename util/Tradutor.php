@@ -15,19 +15,19 @@ class Tradutor
     private static function loadLanguage()
     {
 
-        if (isset(apache_request_headers()['Content-Language'])) {
-            return apache_request_headers()['Content-Language'] . ".json";
-        }
+//        if (isset(apache_request_headers()['Content-Language'])) {
+//            return apache_request_headers()['Content-Language'] . ".json";
+//        }
         return Settings::DEFAULT_LANGUAGE . ".json";
     }
 
     final static function do($index)
     {
-        $langPadrao = file_get_contents("language/" . Settings::DEFAULT_LANGUAGE . ".json");
+        $langPadrao = file_get_contents(Settings::SERVER_PATH . "/language/" . Settings::DEFAULT_LANGUAGE . ".json");
         $jsonStrLangPadrao = json_decode($langPadrao, true);
 
-        if (file_exists("language/" . self::loadLanguage())) {
-            $lang = file_get_contents("language/" . self::loadLanguage());
+        if (file_exists(Settings::SERVER_PATH . "/language/" . self::loadLanguage())) {
+            $lang = file_get_contents(Settings::SERVER_PATH . "/language/" . self::loadLanguage());
             $jsonStrLang = json_decode($lang, true);
 
 
