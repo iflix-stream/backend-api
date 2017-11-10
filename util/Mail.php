@@ -129,12 +129,3 @@ class Mail
         return file_get_contents($caminhoTemplate);
     }
 }
-
-//include_once '../vendor/autoload.php';
-//
-//$mail = new Mail();
-//$mail->setAssunto("Migão bão");
-//$mail->setPara(["email"=>"walysongomes.98@hotmail.com.br","nome"=>"Walyson Gomes"]);
-//$mail->setTemplate("../templates/novo-usuario/index.html");
-//$mail->setVariaveisTemplate(["nomepessoa"=>"Walyson Gomes"]);
-//$mail->enviar();

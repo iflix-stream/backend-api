@@ -23,19 +23,27 @@ class Tradutor
 
     final static function do($index)
     {
+        $langPadrao = file_get_contents("language/" . Settings::DEFAULT_LANGUAGE . ".json");
+        $jsonStrLangPadrao = json_decode($langPadrao, true);
+
         if (file_exists("language/" . self::loadLanguage())) {
             $lang = file_get_contents("language/" . self::loadLanguage());
-            $json_str = json_decode($lang, true);
-            if (isset($json_str[$index])) {
-                return $json_str[$index];
-            }
-            $lang = file_get_contents("language/" . Settings::DEFAULT_LANGUAGE . ".json");
-            $json_str = json_decode($lang, true);
+            $jsonStrLang = json_decode($lang, true);
 
-            if (isset($json_str[$index])) {
-                return $json_str[$index];
+
+            if (isset($jsonStrLang[$index])) {
+                return $jsonStrLang[$index];
+            } else if (isset($jsonStrLang[$index])) {
+                return $jsonStrLang[$index];
             }
+
+            return $jsonStrLangPadrao[$index];
+
         }
-        return false;
+
+        if (isset($jsonStrLangPadrao[$index])) {
+            return $jsonStrLangPadrao[$index];
+        }
+        return "A index " . $index . " não foi implementada.";
     }
 }
