@@ -57,7 +57,7 @@ class VideoDAO implements IDAO
         $phiber->setFields(['nome', 'classificacao', 'caminho', 'duracao', 'sinopse', 'thumbnail', 'genero_id']);
         $phiber->setValues([$video->getNome(), $video->getClassificacao(),
             $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()]);
-        if ($phiber->create()) return (new Mensagem())->success("sucesso-adicionar-filme", 200);
+        if ($phiber->create()) return (new Mensagem())->success("sucesso-adicionar-filme");
         return (new Mensagem())->error("falha-adicionar-filme", 500);
     }
 

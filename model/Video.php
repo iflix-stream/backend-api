@@ -9,7 +9,6 @@
 namespace model;
 
 use model\dao\VideoDAO;
-use util\Upload;
 use util\VideoStream;
 
 class Video extends MediaFactory
@@ -271,10 +270,12 @@ class Video extends MediaFactory
 //        return VideoDAO::retreaveLista();
     }
 
-    public function fazerUpload($tipo, $nome)
+    public function fazerUpload(array $arquivo)
     {
-        $salvar = new Upload();
-        return $salvar->salvar($tipo, $nome);
+        $salvar = new Uploader($this, $arquivo);
+        $salvar->upload()
+            ->setDestinationPath('../video/' . $this->getTipo() . '/' . $this->getId() . ".mp4")
+            ->save();
     }
 
     public function adicionarItemLista()

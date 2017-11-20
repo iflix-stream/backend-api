@@ -10,11 +10,9 @@ namespace controller;
 
 
 use model\Filme;
-use model\Genero;
-use util\DataConversor;
-use util\Token;
-use view\View;
 use model\validator\FilmeValidate;
+use util\DataConversor;
+use view\View;
 
 class FilmeController implements IController
 {
@@ -49,6 +47,7 @@ class FilmeController implements IController
         } else {
             View::render($validate);
         }
+
     }
 
     public function get($params = [])

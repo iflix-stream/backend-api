@@ -74,10 +74,12 @@ class Upload
 
     /**
      * @param mixed $destinationPath
+     * @return $this
      */
     public function setDestinationPath($destinationPath)
     {
         $this->destinationPath = $destinationPath;
+        return $this;
     }
 
     /**
@@ -127,7 +129,9 @@ class Upload
     public function save()
     {
         try {
-            $this->moveUploadedFile();
+            if ($this->moveUploadedFile()) {
+                return $this->name;
+            };
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -140,7 +144,7 @@ class Upload
     public function moveUploadedFile()
     {
         $this->createDir();
-        $destino = $this->destinationPath . "/" . $this->name;
+        $destino = $this->destinationPath;
         if (!move_uploaded_file($this->tempName, $destino)) {
             throw new InvalidArgumentException("The filename is not a valid upload file or cannot be moved for some reason.");
         }
