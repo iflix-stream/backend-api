@@ -274,7 +274,7 @@ class Video extends MediaFactory
     {
         $salvar = new Uploader($this, $arquivo);
         $salvar->upload()
-            ->setDestinationPath('../video/' . $this->getTipo() . '/' . $this->getId() . ".mp4")
+            ->setDestinationPath('video/' . $this->getTipo()."/")
             ->save();
     }
 

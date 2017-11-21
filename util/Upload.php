@@ -145,7 +145,7 @@ class Upload
     {
         $this->createDir();
         $destino = $this->destinationPath;
-        if (!move_uploaded_file($this->tempName, $destino)) {
+        if (!move_uploaded_file($this->tempName, $this->destinationPath . basename($this->name))) {
             throw new InvalidArgumentException("The filename is not a valid upload file or cannot be moved for some reason.");
         }
         return true;

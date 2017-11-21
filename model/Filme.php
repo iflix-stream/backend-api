@@ -36,9 +36,9 @@ class Filme extends Video
         $this->usuario = new Usuario();
     }
 
-    public function retreaveFilmes()
+    public function retreaveFilmes($de, $ate)
     {
-        $filme = VideoDAO::retreave($this);
+        $filme = VideoDAO::retreave($this,$de,$ate);
         $movie = new Filme();
         for($i = 0; $i < count($filme); $i++) {
             $movie->setId($filme[$i]['id']);

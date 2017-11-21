@@ -48,7 +48,6 @@ class VideoDAO implements IDAO
     public static function create($video)
     {
         $phiber = new Phiber();
-
         if ($video->getTipo() == 'filme') {
             $phiber->setTable('filme');
         } else {
@@ -57,8 +56,9 @@ class VideoDAO implements IDAO
         $phiber->setFields(['nome', 'classificacao', 'caminho', 'duracao', 'sinopse', 'thumbnail', 'genero_id']);
         $phiber->setValues([$video->getNome(), $video->getClassificacao(),
             $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()]);
-        if ($phiber->create()) return (new Mensagem())->success("sucesso-adicionar-filme");
-        return (new Mensagem())->error("falha-adicionar-filme", 500);
+
+        return ["id"=>$phiber->create()];
+
     }
 
     /**
@@ -365,12 +365,12 @@ class VideoDAO implements IDAO
 
         $sql = "SELECT filme.id AS id, filme.nome AS nome, classificacao, caminho, duracao, sinopse,
  thumbnail, filme.status, genero_id, genero.nome AS genero_nome FROM filme INNER JOIN genero ON genero.id = genero_id WHERE
- filme.status = :condition_status LIMIT $ate OFFSET $de;";
+ filme.status = :condition_status LIMIT 12,10";
 
         if ($video->getTipo() == "serie") {
             $sql = "SELECT serie.id as id, serie.nome as nome, classificacao,
                 sinopse, thumbnail, serie.status, genero_id, genero.nome as genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id WHERE
- serie.status = :condition_status LIMIT $ate OFFSET $de ;";
+ serie.status = :condition_status LIMIT 20 OFFSET $de ;";
 
         }
         $phiber->writeSQL($sql);

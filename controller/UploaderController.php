@@ -21,10 +21,9 @@ class UploaderController implements IController
         $data = new DataConversor();
         $data = $data->converter();
         $video = new Video();
-        $video->setId($data['id']);
-        $video->setTipo($data['tipo']);
+        $video->setId($_POST['id']);
+        $video->setTipo($_POST['tipo']);
         $video->fazerUpload($_FILES['file']);
-        View::render(["arqui" => "asdasdasd"]);
     }
 
     public function get($params = [])

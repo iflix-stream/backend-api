@@ -61,7 +61,7 @@ class FilmeController implements IController
         if (isset($params['id'])) $filme->setId($params['id']);
         if (isset($params['nome'])) $filme->setNome($params['nome']);
         if (isset($params['genero'])) $filme->setGenero($params['genero']);
-        if (!isset($_GET['stream'])) View::render($filme->retreaveFilmes());
+        if (!isset($_GET['stream'])) View::render($filme->retreaveFilmes($_GET['de'], $_GET['ate']));
         if (isset($_GET['stream']) == "true") {
             $filme->setId($_GET['id']);
             $filme->stream();

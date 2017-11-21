@@ -41,6 +41,7 @@ class Uploader
      */
     public function upload()
     {
+        $this->file['name'] = $this->context->getId().".mp4";
         return new Upload($this->file);
     }
 
