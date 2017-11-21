@@ -9,7 +9,6 @@
 namespace model;
 
 
-
 use model\dao\VideoDAO;
 
 class Filme extends Video
@@ -26,7 +25,6 @@ class Filme extends Video
     }
 
 
-
     /**
      * Filme constructor.
      */
@@ -36,11 +34,11 @@ class Filme extends Video
         $this->usuario = new Usuario();
     }
 
-    public function retreaveFilmes($de, $ate)
+    public function retreaveFilmes($de)
     {
-        $filme = VideoDAO::retreave($this,$de,$ate);
+        $filme = VideoDAO::retreave($this, $de);
         $movie = new Filme();
-        for($i = 0; $i < count($filme); $i++) {
+        for ($i = 0; $i < count($filme); $i++) {
             $movie->setId($filme[$i]['id']);
             $filme[$i]['tempoAssistido'] = VideoDAO::retreaveTempoAssistido(
                 $movie,

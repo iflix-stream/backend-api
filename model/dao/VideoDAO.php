@@ -57,21 +57,20 @@ class VideoDAO implements IDAO
         $phiber->setValues([$video->getNome(), $video->getClassificacao(),
             $video->getCaminho(), $video->getDuracao(), $video->getSinopse(), $video->getThumbnail(), $video->getGenero()]);
 
-        return ["id"=>$phiber->create()];
+        return ["id" => $phiber->create()];
 
     }
 
     /**
      * @param Video $video
-     * @param string $de
-     * @param string $ate
+     * @param int $pag
      * @return array
      */
-    public static function retreave($video, $de = '0 ', $ate = '20')
+    public static function retreave($video, int $pag = 1)
     {
 
         if ($video->getId() == null and $video->getNome() == null and $video->getGenero() == null) {
-            return self::retreaveParaPaginacao($video, $de, $ate);
+            return self::retreaveParaPaginacao($video, $pag);
         }
 
         if ($video->getId() != null and $video->getNome() == null and $video->getGenero() == null) {
@@ -79,15 +78,15 @@ class VideoDAO implements IDAO
         }
 
         if ($video->getNome() != null and $video->getId() == null and $video->getGenero() == null) {
-            return self::retreaveByNome($video);
+            return self::retreaveByNome($video, $pag);
         }
 
         if ($video->getGenero() != null and $video->getId() == null and $video->getNome() == null) {
-            return self::retreaveByGenero($video);
+            return self::retreaveByGenero($video, $pag);
         }
 
         if ($video->getGenero() != null and $video->getNome() != null and $video->getId() == null) {
-            return self::retreaveByNomeEGenero($video);
+            return self::retreaveByNomeEGenero($video, $pag);
         }
         return (new Mensagem())->error("parametros-invalidos", 500);
     }
@@ -135,9 +134,10 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
+     * @param int $pag
      * @return array
      */
-    private static function retreaveByNome($video)
+    private static function retreaveByNome(Video $video, int $pag)
     {
         $phiber = new Phiber();
 
@@ -145,6 +145,8 @@ class VideoDAO implements IDAO
             $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
             $restrictionAtivado = $phiber->restrictions->equals("status", "1");
             $restrictionAtivadoNome = $phiber->restrictions->and($restrictionAtivado, $restrictionNome);
+            $phiber->add($phiber->restrictions->limit(20));
+            $phiber->add($phiber->restrictions->offset(((20 * $pag) - 20)));
             $phiber->add($restrictionAtivadoNome);
             $phiber->setTable("filme");
             if ($video->getTipo() == "serie") {
@@ -162,7 +164,7 @@ class VideoDAO implements IDAO
      * @param string $ate
      * @return array
      */
-    private static function retreaveByGenero($video, $de = ' 0', $ate = '20')
+    private static function retreaveByGenero($video, $pag = ' 0')
     {
         $phiber = new Phiber();
 
@@ -171,13 +173,13 @@ class VideoDAO implements IDAO
             $sql = "SELECT filme.id AS id, filme.nome AS nome, classificacao, caminho, duracao, sinopse,
  thumbnail, filme.status, genero_id, genero.nome AS genero_nome FROM filme INNER JOIN genero ON genero.id = genero_id
   WHERE filme.status = :condition_status AND genero_id = :cond_genero
-  OR genero.nome = :cond_genero  LIMIT $ate OFFSET $de;";
+  OR genero.nome = :cond_genero ORDER BY nome ASC LIMIT " . ((20 * $pag) - 20) . ", 20";
 
             if ($video->getTipo() == "serie") {
-                $sql = "SELECT serie.id as id, serie.nome as nome, classificacao,
-                sinopse, thumbnail, serie.status, genero_id, genero.nome as genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id
+                $sql = "SELECT serie.id AS id, serie.nome AS nome, classificacao,
+                sinopse, thumbnail, serie.status, genero_id, genero.nome AS genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id
                  WHERE serie.status = :condition_status AND WHERE filme.status = :condition_status AND genero_id = :cond_genero
-  OR genero.nome = :cond_genero LIMIT $ate OFFSET $de ;";
+  OR genero.nome = :cond_genero  ORDER BY nome ASC LIMIT " . ((20 * $pag) - 20) . ", 20";
 
             }
             $phiber->writeSQL($sql);
@@ -191,9 +193,10 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
+     * @param $pag
      * @return array
      */
-    private static function retreaveByNomeEGenero($video)
+    private static function retreaveByNomeEGenero($video, $pag)
     {
         $phiber = new Phiber();
 
@@ -206,10 +209,13 @@ class VideoDAO implements IDAO
 
 
         $restrictionNome = $phiber->restrictions->like("nome", $video->getNome());
-        $restrictionGenero = $phiber->restrictions->equals("genero", $video->getGenero());
+        $restrictionGenero = $phiber->restrictions->equals("genero_id", $video->getGenero());
         $restrictionNomeEGenero = $phiber->restrictions->and($restrictionNome, $restrictionGenero);
         $restrictionAtivado = $phiber->restrictions->equals("status", "1");
         $restrictionAtivadoNomeGenero = $phiber->restrictions->and($restrictionAtivado, $restrictionNomeEGenero);
+        $phiber->add($phiber->restrictions->limit(20));
+        $phiber->add($phiber->restrictions->offset((20 * $pag) - 20));
+        $phiber->add($phiber->restrictions->orderBy(["nome asc"]));
         $phiber->add($restrictionAtivadoNomeGenero);
         $phiber->setTable("filme");
         if ($video->getTipo() == "serie") {
@@ -355,22 +361,20 @@ class VideoDAO implements IDAO
 
     /**
      * @param Video $video
-     * @param string $de
-     * @param string $ate
+     * @param int $pag
      * @return array
      */
-    public static function retreaveParaPaginacao($video, $de = '0', $ate = '20')
+    public static function retreaveParaPaginacao($video, $pag = 1)
     {
         $phiber = new Phiber();
-
         $sql = "SELECT filme.id AS id, filme.nome AS nome, classificacao, caminho, duracao, sinopse,
  thumbnail, filme.status, genero_id, genero.nome AS genero_nome FROM filme INNER JOIN genero ON genero.id = genero_id WHERE
- filme.status = :condition_status LIMIT 12,10";
+ filme.status = :condition_status ORDER BY nome ASC LIMIT " . ((20 * $pag) - 20) . ", 20";
 
         if ($video->getTipo() == "serie") {
-            $sql = "SELECT serie.id as id, serie.nome as nome, classificacao,
-                sinopse, thumbnail, serie.status, genero_id, genero.nome as genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id WHERE
- serie.status = :condition_status LIMIT 20 OFFSET $de ;";
+            $sql = "SELECT serie.id AS id, serie.nome AS nome, classificacao,
+                sinopse, thumbnail, serie.status, genero_id, genero.nome AS genero_nome FROM serie INNER JOIN genero ON genero.id = genero_id WHERE
+ serie.status = :condition_status ORDER BY nome ASC LIMIT " . ((20 * $pag) - 20) . ", 20";
 
         }
         $phiber->writeSQL($sql);
@@ -464,8 +468,8 @@ class VideoDAO implements IDAO
         $phiber->writeSQL(
             "
             SELECT
-              episodio_id as id,
-              tempo as tempoAssistido,
+              episodio_id AS id,
+              tempo AS tempoAssistido,
               caminho
             FROM episodio_assistido
             INNER JOIN episodio ON episodio_assistido.episodio_id = episodio.id
@@ -490,7 +494,7 @@ class VideoDAO implements IDAO
             SELECT *
             FROM episodio
             
-            WHERE serie_id = :condition_serie_id ORDER BY numero asc LIMIT 1;");
+            WHERE serie_id = :condition_serie_id ORDER BY numero ASC LIMIT 1;");
 
         $phiber->bindValue("condition_serie_id", $serie->getId());
         $phiber->execute();

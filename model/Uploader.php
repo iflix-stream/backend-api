@@ -15,7 +15,7 @@ class Uploader
 {
 
     /**
-     * @var MediaFactory
+     * @var Video
      */
     private $context;
 
@@ -26,7 +26,7 @@ class Uploader
 
     /**
      * Uploader constructor.
-     * @param MediaFactory $context
+     * @param Video $context
      * @param array $file
      */
     public function __construct($context, $file)

@@ -10,17 +10,14 @@ namespace controller;
 
 
 use model\Video;
-use util\DataConversor;
-use view\View;
 
 class UploaderController implements IController
 {
 
     public function post()
     {
-        $data = new DataConversor();
-        $data = $data->converter();
         $video = new Video();
+//        var_dump($_POST);
         $video->setId($_POST['id']);
         $video->setTipo($_POST['tipo']);
         $video->fazerUpload($_FILES['file']);
