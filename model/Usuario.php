@@ -305,7 +305,8 @@ class Usuario
                     "id" => $u['id'],
                     "nome" => $u['nome'],
                     "email" => $u['email'],
-                    "avatar" => $u['avatar']
+                    "avatar" => $u['avatar'],
+                    "dataNascimento" => $u['dataNascimento']
                 ];
 
                 $token = new Token(); // se senha digitada for igual a true retorna um token
