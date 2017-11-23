@@ -130,15 +130,13 @@ class UsuarioDAO implements IDAO
     private static function retreaveById($usuario)
     {
         $phiber = new Phiber();
-        $restrictionID = $phiber->restrictions->equals("id", $usuario->getId());
-        $restrictionAtivado = $phiber->restrictions->equals("status", '1');
-        $restrictionAtivadoID = $phiber->restrictions->and($restrictionAtivado, $restrictionID);
-        $phiber->setTable("usuario");
-        $phiber->setFields(["id", "nome", "email", "avatar", "isControleDosPais","senha","dataNbascimento"]);
-        $phiber->add($restrictionAtivadoID);
-        $r = $phiber->select();
+        $phiber->writeSQL("SELECT id,nome,email,avatar,isControleDosPais, dataNascimento
+        FROM usuario WHERE status = :cond_status AND id = :cond_id");
+        $phiber->bindValue("cond_status", 1);
+        $phiber->bindValue("cond_id", $usuario->getId());
+        $phiber->execute();
         self::$rows = $phiber->rowCount();
-        return $r;
+        return $phiber->fetch();
     }
 
     /**
