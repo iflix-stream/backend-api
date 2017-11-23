@@ -9,7 +9,9 @@
 namespace util;
 
 
+use ArrayObject;
 use Closure;
+use DirectoryIterator;
 use Exception;
 use InvalidArgumentException;
 
@@ -110,5 +112,20 @@ class Arquivo
         if (!isset($this->path))
             throw new InvalidArgumentException("Path not specified. Do you called setPath() before?");
         return unlink($this->path);
+    }
+
+    /**
+     *
+     */
+    public function toList()
+    {
+        $types = array('png', 'jpg', 'jpeg', 'gif');
+        $arrReturn = [];
+        $dir = new DirectoryIterator($this->path);
+        foreach ($dir as $fileInfo) {
+            $ext = strtolower($fileInfo->getExtension());
+            if (in_array($ext, $types)) array_push($arrReturn, ['file' => $fileInfo->getFilename()]);
+        }
+        return new ArrayObject($arrReturn);
     }
 }

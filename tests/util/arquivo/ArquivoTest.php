@@ -10,6 +10,7 @@ namespace tests\util\arquivo;
 
 use PHPUnit\Framework\TestCase;
 use util\Arquivo;
+use util\Settings;
 
 class ArquivoTest extends TestCase
 {
@@ -59,5 +60,12 @@ class ArquivoTest extends TestCase
         self::assertEquals(false, is_dir($file->getPath()));
     }
 
+    public function testListarArquivos()
+    {
+        $file = new Arquivo();
+        $file->setPath(Settings::SERVER_PATH . '/assets/avatares/');
+        self::assertEquals(6, $file->toList()->count());
+        print_r($file->toList());
+    }
 
 }
