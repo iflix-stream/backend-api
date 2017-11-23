@@ -95,10 +95,9 @@ class UsuarioController implements IController
         $data = $data->converter();
         $validar = new UsuarioValidate();
         $validar = $validar->validateUsuarioAlterar($data);
-
         if ($validar === true) {
             $usuario = new Usuario();
-            $usuario->setId($data['id']);
+            $usuario->setId($this->token->retornaIdUsuario());
             if (isset($data['avatar'])) {
                 $usuario->setAvatar($data['avatar']);
             }

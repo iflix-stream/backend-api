@@ -73,13 +73,7 @@ CREATE TABLE `episodio` (
 -- Extraindo dados da tabela `episodio`
 --
 
-INSERT INTO `episodio` (`id`, `nome`, `sinopse`, `temporada_id`, `duracao`, `caminho`, `serie_id`, `numero`) VALUES
-  (2, 'Panico na floresta do pijama', 'Panico na floresta do pijama', 2, '660', '1', 2, 1),
-  (3, 'Problemas na terra do caroco', 'Problemas na terra do caroco', 2, '660', '2', 2, 2),
-  (4, 'Prisioneiras do amor', 'Prisioneiras do amor', 2, '660', '3', 2, 3),
-  (5, 'Dona Tromba', 'Dona tromba', 2, '660', '4', 2, 4),
-  (6, 'O enquiridio', 'O enquiridio', 2, '660', '5', 2, 5),
-  (7, 'Zig Zag', 'Zig Zag', 2, '660', '6', 2, 6);
+
 
 -- --------------------------------------------------------
 
@@ -100,9 +94,6 @@ CREATE TABLE `episodio_assistido` (
 -- Extraindo dados da tabela `episodio_assistido`
 --
 
-INSERT INTO `episodio_assistido` (`id`, `usuario_id`, `episodio_id`, `tempo`, `dataCriacao`, `dataAlteracao`) VALUES
-  (15, 98, 2, 27, '2017-10-29 14:31:28', '2017-10-29 14:40:48'),
-  (16, 98, 4, 53, '2017-10-29 14:32:54', '2017-10-29 14:35:50');
 
 --
 -- Acionadores `episodio_assistido`
@@ -139,10 +130,7 @@ CREATE TABLE `filme` (
 -- Extraindo dados da tabela `filme`
 --
 
-INSERT INTO `filme` (`id`, `nome`, `classificacao`, `caminho`, `duracao`, `sinopse`, `thumbnail`, `genero_id`, `status`) VALUES
-  (12, 'A mumia', 6, '1', '2:30',
-   'Nas%20profundezas%20do%20deserto%2C%20uma%20antiga%20rainha%20cujo%20destino%20foi%20injustamente%20tirado%20est%C3%A1%20mumificada.%20Apesar%20de%20estar%20sepultada%20em%20sua%20cripta%2C%20ela%20desperta%20nos%20dias%20atuais.%20Com%20uma%20maldade%20acumulada%20ao%20longo%20dos%20anos%2C%20ela%20espelha%20terror%20desde%20as%20areais%20do%20Oriente%20M%C3%A9dio%20at%C3%A9%20os%20becos%20de%20Londres.',
-   'https://i.ytimg.com/vi/X6g-nYaDEyw/maxresdefault.jpg', 1, 1);
+
 
 -- --------------------------------------------------------
 
@@ -161,8 +149,6 @@ CREATE TABLE `filme_assistido` (
 -- Extraindo dados da tabela `filme_assistido`
 --
 
-INSERT INTO `filme_assistido` (`id`, `usuario_id`, `filme_id`, `tempo`) VALUES
-  (8, 98, 12, 2205);
 
 -- --------------------------------------------------------
 
@@ -180,10 +166,6 @@ CREATE TABLE `genero` (
 -- Extraindo dados da tabela `genero`
 --
 
-INSERT INTO `genero` (`id`, `nome`, `statusGenero`) VALUES
-  (1, 'Terror', 1),
-  (3, 'Suspense', 1),
-  (4, 'Animacao', 1);
 
 -- --------------------------------------------------------
 
@@ -281,10 +263,6 @@ CREATE TABLE `serie` (
 -- Extraindo dados da tabela `serie`
 --
 
-INSERT INTO `serie` (`id`, `nome`, `sinopse`, `classificacao`, `thumbnail`, `genero_id`, `status`) VALUES
-  (2, 'Hora de aventura',
-   'Finn%2C%20o%20garoto%20humano%20com%20um%20chap%C3%A9u%20incr%C3%ADvel%2C%20e%20Jake%2C%20o%20cachorro%20inteligente%2C%20s%C3%A3o%20amigos%20%C3%ADntimos%20e%20parceiros%20em%20estranhas%20aventuras%20na%20terra%20do%20Ooo.',
-   -1, 'https://goo.gl/aAFEbX', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -302,8 +280,6 @@ CREATE TABLE `temporada` (
 -- Extraindo dados da tabela `temporada`
 --
 
-INSERT INTO `temporada` (`id`, `numero`, `serie_id`) VALUES
-  (2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -329,18 +305,6 @@ CREATE TABLE `usuario` (
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nome`, `avatar`, `isControleDosPais`, `senha`, `email`, `dataNascimento`, `dataCriacao`, `dataAlteracao`, `status`, `isOnline`) VALUES
-  (9, 'Juanes Adriano', 'avatares/default.png', 0, '$2y$10$mnK1eKgDBrN.u3lB4TDnqud.nL4bVCF.AIHjcKxIp0ukwf3uuJ4oi', 'juaneshtk50@gmail.com', '1997-07-26', '2017-09-11', '2017-09-11', 1, 0),
-  (11, 'Teste teste', 'avatares/default.png', 0, '$2y$10$vbAEZ2N/nH1mIjQ.ReO/2em3luH0aeVzP5lTxq2iVhln/7JKwVoo.', 'teste@test.com', '1998-02-11', '2017-09-11', '2017-09-11', 1, 0),
-  (13, 'Lucas Goncalves', 'avatares/default.png', 0, '$2y$10$NCB.O6hykNDlYJ.RN6LKt.rxkEg/79aytP8pxwL1F3qxMIrvOd8yO', 'lucas@hotmail.com', '1995-10-10', '2017-10-06', '2017-10-06', 1, 0),
-  (14, 'Lucas', '1', 0, '$2y$10$Q4.QFGLV0BCtfTGm3IV/ZOk8dqjyKIGIR8Z7WGthd8TQQXuieAUp.', 'lucaslucas@hotmail.com', '2017-10-17', '2017-10-18', '2017-10-18', 1, 0),
-  (85, 'Jubiraci', '1', 0, '$2y$10$Nxy/SOjrbggvpaGRH7y7ZuUQm/lgK6GshHLoiDUaUCzrJbIJw4XQm', 'jujuju@gmail.com', '1997-10-22', '2017-10-27', '2017-10-27', 1, 0),
-  (86, 'AsnDsaD', '1', 0, '$2y$10$o9RffcmdvGLxR09LTrKpiuoypziG/eGUMohO6JBgINx0GniNT76SO', 'LASDAS@HOTMAIL.COM', '2017-10-24', '2017-10-27', '2017-10-27', 1, 0),
-  (87, 'ASD', '1', 0, '$2y$10$/Q3/Y6uHaDLSmWR8M/u4AeQSpzESiZbPflp23KpmrokpA0tmpk9t2', 'ASDSA@HSD.COM', '2017-10-04', '2017-10-27', '2017-10-27', 1, 0),
-  (88, 'marciisaojdsa', '1', 0, '$2y$10$jd.kltCVDKYZprFLIjBRDOTnUxbjgkxxJrvR0EaMXHTyfm6ZWnI3u', 'odsajsa@ffd.com', '2017-10-27', '2017-10-27', '2017-10-27', 1, 0),
-  (89, 'werr', '1', 0, '$2y$10$BWA6/0qypsbeGW9lBQ3My.Jhlo6LXmpB5AB65XubnDcaU.lSqtDD2', 'rweerw@ffsd.com', '2017-10-17', '2017-10-27', '2017-10-27', 1, 0),
-  (90, 'Teste de software', '1', 0, '$2y$10$6xEByrFFrhI44NLtJp/Amep8EWbL.PvQokWychxKF5a5aEoS.EgSC', 'teste@gmail.com', '2017-10-23', '2017-10-29', '2017-10-29', 1, 0),
-  (98, 'Marcio Lucas', '1', 0, '$2y$10$llrRgdrRUEnkj2cj/BwsjOU.bVQXIexD23ZAsXx45yuCTZ7j/XSjO', 'marciioluucas@gmail.com', '1998-02-11', '2017-10-29', '2017-10-29', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -483,30 +447,30 @@ ALTER TABLE `assistindo_serie`
 --
 ALTER TABLE `episodio`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 8;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `episodio_assistido`
 --
 ALTER TABLE `episodio_assistido`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 17;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `filme`
 --
 ALTER TABLE `filme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT for table `filme_assistido`
 --
 ALTER TABLE `filme_assistido`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 9;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `genero`
 --
 ALTER TABLE `genero`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 5;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `idioma_episodio`
 --
@@ -532,7 +496,7 @@ ALTER TABLE `legenda_filme`
 --
 ALTER TABLE `minha_lista_filme`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 33;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `minha_lista_serie`
 --
@@ -543,19 +507,19 @@ ALTER TABLE `minha_lista_serie`
 --
 ALTER TABLE `serie`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `temporada`
 --
 ALTER TABLE `temporada`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  AUTO_INCREMENT = 1;
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` INT(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 99;
+  AUTO_INCREMENT = 1;
 --
 -- Constraints for dumped tables
 --
