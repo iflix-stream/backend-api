@@ -11,8 +11,8 @@ namespace controller;
 use model\Usuario;
 use model\validator\UsuarioValidate;
 use util\DataConversor;
-use view\View;
 use util\Token;
+use view\View;
 
 class UsuarioController implements IController
 {
@@ -91,14 +91,14 @@ class UsuarioController implements IController
     {
         $this->token = new Token();
         $this->token->token();
-        $tokenClaims = $this->token->retornaIdUsuario();
         $data = new DataConversor();
         $data = $data->converter();
         $validar = new UsuarioValidate();
         $validar = $validar->validateUsuarioAlterar($data);
+
         if ($validar === true) {
             $usuario = new Usuario();
-            $usuario->setId($tokenClaims);
+            $usuario->setId($data['id']);
             if (isset($data['avatar'])) {
                 $usuario->setAvatar($data['avatar']);
             }
