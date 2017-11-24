@@ -71,7 +71,7 @@ class Token
                 $claims = Token::retornaClaims($token);// recebe um array de permicoes
                 return $claims;
             } else {
-                header('HTTP/1.0 400 Token Invalido');
+                header('HTTP/1.0 403 Token Invalido');
                 die();
             }
         } else {

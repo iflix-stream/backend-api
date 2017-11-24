@@ -20,6 +20,9 @@ class AvatarController implements IController
         // TODO: Implement post() method.
     }
 
+    /**
+     * @param array $params
+     */
     public function get($params = [])
     {
         (new View())::render((new Avatar())->listar());

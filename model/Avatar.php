@@ -14,7 +14,6 @@ use util\Settings;
 
 class Avatar
 {
-
     public function listar()
     {
         $file = new Arquivo();
