@@ -12,8 +12,8 @@ namespace util;
 class Settings
 {
     const DEFAULT_LANGUAGE = "pt-br";
-    const URL_BASE_API = 'http://localhost/iflix/api';
-    const URL_BASE_FRONT = 'http://localhost:8080';
+    const URL_BASE_API = 'http://192.168.1.2/iflix/api';
+    const URL_BASE_FRONT = 'http://192.168.1.2:8080';
     const SERVER_PATH = 'C:/xampp/htdocs/iFlix';
 
     static function load() {
