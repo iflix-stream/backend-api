@@ -7,19 +7,24 @@
  */
 include '../../vendor/autoload.php';
 //Instalar o FFMPeg no servidor
-$ffmpeg = FFMpeg\FFMpeg::create(array(
-    'ffmpeg.binaries' => 'ffmpeg',
-    'ffprobe.binaries' => 'ffprobe'
-));
-$video = $ffmpeg->open('teste.mp4');
+$video = new \model\Video();
+$filme = new \model\Filme();
+$filme->setId(1);
+$filme->setDuracao(6605);
+$filme->processar();
 
-$format = new FFMpeg\Format\Audio\Flac();
-$format->on('progress', function ($audio, $format, $percentage) {
-    echo "$percentage % transcoded";
-});
+$filme->setId(2);
+$filme->setDuracao(6144);
+$filme->processar();
 
-$format
-    ->setAudioChannels(2)
-    ->setAudioKiloBitrate(256);
+$filme->setId(3);
+$filme->setDuracao(7877);
+$filme->processar();
 
-$video->save($format, 'track.flac');
+$filme->setId(4);
+$filme->setDuracao(8146);
+$filme->processar();
+
+$filme->setId(5);
+$filme->setDuracao(7223);
+$filme->processar();
