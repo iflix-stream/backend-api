@@ -8,7 +8,12 @@
 
 namespace model;
 
+use FFMpeg\Coordinate\Dimension;
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
+use FFMpeg\Format\Video\WebM;
 use model\dao\VideoDAO;
+use util\Settings;
 use util\VideoStream;
 
 class Video extends MediaFactory
@@ -63,7 +68,6 @@ class Video extends MediaFactory
     {
         $this->tempoAssistido = $tempoAssistido;
     }
-
 
 
     /**
@@ -229,7 +233,7 @@ class Video extends MediaFactory
 
     public function cadastrar()
     {
-       return VideoDAO::create($this);
+        return VideoDAO::create($this);
     }
 
     public function deletar()
@@ -274,7 +278,7 @@ class Video extends MediaFactory
     {
         $salvar = new Uploader($this, $arquivo);
         $salvar->upload()
-            ->setDestinationPath('video/' . $this->getTipo()."/")
+            ->setDestinationPath('video/' . $this->getTipo() . "/")
             ->save();
     }
 
@@ -293,14 +297,44 @@ class Video extends MediaFactory
      * @param Video $video
      * @param Usuario $usuario
      */
-    public function gerenciaSegundosAssistidos($video, $usuario) {
+    public function gerenciaSegundosAssistidos($video, $usuario)
+    {
 
         VideoDAO::retreaveTempoAssistido($video, $usuario);
-        if(VideoDAO::getRows() == 0) {
+        if (VideoDAO::getRows() == 0) {
             VideoDAO::createSegundosAssistidos($video, $usuario);
-        }else{
-            VideoDAO::updateSegundosAssistidos($video,$usuario);
+        } else {
+            VideoDAO::updateSegundosAssistidos($video, $usuario);
         }
 
     }
+
+    /**
+     * @param Video $video
+     */
+    public function processar()
+    {
+        $ffmpeg = FFMpeg::create(array(
+            'ffmpeg.binaries' => 'ffmpeg',
+            'ffprobe.binaries' => 'ffprobe',
+            'timeout' => 3600, // The timeout for the underlying process
+            'ffmpeg.threads' => 6,
+        ));
+        $tipo = $this->getTipo();
+        if ($tipo == 'episodio') {
+            $tipo = 'serie';
+        }
+
+        $file = $ffmpeg->open(Settings::VIDEOS_PATH . "/{$tipo}/{$this->getId()}.mp4");
+        $file
+            ->filters()
+            ->resize(new Dimension(854, 480))
+            ->synchronize();
+        $file
+            ->frame(TimeCode::fromSeconds($this->duracao / 2))
+            ->save(Settings::VIDEOS_PATH . "/{$tipo}/backgrounds/{$this->getId()}.jpg");
+        $file
+            ->save(new WebM(), Settings::VIDEOS_PATH . "/{$tipo}/{$this->getId()}.mp4");
+    }
+
 }
