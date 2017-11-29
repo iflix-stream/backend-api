@@ -11,7 +11,9 @@ namespace model;
 use FFMpeg\Coordinate\Dimension;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
+use FFMpeg\Filters\Video\ResizeFilter;
 use FFMpeg\Format\Video\WebM;
+use FFMpeg\Format\Video\X264;
 use model\dao\VideoDAO;
 use util\Settings;
 use util\VideoStream;
@@ -259,7 +261,7 @@ class Video extends MediaFactory
             die("Parametro ID nulo");
         }
 
-        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".mp4");
+        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".webm");
         $stream->start();
     }
 
@@ -318,8 +320,9 @@ class Video extends MediaFactory
             'ffmpeg.binaries' => 'ffmpeg',
             'ffprobe.binaries' => 'ffprobe',
             'timeout' => 3600, // The timeout for the underlying process
-            'ffmpeg.threads' => 6,
+            'ffmpeg.threads' => 8,
         ));
+
         $tipo = $this->getTipo();
         if ($tipo == 'episodio') {
             $tipo = 'serie';
@@ -328,13 +331,13 @@ class Video extends MediaFactory
         $file = $ffmpeg->open(Settings::VIDEOS_PATH . "/{$tipo}/{$this->getId()}.mp4");
         $file
             ->filters()
-            ->resize(new Dimension(854, 480))
+            ->resize(new Dimension(854, 480), ResizeFilter::RESIZEMODE_FIT)
             ->synchronize();
         $file
             ->frame(TimeCode::fromSeconds($this->duracao / 2))
             ->save(Settings::VIDEOS_PATH . "/{$tipo}/backgrounds/{$this->getId()}.jpg");
         $file
-            ->save(new WebM(), Settings::VIDEOS_PATH . "/{$tipo}/{$this->getId()}.mp4");
+            ->save(new X264(), Settings::VIDEOS_PATH . "/{$tipo}/{$this->getId()}.mp4");
     }
 
 }

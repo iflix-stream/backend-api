@@ -97,14 +97,12 @@ class Serie extends Video
                 for ($k = 0; $k < count($series[$i]['temporadas'][$j]['episodios']); $k++) {
                     $episodio->setId($series[$i]['temporadas'][$j]['episodios'][$k]['id']);
                     $series[$i]['temporadas'][$j]['episodios'][$k]['tempoAssistido'] =
-
                         VideoDAO::retreaveTempoAssistido(
                             $episodio,
                             $this->usuario
                         );
 
                 }
-
             }
 
         }
