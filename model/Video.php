@@ -12,7 +12,6 @@ use FFMpeg\Coordinate\Dimension;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\Filters\Video\ResizeFilter;
-use FFMpeg\Format\Video\WebM;
 use FFMpeg\Format\Video\X264;
 use model\dao\VideoDAO;
 use util\Settings;
@@ -261,7 +260,7 @@ class Video extends MediaFactory
             die("Parametro ID nulo");
         }
 
-        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".webm");
+        $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".mp4");
         $stream->start();
     }
 
