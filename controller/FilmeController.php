@@ -21,8 +21,6 @@ class FilmeController implements IController
     public function __construct()
     {
 
-//        $this->token = new Token();
-//        $this->token = $this->token->token();
     }
 
     /**
@@ -50,13 +48,17 @@ class FilmeController implements IController
 
     }
 
+    /**
+     * @param array $params
+     */
     public function get($params = [])
     {
         $filme = new Filme();
-        if (isset($this->token['usuario']->id)) {
-            $filme->getUsuario()->setId($this->token['usuario']->id);
+
+
+        if (isset($_GET['user'])) {
+            $filme->getUsuario()->setId($_GET['user']);
         }
-        $filme->getUsuario()->setId($_GET['user']);
 
         if (isset($params['id'])) $filme->setId($params['id']);
         if (isset($params['nome'])) $filme->setNome($params['nome']);
@@ -73,14 +75,23 @@ class FilmeController implements IController
 
     public function put($params = [])
     {
+        $data = new DataConversor();
+        $data = $data->converter();
+        $validate = new FilmeValidate();
         $filme = new Filme();
-        $caminho = $filme->fazerUpload($filme->getTipo(), $filme->getNome());
-        if (is_string($caminho)) {
-            $filme->setCaminho($caminho);
-            $filme->setId($params['id']); // id retornado apos adicionar entao setado para alterar o caminho. deve ser passado como parametro
-            $filme->alterar();
+        $validate = $validate->validaUploadFilme($data);
+        if ($validate === true) {
+            $filme->setNome($data['nome']);
+            $filme->setGenero($data['genero']);
+            $filme->setClassificacao($data['idadeRecomendada']);
+            $filme->setDuracao($data['duracao']);
+            $filme->setThumbnail($data['thumbnail']);
+            $filme->setCaminho($data['caminho']);
+            $filme->setSinopse($data['sinopse']);
+            View::render($filme->alterar());
+        } else {
+            View::render($validate);
         }
-        // TODO: Implement put() method.
     }
 
     public function delete($params = [])

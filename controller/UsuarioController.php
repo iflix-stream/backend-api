@@ -18,11 +18,7 @@ class UsuarioController implements IController
 {
     private $token;
 
-    public function __construct()
-    {
 
-
-    }
 
 
     /**
@@ -49,33 +45,12 @@ class UsuarioController implements IController
         } else {
             View::render($validar);
         }
-//        if ($this->token === 'normal') {
-//
-//            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
-//        } else if ($this->token === 'admin') {
-//            $usuario = new Usuario();
-//            $data = ["SQL" => "" . $usuario->cadastrar() . ""];
-//        } else {
-//            $data = ["Mensagem" => "Nao tem permição"];
-//        }
-
     }
 
     public function get($params = [])
     {
         $this->token = new Token();
         $this->token = $this->token->token();
-//        if ($this->token === 'normal') {
-//            $usuario = new Usuario();
-//            if (isset($params['id'])) $usuario->setId($params['id']);
-//            $data = ["SQL" => "" . $usuario->listar() . ""];
-//        } else if ($this->token === 'admin') {
-//            $usuario = new Usuario();
-//            if (isset($params['id'])) $usuario->setId($params['id']); //coloqei os msm metodos aki para o admin acessar mas talves ele teria uma funcionalidade que o usuario normal nao acessaria
-//            View::render($usuario->listar());
-//        } else {
-//            $data = ["Mensagem" => "Nao tem permição"];
-//        }
         $usuario = new Usuario();
         if (isset($params['id'])) {
             $usuario->setId($params['id']);

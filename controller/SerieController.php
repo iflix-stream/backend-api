@@ -23,8 +23,8 @@ class SerieController implements IController
      */
     public function __construct()
     {
-//        $this->token = new Token();
-//        $this->token = $this->token->token();
+        //  $this->token = new Token();
+        // $this->token = $this->token->token();
     }
 
     public function post()
@@ -38,9 +38,7 @@ class SerieController implements IController
     {
         $serie = new Serie();
 
-        if (isset($this->token['usuario']->id)) {
-            $serie->getUsuario()->setId($this->token['usuario']->id);
-        }
+
         if (isset($_GET['user'])) {
             $serie->getUsuario()->setId($_GET['user']);
         }

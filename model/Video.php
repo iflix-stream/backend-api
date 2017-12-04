@@ -256,11 +256,11 @@ class Video extends MediaFactory
     {
 
         if (empty($this->id)) {
-//            echo (new Mensagem())->error("parametro-id-nulo",500);
             die("Parametro ID nulo");
         }
 
         $stream = new VideoStream(dirname(__FILE__) . "/../video/" . $this->tipo . "/" . $this->id . ".mp4");
+        $stream->setVideo($this);
         $stream->start();
     }
 

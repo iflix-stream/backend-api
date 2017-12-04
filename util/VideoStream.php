@@ -9,19 +9,43 @@
 namespace util;
 
 
+use model\Video;
+
 class VideoStream
 {
     private $path = "";
-    private $stream = "";
-    private $buffer = 102400;
+    private $stream;
+    private $buffer = 4915;
     private $start = -1;
     private $end = -1;
     private $size = 0;
+
+    /**
+     * @var Video
+     */
+    private $video;
 
     function __construct($filePath)
     {
         $this->path = $filePath;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param Video $video
+     */
+    public function setVideo(Video $video)
+    {
+        $this->video = $video;
+    }
+
 
     /**
      * Open stream
@@ -40,8 +64,8 @@ class VideoStream
     {
         ob_get_clean();
         header("Content-Type: video/mp4");
-        header("Cache-Control: max-age=2592000, public");
-        header("Expires: " . gmdate('D, d M Y H:i:s', time() + 2592000) . ' GMT');
+        header("Cache-Control: max-age=" . ($this->video->getDuracao() * 1000) . ", public");
+        header("Expires: " . gmdate('D, d M Y H:i:s', time() + $this->video->getDuracao() * 1000) . ' GMT');
         header("Last-Modified: " . gmdate('D, d M Y H:i:s', @filemtime($this->path)) . ' GMT');
         $this->start = 0;
         $this->size = filesize($this->path);
@@ -50,7 +74,6 @@ class VideoStream
 
         if (isset($_SERVER['HTTP_RANGE'])) {
 
-            $c_start = $this->start;
             $c_end = $this->end;
 
             list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
