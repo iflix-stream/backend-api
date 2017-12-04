@@ -21,6 +21,7 @@
   "erro-retreave-lista":"List Retreave error!",
   "sucesso-criar-genero":"Genre created succesfully!",
   "erro-criar-genero": "Errors Ocurred during genre retreave.",
-  "sucesso-adicionar-filme":"Filme adicionado com sucesso!", //traduz esssa porra ai dps kk
-  "falha-adicionar-filme":"Erro ao adicionar filme"
+  "sucesso-adicionar-filme": "Film has been added with successful!",
+  //traduz esssa porra ai dps kk
+  "falha-adicionar-filme": "Error ocurred during film add"
 }

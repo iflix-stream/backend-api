@@ -15,9 +15,9 @@ class Tradutor
     private static function loadLanguage()
     {
 
-//        if (isset(apache_request_headers()['Content-Language'])) {
-//            return apache_request_headers()['Content-Language'] . ".json";
-//        }
+        if (isset(apache_request_headers()['Content-Language'])) {
+            return strtolower(apache_request_headers()['Content-Language']) . ".json";
+        }
         return Settings::DEFAULT_LANGUAGE . ".json";
     }
 

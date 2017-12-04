@@ -64,8 +64,8 @@ class VideoStream
     {
         ob_get_clean();
         header("Content-Type: video/mp4");
-        header("Cache-Control: max-age=" . ($this->video->getDuracao() * 1000) . ", public");
-        header("Expires: " . gmdate('D, d M Y H:i:s', time() + $this->video->getDuracao() * 1000) . ' GMT');
+        header("Cache-Control: max-age=2592000, public");
+        header("Expires: " . gmdate('D, d M Y H:i:s', time() + 2592000) . ' GMT');
         header("Last-Modified: " . gmdate('D, d M Y H:i:s', @filemtime($this->path)) . ' GMT');
         $this->start = 0;
         $this->size = filesize($this->path);
